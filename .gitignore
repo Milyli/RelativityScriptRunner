@@ -1,0 +1,12 @@
+/Milyli.ScriptRunner.Data/bin
+/Milyli.ScriptRunner.Data/obj
+/Milyli.ScriptRunner.Data.Tests/obj
+/Milyli.ScriptRunner.Data.Tests/bin
+/Milyli.ScriptRunner.Core/obj
+/Milyli.ScriptRunner.Core/bin
+/Milyli.ScriptRunner/bin
+/Milyli.ScriptRunner/obj
+/Solutions/packages
+/Solutions/.vs
+*.user
+
