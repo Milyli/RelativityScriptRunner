@@ -18,6 +18,6 @@
         /// <param name="script">the application model representing a relativity script</param>
         /// <param name="workspace">the workspace we exect to execute the script in</param>
         /// <returns>A list of inputs</returns>
-        List<RelativityScriptInput> GetScriptInputs(RelativityScript script, RelativityWorkspace workspace);
+        List<ScriptInput> GetScriptInputs(RelativityScript script, RelativityWorkspace workspace);
     }
 }

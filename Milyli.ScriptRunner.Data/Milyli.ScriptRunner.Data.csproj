@@ -103,18 +103,13 @@
     <Compile Include="DataContexts\InstanceDataContext.cs" />
     <Compile Include="DependencyResolution\RsapiClientFactory.cs" />
     <Compile Include="DependencyResolution\ScriptRunnerRegistry.cs" />
-    <Compile Include="Models\FieldScriptInput.cs" />
     <Compile Include="Models\JobHistory.cs" />
     <Compile Include="Models\JobSchedule.cs" />
     <Compile Include="Models\JobScheduleWorkspace.cs" />
     <Compile Include="Models\JobScriptInput.cs" />
-    <Compile Include="Models\OptionScriptInput.cs" />
     <Compile Include="Models\RelativityScript.cs" />
-    <Compile Include="Models\RelativityScriptInput.cs" />
-    <Compile Include="Models\RelativityWorkspace.cs" />
     <Compile Include="Models\ScriptInput.cs" />
-    <Compile Include="Models\ScriptOption.cs" />
-    <Compile Include="Models\SqlScriptInput.cs" />
+    <Compile Include="Models\RelativityWorkspace.cs" />
     <Compile Include="Relativity\Client\RelativityServicesClientFactory.cs" />
     <Compile Include="Relativity\DynamicObjects\JobSchedule.cs" />
     <Compile Include="Relativity\Mapping\ArtifactType.cs" />
@@ -140,15 +135,6 @@
     <Compile Include="Services\RelativityScriptRunner.cs" />
     <Compile Include="Tools\BitmaskHelper.cs" />
     <Compile Include="Tools\RelativityHelper.cs" />
-    <Compile Include="Xml\Script\AInput.cs" />
-    <Compile Include="Xml\Script\Constant.cs" />
-    <Compile Include="Xml\Script\Field.cs" />
-    <Compile Include="Xml\Script\Filters.cs" />
-    <Compile Include="Xml\Script\Input.cs" />
-    <Compile Include="Xml\Script\Option.cs" />
-    <Compile Include="Xml\Script\Script.cs" />
-    <Compile Include="Xml\Script\ScriptAction.cs" />
-    <Compile Include="Xml\Script\SqlInput.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

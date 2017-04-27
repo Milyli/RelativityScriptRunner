@@ -11,7 +11,7 @@
         private readonly IRelativityContext context;
         private readonly IHelper helper;
 
-        public RsapiClientFactory (IHelper helper, IRelativityContext context)
+        public RsapiClientFactory(IHelper helper, IRelativityContext context)
         {
             this.helper = helper;
             this.context = context;

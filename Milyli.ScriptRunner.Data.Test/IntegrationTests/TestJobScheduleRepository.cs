@@ -23,7 +23,7 @@
         [OneTimeTearDown]
         public void Cleanup ()
         {
-            this.JobScheduleRepository.Delete(TEST_SCRIPT_ID);
+            this.JobScheduleRepository.DeleteAllJobs(TEST_SCRIPT_ID);
         }
 
         [Test]

@@ -14,9 +14,5 @@
         public string Descirption { get; set; }
 
         public int ScriptTimeout { get; set; }
-
-#pragma warning disable CA2227
-        public List<ScriptInput> Inputs { get; set; }
-#pragma warning restore CA2227
     }
 }

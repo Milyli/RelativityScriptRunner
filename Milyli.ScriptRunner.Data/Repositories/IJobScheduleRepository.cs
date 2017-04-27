@@ -47,7 +47,7 @@
         /// </summary>
         /// <param name="relativityScriptId">the ArtifactId of the relativityScript</param>
         /// <returns>the number of records deleted</returns>
-        int Delete(int relativityScriptId);
+        int DeleteAllJobs(int relativityScriptId);
 
         /// <summary>
         /// Marks a job as done and updates the JobHistory record

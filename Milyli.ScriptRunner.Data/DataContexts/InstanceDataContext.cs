@@ -26,5 +26,13 @@
                 return this.GetTable<JobHistory>();
             }
         }
+
+        public ITable<JobScriptInput> JobScriptInput
+        {
+            get
+            {
+                return this.GetTable<JobScriptInput>();
+            }
+        }
     }
 }

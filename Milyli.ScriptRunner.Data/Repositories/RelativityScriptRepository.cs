@@ -5,13 +5,12 @@
     using System.Linq;
     using kCura.Relativity.Client;
     using Models;
-    using DTOs = kCura.Relativity.Client.DTOs;
     using Tools;
+    using DTOs = kCura.Relativity.Client.DTOs;
 
     public class RelativityScriptRepository : IRelativityScriptRepository
     {
         private IRSAPIClient relativityClient;
-        private object mutex;
 
         public RelativityScriptRepository(IRSAPIClient relativityClient)
         {
@@ -24,14 +23,14 @@
             return workspaceScripts;
         }
 
-        public List<Models.RelativityScriptInput> GetScriptInputs(RelativityScript script, RelativityWorkspace workspace)
+        public List<Models.ScriptInput> GetScriptInputs(RelativityScript script, RelativityWorkspace workspace)
         {
             return this.InWorkspace(
                 (client, ws) =>
                 {
                     var scriptArtifact = client.Repositories.RelativityScript.ReadSingle(script.RelativityScriptId);
                     var fields = client.Repositories.RelativityScript.GetRelativityScriptInputs(scriptArtifact);
-                    return fields.Select(f => new Models.RelativityScriptInput()
+                    return fields.Select(f => new Models.ScriptInput()
                     {
                         Name = f.Name,
                         InputType = f.InputType.ToString(),
@@ -42,7 +41,7 @@
 
         private T InWorkspace<T>(Func<IRSAPIClient, RelativityWorkspace, T> action, RelativityWorkspace workspace)
         {
-            return RelativityHelper.InWorkspace(action, workspace, this.relativityClient, this.mutex);
+            return RelativityHelper.InWorkspace(action, workspace, this.relativityClient);
         }
 
         private List<DTOs.FieldValue> FieldList(params string[] fieldNames)

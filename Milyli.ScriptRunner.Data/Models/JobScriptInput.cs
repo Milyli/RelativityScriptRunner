@@ -1,9 +1,20 @@
 ﻿namespace Milyli.ScriptRunner.Data.Models
 {
+    using LinqToDB.Mapping;
+
+    [Table(Name = "JobScriptInput")]
     public class JobScriptInput
     {
+        [Column("JobScriptInputId")]
+        public int Id { get; set; }
+
+        [Column("JobScheduleId")]
+        public int JobScheduleId { get; set; }
+
+        [Column(Name = "InputName")]
         public string InputName { get; set; }
 
-        public string Value { get; set; }
+        [Column(Name = "InputValue")]
+        public string InputValue { get; set; }
     }
 }

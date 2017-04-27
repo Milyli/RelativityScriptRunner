@@ -70,9 +70,9 @@
         /// <summary>
         /// Removes all jobs for a given relativity script.  Used in testing
         /// </summary>
-        /// <param name="relativityScriptGuid">the GUID for the relativity script</param>
+        /// <param name="relativityScirptId">the artifactId for the relativity script</param>
         /// <returns>the number of rows removed</returns>
-        public int Delete(Guid relativityScriptGuid)
+        public int DeleteAllJobs(int relativityScirptId)
         {
             int result;
             using (var transaction = this.DataContext.BeginTransaction())
@@ -83,8 +83,8 @@
                         @"DELETE jh FROM JobHistory jh 
                             INNER JOIN JobSchedule js ON jh.JobScheduleId = js.JobScheduleId
                             WHERE js.RelativityScriptId = @relativityScriptId",
-                        new DataParameter("relativityScriptId", relativityScriptGuid));
-                    result = this.DataContext.JobSchedule.Where(s => s.RelativityScriptId == relativityScriptGuid).Delete();
+                        new DataParameter("relativityScriptId", relativityScirptId));
+                    result = this.DataContext.JobSchedule.Where(s => s.RelativityScriptId == relativityScirptId).Delete();
                     transaction.Commit();
                 }
                 catch
@@ -143,6 +143,13 @@
             return this.DataContext.JobHistory
                 .Where(h => h.JobScheduleId == jobSchedule.Id)
                 .OrderByDescending(h => h.StartTime).ToList();
+        }
+
+        public List<JobScriptInput> GetJobInputs(JobSchedule jobSchedule)
+        {
+            return this.DataContext.JobScriptInput
+                .Where(i => i.JobScheduleId == jobSchedule.Id)
+                .ToList();
         }
 
         // Critical section:

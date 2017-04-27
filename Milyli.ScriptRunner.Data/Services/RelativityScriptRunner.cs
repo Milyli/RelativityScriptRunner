@@ -1,11 +1,12 @@
-﻿using System;
-using Milyli.ScriptRunner.Data.Models;
-using kCura.Relativity.Client;
-using Milyli.ScriptRunner.Data.Repositories;
-using Milyli.ScriptRunner.Data.Tools;
-
-namespace Milyli.ScriptRunner.Data.Services
+﻿namespace Milyli.ScriptRunner.Data.Services
 {
+    using System;
+    using System.Linq;
+    using kCura.Relativity.Client;
+    using Milyli.ScriptRunner.Data.Models;
+    using Milyli.ScriptRunner.Data.Repositories;
+    using Milyli.ScriptRunner.Data.Tools;
+
     public class RelativityScriptRunner : IRelativityScriptRunner
     {
         private IJobScheduleRepository jobScheduleRepository;
@@ -24,31 +25,47 @@ namespace Milyli.ScriptRunner.Data.Services
 
         private void ExecuteJobInWorkspace(IRSAPIClient client, JobSchedule job)
         {
-            
+            var scriptArtifact = client.Repositories.RelativityScript.ReadSingle(job.RelativityScriptId);
+            var inputs = this.jobScheduleRepository.GetJobInputs(job);
+            var scriptInputs = inputs.Select(i => new RelativityScriptInput(i.InputName, i.InputValue)).ToList();
+            var scriptResult = client.Repositories.RelativityScript.ExecuteRelativityScript(scriptArtifact, scriptInputs);
+
+            job.CurrentJobHistory.Errored = !scriptResult.Success;
+            job.CurrentJobHistory.ResultText = scriptResult.Message;
         }
 
         public void ExecuteScriptJob(JobSchedule job)
         {
             var activationStatus = this.jobScheduleRepository.StartJob(job);
+            var workspace = new RelativityWorkspace()
+            {
+                WorkspaceId = job.WorkspaceId
+            };
+
             if (activationStatus == JobActivationStatus.Started)
             {
                 try
                 {
                     RelativityHelper.InWorkspace(
-                        (client, workspace) =>
+                        (client, ws) =>
                     {
                         this.ExecuteJobInWorkspace(client, job);
                     },
-                        this.relativityClient, new RelativityWorkspace()
-                        {
-                            WorkspaceId = job.WorkspaceId;
-                        })   
+                        workspace,
+                        this.relativityClient);
+                }
+                catch (Exception ex)
+                {
+                    // TODO log the exception
+                    job.CurrentJobHistory.ResultText = "Exception: " + ex.ToString();
+                    job.CurrentJobHistory.Errored = true;
+                    throw;
                 }
                 finally
                 {
                     this.jobScheduleRepository.FinishJob(job);
                 }
-            }                
+            }
         }
     }
 }
