@@ -7,8 +7,8 @@
     <ProjectGuid>{0C05ECBF-14F5-4EFC-906E-59453F2F5E7F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Milyli.ScriptRunner.Data.Test</RootNamespace>
-    <AssemblyName>Milyli.ScriptRunner.Data.Test</AssemblyName>
+    <RootNamespace>Milyli.ScriptRunner.Core.Test</RootNamespace>
+    <AssemblyName>Milyli.ScriptRunner.Core.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

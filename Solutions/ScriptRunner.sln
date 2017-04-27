@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milyli.ScriptRunner.95.Page
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milyli.ScriptRunner.Core", "..\Milyli.ScriptRunner.Data\Milyli.ScriptRunner.Core.csproj", "{EAF9C518-B0B8-4445-898C-DB68A3FF1057}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milyli.ScriptRunner.Data.Test", "..\Milyli.ScriptRunner.Data.Test\Milyli.ScriptRunner.Data.Test.csproj", "{0C05ECBF-14F5-4EFC-906E-59453F2F5E7F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milyli.ScriptRunner.Core.Test", "..\Milyli.ScriptRunner.Data.Test\Milyli.ScriptRunner.Core.Test.csproj", "{0C05ECBF-14F5-4EFC-906E-59453F2F5E7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
