@@ -84,6 +84,12 @@
                             INNER JOIN JobSchedule js ON jh.JobScheduleId = js.JobScheduleId
                             WHERE js.RelativityScriptId = @relativityScriptId",
                         new DataParameter("relativityScriptId", relativityScirptId));
+                    transaction.DataConnection.Execute(
+                        @"DELETE jsi FROM JobScriptInput jsi 
+                            INNER JOIN JobSchedule js ON jsi.JobScheduleId = js.JobScheduleId
+                            WHERE js.RelativityScriptId = @relativityScriptId",
+                    new DataParameter("relativityScriptId", relativityScirptId));
+
                     result = this.DataContext.JobSchedule.Where(s => s.RelativityScriptId == relativityScirptId).Delete();
                     transaction.Commit();
                 }
