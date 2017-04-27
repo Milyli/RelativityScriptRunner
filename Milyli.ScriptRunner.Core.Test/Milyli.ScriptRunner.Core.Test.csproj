@@ -153,7 +153,7 @@
     <None Include="ProjectSettings.ruleset" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Milyli.ScriptRunner.Data\Milyli.ScriptRunner.Core.csproj">
+    <ProjectReference Include="..\Milyli.ScriptRunner.Core\Milyli.ScriptRunner.Core.csproj">
       <Project>{eaf9c518-b0b8-4445-898c-db68a3ff1057}</Project>
       <Name>Milyli.ScriptRunner.Core</Name>
     </ProjectReference>

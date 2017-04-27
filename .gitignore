@@ -1,7 +1,5 @@
-/Milyli.ScriptRunner.Data/bin
-/Milyli.ScriptRunner.Data/obj
-/Milyli.ScriptRunner.Data.Test/obj
-/Milyli.ScriptRunner.Data.Test/bin
+/Milyli.ScriptRunner.Core.Test/obj
+/Milyli.ScriptRunner.Core.Test/bin
 /Milyli.ScriptRunner.Core/obj
 /Milyli.ScriptRunner.Core/bin
 /Milyli.ScriptRunner/bin
