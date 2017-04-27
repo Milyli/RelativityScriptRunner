@@ -57,12 +57,16 @@
             }
         }
 
+        /// <summary>
+        /// Runs the relativity script job
+        /// </summary>
+        /// <param name="client">the relativity client</param>
+        /// <param name="job">the scheduled job</param>
         private void ExecuteJobInWorkspace(IRSAPIClient client, JobSchedule job)
         {
-            var scriptArtifact = client.Repositories.RelativityScript.ReadSingle(job.RelativityScriptId);
             var inputs = this.jobScheduleRepository.GetJobInputs(job);
             var scriptInputs = inputs.Select(i => new RelativityScriptInput(i.InputName, i.InputValue)).ToList();
-            var scriptResult = client.Repositories.RelativityScript.ExecuteRelativityScript(scriptArtifact, scriptInputs);
+            var scriptResult = client.ExecuteRelativityScript(client.APIOptions, job.RelativityScriptId, scriptInputs);
 
             job.CurrentJobHistory.Errored = !scriptResult.Success;
             job.CurrentJobHistory.ResultText = scriptResult.Message;

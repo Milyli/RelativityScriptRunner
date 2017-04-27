@@ -64,7 +64,7 @@
         /// <summary>
         /// Gets and sets CurrentJobHistory. When running in the current thread, this field will get set to the current job history
         /// </summary>
-        public JobHistory CurrentJobHistory { get; internal set; }
+        public JobHistory CurrentJobHistory { get; set; }
 
         public static int TimeSeconds(DateTime runtime)
         {
