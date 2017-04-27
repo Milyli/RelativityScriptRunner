@@ -1,0 +1,55 @@
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\Milyli.ScriptRunner.Data.Test.dll.config
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\Milyli.ScriptRunner.Data.Test.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\Milyli.ScriptRunner.Data.Test.pdb
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\Milyli.ScriptRunner.Data.Test.dll.CodeAnalysisLog.xml
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\Milyli.ScriptRunner.Data.Test.dll.lastcodeanalysissucceeded
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\Castle.Core.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\kCura.Config.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\kCura.Crypto.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\kCura.Data.RowDataGateway.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\kCura.EventHandler.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\kCura.Relativity.Client.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\linq2db.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\Milyli.BaseRdoWrapper.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\Milyli.Framework.Relativity.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\Milyli.Framework.Relativity.TestTools.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\Milyli.Framework.Repositories.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\Milyli.RsapiRepositories.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\Milyli.ScriptRunner.Data.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\NLog.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\nunit.framework.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\Relativity.API.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\Relativity.Kepler.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\Relativity.Services.DataContracts.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\Relativity.Services.Interfaces.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\Relativity.Services.ServiceProxy.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\SimpleConfigSections.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\StructureMap.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\StructureMap.Net4.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\Milyli.ScriptRunner.Data.pdb
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\Castle.Core.xml
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\linq2db.pdb
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\Milyli.Framework.Relativity.TestTools.pdb
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\NLog.xml
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\nunit.framework.xml
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\StructureMap.pdb
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\StructureMap.xml
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\bin\Debug\StructureMap.Net4.pdb
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\obj\Debug\Milyli.ScriptRunner.Data.Test.csprojResolveAssemblyReference.cache
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\obj\Debug\Milyli.ScriptRunner.Data.Test.dll
+C:\Users\Golding\Documents\Visual Studio 2015\Projects\ScriptRunner\ScriptRunner.Data.Test\obj\Debug\Milyli.ScriptRunner.Data.Test.pdb
+C:\Users\Golding\Source\Repos\Milyli ScriptRunner\Milyli.ScriptRunner.Data.Test\bin\Debug\Milyli.ScriptRunner.Data.Test.dll.config
+C:\Users\Golding\Source\Repos\Milyli ScriptRunner\Milyli.ScriptRunner.Data.Test\bin\Debug\Milyli.ScriptRunner.Data.Test.dll
+C:\Users\Golding\Source\Repos\Milyli ScriptRunner\Milyli.ScriptRunner.Data.Test\bin\Debug\Milyli.ScriptRunner.Data.Test.pdb
+C:\Users\Golding\Source\Repos\Milyli ScriptRunner\Milyli.ScriptRunner.Data.Test\bin\Debug\Milyli.ScriptRunner.Data.Test.dll.CodeAnalysisLog.xml
+C:\Users\Golding\Source\Repos\Milyli ScriptRunner\Milyli.ScriptRunner.Data.Test\bin\Debug\Milyli.ScriptRunner.Data.Test.dll.lastcodeanalysissucceeded
+C:\Users\Golding\Source\Repos\Milyli ScriptRunner\Milyli.ScriptRunner.Data.Test\bin\Debug\Castle.Core.dll
+C:\Users\Golding\Source\Repos\Milyli ScriptRunner\Milyli.ScriptRunner.Data.Test\bin\Debug\Moq.dll
+C:\Users\Golding\Source\Repos\Milyli ScriptRunner\Milyli.ScriptRunner.Data.Test\bin\Debug\Castle.Core.xml
+C:\Users\Golding\Source\Repos\Milyli ScriptRunner\Milyli.ScriptRunner.Data.Test\bin\Debug\Moq.xml
+C:\Users\Golding\Source\Repos\Milyli ScriptRunner\Milyli.ScriptRunner.Data.Test\obj\Debug\Milyli.ScriptRunner.Data.Test.csprojResolveAssemblyReference.cache
+C:\Users\Golding\Source\Repos\Milyli ScriptRunner\Milyli.ScriptRunner.Data.Test\obj\Debug\Milyli.ScriptRunner.Data.Test.dll
+C:\Users\Golding\Source\Repos\Milyli ScriptRunner\Milyli.ScriptRunner.Data.Test\obj\Debug\Milyli.ScriptRunner.Data.Test.pdb
+C:\Users\Golding\Source\Repos\Milyli ScriptRunner\Milyli.ScriptRunner.Data.Test\bin\Debug\Moq.pdb
+C:\Users\Golding\Source\Repos\Milyli ScriptRunner\Milyli.ScriptRunner.Data.Test\bin\Debug\Milyli.ScriptRunner.Core.dll
+C:\Users\Golding\Source\Repos\Milyli ScriptRunner\Milyli.ScriptRunner.Data.Test\bin\Debug\Milyli.ScriptRunner.Core.pdb
