@@ -135,6 +135,8 @@
   <ItemGroup>
     <Compile Include="IntegrationTests\IntegrationTestFixture.cs" />
     <Compile Include="IntegrationTests\TestJobScheduleRepository.cs" />
+    <Compile Include="IntegrationTests\TestRelativityScriptRepository.cs" />
+    <Compile Include="IntegrationTests\TestRelativityWorkspaceRepository.cs" />
     <Compile Include="UnitTests\TestBitmaskHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTests\TestJobSchedule.cs" />

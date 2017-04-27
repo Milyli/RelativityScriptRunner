@@ -6,7 +6,7 @@
     using Models;
     using NUnit.Framework;
 
-    [TestFixture(Category="IntegrationTest")]
+    [TestFixture(Category="Integration")]
     public class TestJobScheduleRepository : IntegrationTestFixture
     {
         private static readonly int TEST_SCRIPT_ID = 42;

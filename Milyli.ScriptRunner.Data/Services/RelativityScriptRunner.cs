@@ -20,18 +20,7 @@
 
         public void ExecuteAllJobs(DateTime exectionTime)
         {
-            throw new NotImplementedException();
-        }
-
-        private void ExecuteJobInWorkspace(IRSAPIClient client, JobSchedule job)
-        {
-            var scriptArtifact = client.Repositories.RelativityScript.ReadSingle(job.RelativityScriptId);
-            var inputs = this.jobScheduleRepository.GetJobInputs(job);
-            var scriptInputs = inputs.Select(i => new RelativityScriptInput(i.InputName, i.InputValue)).ToList();
-            var scriptResult = client.Repositories.RelativityScript.ExecuteRelativityScript(scriptArtifact, scriptInputs);
-
-            job.CurrentJobHistory.Errored = !scriptResult.Success;
-            job.CurrentJobHistory.ResultText = scriptResult.Message;
+            this.jobScheduleRepository.GetJobSchedules(exectionTime).ForEach(this.ExecuteScriptJob);
         }
 
         public void ExecuteScriptJob(JobSchedule job)
@@ -66,6 +55,17 @@
                     this.jobScheduleRepository.FinishJob(job);
                 }
             }
+        }
+
+        private void ExecuteJobInWorkspace(IRSAPIClient client, JobSchedule job)
+        {
+            var scriptArtifact = client.Repositories.RelativityScript.ReadSingle(job.RelativityScriptId);
+            var inputs = this.jobScheduleRepository.GetJobInputs(job);
+            var scriptInputs = inputs.Select(i => new RelativityScriptInput(i.InputName, i.InputValue)).ToList();
+            var scriptResult = client.Repositories.RelativityScript.ExecuteRelativityScript(scriptArtifact, scriptInputs);
+
+            job.CurrentJobHistory.Errored = !scriptResult.Success;
+            job.CurrentJobHistory.ResultText = scriptResult.Message;
         }
     }
 }

@@ -4,6 +4,7 @@
     using Milyli.Framework.Relativity.TestTools;
     using Milyli.Framework.Relativity.TestTools.Extensions;
     using Milyli.ScriptRunner.Data.DependencyResolution;
+    using Relativity.Client;
     using StructureMap;
 
     public class IntegrationTestFixture
@@ -15,6 +16,7 @@
             {
                 c.AddRegistry(new RelativityDependencyRegistry(new TestIHelper(), -1));
                 c.AddRegistry(new ScriptRunnerRegistry());
+                c.For<IRelativityClientFactory>().Add<RsapiClientFactory>();
             });
         }
 
