@@ -141,6 +141,7 @@
     <Compile Include="IntegrationTests\TestJobScheduleRepository.cs" />
     <Compile Include="IntegrationTests\TestRelativityScriptRepository.cs" />
     <Compile Include="IntegrationTests\TestRelativityWorkspaceRepository.cs" />
+    <Compile Include="UnitTests\Mocks\JobScheduleRepositoryMock.cs" />
     <Compile Include="UnitTests\TestBitmaskHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTests\TestJobSchedule.cs" />
@@ -152,9 +153,9 @@
     <None Include="ProjectSettings.ruleset" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Milyli.ScriptRunner.Data\Milyli.ScriptRunner.Data.csproj">
+    <ProjectReference Include="..\Milyli.ScriptRunner.Data\Milyli.ScriptRunner.Core.csproj">
       <Project>{eaf9c518-b0b8-4445-898c-db68a3ff1057}</Project>
-      <Name>Milyli.ScriptRunner.Data</Name>
+      <Name>Milyli.ScriptRunner.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -175,9 +176,7 @@
       <Link>stylecop.json</Link>
     </AdditionalFiles>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UnitTests\Mocks\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,7 +1,7 @@
-﻿namespace Milyli.ScriptRunner.Data.Test.UnitTests
+﻿namespace Milyli.ScriptRunner.Core.Test.UnitTests
 {
     using System;
-    using Milyli.ScriptRunner.Data.Models;
+    using Milyli.ScriptRunner.Core.Models;
     using NUnit.Framework;
 
     [TestFixture]

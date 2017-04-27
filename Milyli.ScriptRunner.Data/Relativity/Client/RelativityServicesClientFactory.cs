@@ -1,4 +1,4 @@
-﻿namespace Milyli.ScriptRunner.Data.Relativity.Client
+﻿namespace Milyli.ScriptRunner.Core.Relativity.Client
 {
     using System;
     using kCura.Relativity.Client;

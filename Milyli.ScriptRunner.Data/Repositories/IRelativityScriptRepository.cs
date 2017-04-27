@@ -1,7 +1,7 @@
-﻿namespace Milyli.ScriptRunner.Data.Repositories
+﻿namespace Milyli.ScriptRunner.Core.Repositories
 {
     using System.Collections.Generic;
-    using Milyli.ScriptRunner.Data.Models;
+    using Milyli.ScriptRunner.Core.Models;
 
     public interface IRelativityScriptRepository
     {

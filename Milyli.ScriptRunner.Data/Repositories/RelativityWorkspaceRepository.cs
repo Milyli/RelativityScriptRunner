@@ -1,11 +1,11 @@
-﻿namespace Milyli.ScriptRunner.Data.Repositories
+﻿namespace Milyli.ScriptRunner.Core.Repositories
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using kCura.Relativity.Client;
-    using Milyli.ScriptRunner.Data.Models;
+    using Milyli.ScriptRunner.Core.Models;
     using DTOs = kCura.Relativity.Client.DTOs;
 
     public class RelativityWorkspaceRepository : IRelativityWorkspaceRepository

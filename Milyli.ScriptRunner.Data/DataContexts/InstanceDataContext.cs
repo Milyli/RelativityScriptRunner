@@ -1,9 +1,9 @@
-﻿namespace Milyli.ScriptRunner.Data.DataContexts
+﻿namespace Milyli.ScriptRunner.Core.DataContexts
 {
     using System;
     using LinqToDB;
     using Milyli.Framework.Repositories.Interfaces;
-    using Milyli.ScriptRunner.Data.Models;
+    using Milyli.ScriptRunner.Core.Models;
     using IRepositories = Milyli.Framework.Repositories.Interfaces;
     using MRepositories = Milyli.Framework.Repositories;
 

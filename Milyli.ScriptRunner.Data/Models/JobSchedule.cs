@@ -1,9 +1,9 @@
-﻿namespace Milyli.ScriptRunner.Data.Models
+﻿namespace Milyli.ScriptRunner.Core.Models
 {
     using System;
     using LinqToDB.Mapping;
     using Milyli.Framework.Repositories.Interfaces;
-    using Milyli.ScriptRunner.Data.Tools;
+    using Milyli.ScriptRunner.Core.Tools;
 
     public enum JobStatus
     {
@@ -62,7 +62,7 @@
         public int ExecutionTime { get; set; }
 
         /// <summary>
-        /// Gets and sets CurrentJobHistory. When running in the current thread, this field will get set to the current job history
+        /// Gets or sets CurrentJobHistory. When running in the current thread, this field will get set to the current job history
         /// </summary>
         public JobHistory CurrentJobHistory { get; set; }
 

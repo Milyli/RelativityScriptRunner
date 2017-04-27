@@ -1,4 +1,4 @@
-﻿namespace Milyli.ScriptRunner.Data.Models
+﻿namespace Milyli.ScriptRunner.Core.Models
 {
     using DTOs = kCura.Relativity.Client.DTOs;
 

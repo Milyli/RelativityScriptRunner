@@ -1,4 +1,4 @@
-﻿namespace Milyli.ScriptRunner.Data.Models
+﻿namespace Milyli.ScriptRunner.Core.Models
 {
     using System;
     using Framework.Repositories.Interfaces;

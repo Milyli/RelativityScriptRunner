@@ -1,4 +1,4 @@
-﻿namespace Milyli.ScriptRunner.Data.Repositories
+﻿namespace Milyli.ScriptRunner.Core.Repositories
 {
     using System;
     using System.Collections.Generic;
@@ -44,19 +44,11 @@
             return RelativityHelper.InWorkspace(action, workspace, this.relativityClient);
         }
 
-        private List<DTOs.FieldValue> FieldList(params string[] fieldNames)
-        {
-            return fieldNames.Select(name => new DTOs.FieldValue()
-            {
-                Name = name
-            }).ToList();
-        }
-
         private List<RelativityScript> GetAllScripts(IRSAPIClient client, RelativityWorkspace workspace)
         {
             var scriptArtifactResults = this.relativityClient.Repositories.RelativityScript.Query(new DTOs.Query<DTOs.RelativityScript>()
             {
-                Fields = this.FieldList("Name", "Description")
+                Fields = RelativityHelper.FieldList("Name", "Description")
             });
             if (scriptArtifactResults.Success)
             {

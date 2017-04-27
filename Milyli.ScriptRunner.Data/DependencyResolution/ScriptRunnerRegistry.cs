@@ -1,8 +1,8 @@
-﻿namespace Milyli.ScriptRunner.Data.DependencyResolution
+﻿namespace Milyli.ScriptRunner.Core.DependencyResolution
 {
     using kCura.Relativity.Client;
     using Milyli.Framework.Repositories;
-    using Milyli.ScriptRunner.Data.DataContexts;
+    using Milyli.ScriptRunner.Core.DataContexts;
     using Relativity.Client;
     using Repositories;
     using StructureMap;

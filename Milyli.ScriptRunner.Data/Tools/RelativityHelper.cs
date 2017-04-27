@@ -1,9 +1,11 @@
-﻿namespace Milyli.ScriptRunner.Data.Tools
+﻿namespace Milyli.ScriptRunner.Core.Tools
 {
     using System;
-    using System.Threading;
+    using System.Collections.Generic;
+    using System.Linq;
     using kCura.Relativity.Client;
-    using Milyli.ScriptRunner.Data.Models;
+    using Milyli.ScriptRunner.Core.Models;
+    using DTOs = kCura.Relativity.Client.DTOs;
 
     public static class RelativityHelper
     {
@@ -34,6 +36,14 @@
             {
                 relativityClient.APIOptions.WorkspaceID = currentWorkspaceId;
             }
+        }
+
+        public static List<DTOs.FieldValue> FieldList(params string[] fieldNames)
+        {
+            return fieldNames.Select(name => new DTOs.FieldValue()
+            {
+                Name = name
+            }).ToList();
         }
     }
 }

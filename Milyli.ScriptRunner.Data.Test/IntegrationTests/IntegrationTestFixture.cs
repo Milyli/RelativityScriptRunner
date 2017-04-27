@@ -1,9 +1,9 @@
-﻿namespace Milyli.ScriptRunner.Data.Test.IntegrationTests
+﻿namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
 {
     using Milyli.Framework.Relativity.IOC;
     using Milyli.Framework.Relativity.TestTools;
     using Milyli.Framework.Relativity.TestTools.Extensions;
-    using Milyli.ScriptRunner.Data.DependencyResolution;
+    using Milyli.ScriptRunner.Core.DependencyResolution;
     using Relativity.Client;
     using StructureMap;
 

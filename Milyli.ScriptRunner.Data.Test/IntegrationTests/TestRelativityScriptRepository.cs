@@ -1,7 +1,7 @@
-﻿namespace Milyli.ScriptRunner.Data.Test.IntegrationTests
+﻿namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
 {
     using System.Linq;
-    using Milyli.ScriptRunner.Data.Repositories;
+    using Milyli.ScriptRunner.Core.Repositories;
     using NUnit.Framework;
 
     [TestFixture(Category="Integration")]

@@ -1,10 +1,10 @@
-﻿namespace Milyli.ScriptRunner.Data.DependencyResolution
+﻿namespace Milyli.ScriptRunner.Core.DependencyResolution
 {
     using System;
     using Framework.Relativity.Interfaces;
     using global::Relativity.API;
     using kCura.Relativity.Client;
-    using Milyli.ScriptRunner.Data.Relativity.Client;
+    using Milyli.ScriptRunner.Core.Relativity.Client;
 
     public class RsapiClientFactory : IRelativityClientFactory
     {

@@ -1,4 +1,4 @@
-﻿namespace Milyli.ScriptRunner.Data.Tools
+﻿namespace Milyli.ScriptRunner.Core.Tools
 {
     public static class BitmaskHelper
     {

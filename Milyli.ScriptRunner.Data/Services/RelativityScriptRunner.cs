@@ -1,11 +1,11 @@
-﻿namespace Milyli.ScriptRunner.Data.Services
+﻿namespace Milyli.ScriptRunner.Core.Services
 {
     using System;
     using System.Linq;
     using kCura.Relativity.Client;
-    using Milyli.ScriptRunner.Data.Models;
-    using Milyli.ScriptRunner.Data.Repositories;
-    using Milyli.ScriptRunner.Data.Tools;
+    using Milyli.ScriptRunner.Core.Models;
+    using Milyli.ScriptRunner.Core.Repositories;
+    using Milyli.ScriptRunner.Core.Tools;
 
     public class RelativityScriptRunner : IRelativityScriptRunner
     {

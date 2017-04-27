@@ -7,8 +7,8 @@
     <ProjectGuid>{EAF9C518-B0B8-4445-898C-DB68A3FF1057}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Milyli.ScriptRunner.Data</RootNamespace>
-    <AssemblyName>Milyli.ScriptRunner.Data</AssemblyName>
+    <RootNamespace>Milyli.ScriptRunner.Core</RootNamespace>
+    <AssemblyName>Milyli.ScriptRunner.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -111,17 +111,6 @@
     <Compile Include="Models\ScriptInput.cs" />
     <Compile Include="Models\RelativityWorkspace.cs" />
     <Compile Include="Relativity\Client\RelativityServicesClientFactory.cs" />
-    <Compile Include="Relativity\DynamicObjects\JobSchedule.cs" />
-    <Compile Include="Relativity\Mapping\ArtifactType.cs" />
-    <Compile Include="Relativity\Mapping\DuplicateFieldException.cs" />
-    <Compile Include="Relativity\Mapping\RDOCollectionAttribute.cs" />
-    <Compile Include="Relativity\Mapping\CreateObjectRequest.cs" />
-    <Compile Include="Relativity\Mapping\DynamicObjectMapper.cs" />
-    <Compile Include="Relativity\Mapping\RDOFieldAttribute.cs" />
-    <Compile Include="Relativity\Mapping\RDOMap.cs" />
-    <Compile Include="Relativity\Mapping\RDOMappingException.cs" />
-    <Compile Include="Relativity\Mapping\RDOSingleObjectAttribute.cs" />
-    <Compile Include="Relativity\Mapping\RelativityDynamicObjectAttribute.cs" />
     <Compile Include="Repositories\IRelativityScriptRepository.cs" />
     <Compile Include="Repositories\IRelativityWorkspaceRepository.cs" />
     <Compile Include="Repositories\RelativityScriptRepository.cs" />
@@ -129,7 +118,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Relativity\Client\IRelativityClientFactory.cs" />
     <Compile Include="Repositories\IJobScheduleRepository.cs" />
-    <Compile Include="Repositories\JobScheduleWorkspaceRepository.cs" />
     <Compile Include="Repositories\JobScheduleRepository.cs" />
     <Compile Include="Services\IRelativityScriptRunner.cs" />
     <Compile Include="Services\RelativityScriptRunner.cs" />

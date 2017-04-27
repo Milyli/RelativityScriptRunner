@@ -1,6 +1,6 @@
-﻿namespace Milyli.ScriptRunner.Data.Test.UnitTests
+﻿namespace Milyli.ScriptRunner.Core.Test.UnitTests
 {
-    using Milyli.ScriptRunner.Data.Tools;
+    using Milyli.ScriptRunner.Core.Tools;
     using NUnit.Framework;
 
     [TestFixture]

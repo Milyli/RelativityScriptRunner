@@ -1,4 +1,4 @@
-﻿namespace Milyli.ScriptRunner.Data.Repositories
+﻿namespace Milyli.ScriptRunner.Core.Repositories
 {
     using System;
     using System.Collections.Generic;
@@ -6,8 +6,8 @@
     using LinqToDB;
     using LinqToDB.Data;
     using Milyli.Framework.Repositories;
-    using Milyli.ScriptRunner.Data.DataContexts;
-    using Milyli.ScriptRunner.Data.Models;
+    using Milyli.ScriptRunner.Core.DataContexts;
+    using Milyli.ScriptRunner.Core.Models;
 
     public enum JobActivationStatus
     {

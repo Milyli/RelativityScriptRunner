@@ -1,7 +1,7 @@
-﻿namespace Milyli.ScriptRunner.Data.Services
+﻿namespace Milyli.ScriptRunner.Core.Services
 {
     using System;
-    using Milyli.ScriptRunner.Data.Models;
+    using Milyli.ScriptRunner.Core.Models;
 
     public interface IRelativityScriptRunner
     {
