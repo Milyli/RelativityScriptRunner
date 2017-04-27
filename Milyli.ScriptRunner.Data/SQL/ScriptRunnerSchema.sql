@@ -5,7 +5,8 @@ IF OBJECT_ID('JobSchedule', 'u') IS NULL
 BEGIN
 	CREATE TABLE JobSchedule (
 		JobScheduleId int not null IDENTITY(1,1),
-		RelativityScriptId UNIQUEIDENTIFIER NOT NULL,
+		RelativityScriptId INT NOT NULL,
+		WorkspaceId INT NOT NULL,
 		LastExecutionTime DATETIME NULL,
 		NextExecutionTime DATETIME NULL,
 		JobStatus INT not null,

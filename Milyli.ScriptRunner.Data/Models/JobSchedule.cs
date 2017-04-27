@@ -26,7 +26,10 @@
         /// Gets or sets the GUID that points to the relativity script to execute
         /// </summary>
         [Column(Name = "RelativityScriptId")]
-        public Guid RelativityScriptId { get; set; }
+        public int RelativityScriptId { get; set; }
+
+        [Column(Name = "WorkspaceId")]
+        public int WorkspaceId { get; set; }
 
         [Column(Name = "LastExecutionTime")]
         public DateTime? LastExecutionTime { get; set; }

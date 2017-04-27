@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptRunner.95.Page", "..\Milyli.ScriptRunner\ScriptRunner.95.Page.csproj", "{B350724D-06DC-4DED-8B23-910BD1E14685}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milyli.ScriptRunner.95.Page", "..\Milyli.ScriptRunner\Milyli.ScriptRunner.95.Page.csproj", "{B350724D-06DC-4DED-8B23-910BD1E14685}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milyli.ScriptRunner.Data", "..\Milyli.ScriptRunner.Data\Milyli.ScriptRunner.Data.csproj", "{EAF9C518-B0B8-4445-898C-DB68A3FF1057}"
 EndProject

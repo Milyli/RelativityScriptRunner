@@ -5,7 +5,13 @@
 
     public class RelativityScript
     {
-        public Guid RelativityScriptId { get; set; }
+        public int RelativityScriptId { get; set; }
+
+        public int WorkspaceId { get; set; }
+
+        public string Name { get; set; }
+
+        public string Descirption { get; set; }
 
         public int ScriptTimeout { get; set; }
 

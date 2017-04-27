@@ -73,11 +73,6 @@ THEEND:
 </script>
 ";
             var deser = new XmlSerializer(typeof(Script), string.Empty);
-            using (var stringWriter = new StringWriter())
-            {
-                deser.Serialize(stringWriter, new Script());
-                Console.WriteLine(stringWriter.ToString());
-            }
 
             using (var reader = new StringReader(script))
             {

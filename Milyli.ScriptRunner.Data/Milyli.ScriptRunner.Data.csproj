@@ -51,6 +51,9 @@
       <HintPath>..\packages\linq2db.1.7.6\lib\net45\linq2db.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Milyli.Framework.Relativity">
+      <HintPath>..\Milyli.ScriptRunner.Data.Test\bin\Debug\Milyli.Framework.Relativity.dll</HintPath>
+    </Reference>
     <Reference Include="Milyli.Framework.Repositories, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Milyli.Framework.Repositories.1.0.3\lib\Milyli.Framework.Repositories.dll</HintPath>
       <Private>True</Private>
@@ -98,15 +101,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContexts\InstanceDataContext.cs" />
+    <Compile Include="DependencyResolution\RsapiClientFactory.cs" />
     <Compile Include="DependencyResolution\ScriptRunnerRegistry.cs" />
+    <Compile Include="Models\FieldScriptInput.cs" />
     <Compile Include="Models\JobHistory.cs" />
     <Compile Include="Models\JobSchedule.cs" />
     <Compile Include="Models\JobScheduleWorkspace.cs" />
+    <Compile Include="Models\JobScriptInput.cs" />
     <Compile Include="Models\OptionScriptInput.cs" />
     <Compile Include="Models\RelativityScript.cs" />
+    <Compile Include="Models\RelativityScriptInput.cs" />
     <Compile Include="Models\RelativityWorkspace.cs" />
     <Compile Include="Models\ScriptInput.cs" />
     <Compile Include="Models\ScriptOption.cs" />
+    <Compile Include="Models\SqlScriptInput.cs" />
     <Compile Include="Relativity\Client\RelativityServicesClientFactory.cs" />
     <Compile Include="Relativity\DynamicObjects\JobSchedule.cs" />
     <Compile Include="Relativity\Mapping\ArtifactType.cs" />
@@ -119,6 +127,7 @@
     <Compile Include="Relativity\Mapping\RDOMappingException.cs" />
     <Compile Include="Relativity\Mapping\RDOSingleObjectAttribute.cs" />
     <Compile Include="Relativity\Mapping\RelativityDynamicObjectAttribute.cs" />
+    <Compile Include="Repositories\IRelativityScriptRepository.cs" />
     <Compile Include="Repositories\IRelativityWorkspaceRepository.cs" />
     <Compile Include="Repositories\RelativityScriptRepository.cs" />
     <Compile Include="Repositories\RelativityWorkspaceRepository.cs" />
@@ -127,9 +136,14 @@
     <Compile Include="Repositories\IJobScheduleRepository.cs" />
     <Compile Include="Repositories\JobScheduleWorkspaceRepository.cs" />
     <Compile Include="Repositories\JobScheduleRepository.cs" />
+    <Compile Include="Services\IRelativityScriptRunner.cs" />
+    <Compile Include="Services\RelativityScriptRunner.cs" />
     <Compile Include="Tools\BitmaskHelper.cs" />
+    <Compile Include="Tools\RelativityHelper.cs" />
     <Compile Include="Xml\Script\AInput.cs" />
     <Compile Include="Xml\Script\Constant.cs" />
+    <Compile Include="Xml\Script\Field.cs" />
+    <Compile Include="Xml\Script\Filters.cs" />
     <Compile Include="Xml\Script\Input.cs" />
     <Compile Include="Xml\Script\Option.cs" />
     <Compile Include="Xml\Script\Script.cs" />

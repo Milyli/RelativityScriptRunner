@@ -4,13 +4,17 @@
 
     public class RelativityWorkspace
     {
+        public RelativityWorkspace()
+        {
+        }
+
         public RelativityWorkspace(DTOs.Artifact artifact)
         {
             this.WorkspaceId = artifact.ArtifactID;
         }
 
-        public int WorkspaceId { get; private set; }
+        public int WorkspaceId { get; set; }
 
-        public string WorkspaceName { get; private set; }
+        public string WorkspaceName { get; set; }
     }
 }

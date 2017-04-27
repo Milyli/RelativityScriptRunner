@@ -22,7 +22,6 @@
         // One day, in seconds
         private const int DEFAULT_MAX_OFFSET = 86400;
 
-
         public JobScheduleRepository(InstanceDataContext dataContext)
             : base(dataContext)
         {
@@ -180,7 +179,7 @@
             {
                 JobScheduleId = jobSchedule.Id,
             };
-            jobHistory.Id = this.DataContext.Insert(jobHistory);
+            jobHistory.Id = Convert.ToInt32(this.DataContext.InsertWithIdentity(jobHistory));
             return jobHistory;
         }
     }

@@ -13,6 +13,10 @@
 
         [XmlElement(ElementName = "sql")]
         public List<SqlInput> SqlInputs { get; set; } = new List<SqlInput>();
+
+        [XmlElement(ElementName = "field")]
+        public List<Field> Field { get; set; } = new List<Field>();
+
 #pragma warning restore CA2227
     }
 }

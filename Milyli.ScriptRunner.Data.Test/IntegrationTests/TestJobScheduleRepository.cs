@@ -9,7 +9,8 @@
     [TestFixture(Category="IntegrationTest")]
     public class TestJobScheduleRepository : IntegrationTestFixture
     {
-        private static readonly Guid TEST_SCRIPT_GUID = Guid.NewGuid();
+        private static readonly int TEST_SCRIPT_ID = 42;
+        private static readonly int TEST_WORKSPACE_ID = -1;
 
         private IJobScheduleRepository JobScheduleRepository
         {
@@ -22,7 +23,7 @@
         [OneTimeTearDown]
         public void Cleanup ()
         {
-            this.JobScheduleRepository.Delete(TEST_SCRIPT_GUID);
+            this.JobScheduleRepository.Delete(TEST_SCRIPT_ID);
         }
 
         [Test]
@@ -30,7 +31,8 @@
         {
             var jobSchedule = new JobSchedule()
             {
-                RelativityScriptId = TEST_SCRIPT_GUID,
+                RelativityScriptId = TEST_SCRIPT_ID,
+                WorkspaceId = TEST_WORKSPACE_ID,
                 ExecutionSchedule = 0x7F,
                 ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now)
             };
@@ -47,7 +49,8 @@
         {
             var jobSchedule = new JobSchedule()
             {
-                RelativityScriptId = TEST_SCRIPT_GUID,
+                RelativityScriptId = TEST_SCRIPT_ID,
+                WorkspaceId = TEST_WORKSPACE_ID,
                 ExecutionSchedule = 0x7F,
                 ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now.AddMinutes(-3)),
                 NextExecutionTime = DateTime.Now
@@ -63,7 +66,8 @@
         {
             var jobSchedule = new JobSchedule()
             {
-                RelativityScriptId = TEST_SCRIPT_GUID,
+                RelativityScriptId = TEST_SCRIPT_ID,
+                WorkspaceId = TEST_WORKSPACE_ID,
                 ExecutionSchedule = 0x7F,
                 ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now.AddMinutes(-3)),
                 NextExecutionTime = DateTime.Now
@@ -71,7 +75,8 @@
 
             var tooEarly = new JobSchedule()
             {
-                RelativityScriptId = TEST_SCRIPT_GUID,
+                RelativityScriptId = TEST_SCRIPT_ID,
+                WorkspaceId = TEST_WORKSPACE_ID,
                 ExecutionSchedule = 0x7F,
                 ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now.AddMinutes(-3)),
                 NextExecutionTime = DateTime.Now.AddDays(-3)
@@ -79,7 +84,8 @@
 
             var tooLate = new JobSchedule()
             {
-                RelativityScriptId = TEST_SCRIPT_GUID,
+                RelativityScriptId = TEST_SCRIPT_ID,
+                WorkspaceId = TEST_WORKSPACE_ID,
                 ExecutionSchedule = 0x7F,
                 ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now.AddMinutes(3)),
                 NextExecutionTime = DateTime.Now.AddDays(3)
@@ -100,7 +106,8 @@
         {
             var jobSchedule = new JobSchedule()
             {
-                RelativityScriptId = TEST_SCRIPT_GUID,
+                RelativityScriptId = TEST_SCRIPT_ID,
+                WorkspaceId = TEST_WORKSPACE_ID,
                 ExecutionSchedule = 0x7F,
                 ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now),
                 NextExecutionTime = DateTime.Now
