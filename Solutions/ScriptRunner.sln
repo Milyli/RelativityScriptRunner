@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milyli.ScriptRunner.Core", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milyli.ScriptRunner.Core.Test", "..\Milyli.ScriptRunner.Core.Test\Milyli.ScriptRunner.Core.Test.csproj", "{0C05ECBF-14F5-4EFC-906E-59453F2F5E7F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milyli.ScriptRunner.Agent", "Milyli.ScriptRunner.Agent\Milyli.ScriptRunner.Agent.csproj", "{A3E50474-A27D-486B-B46B-C0FB6B40D3C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{0C05ECBF-14F5-4EFC-906E-59453F2F5E7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C05ECBF-14F5-4EFC-906E-59453F2F5E7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C05ECBF-14F5-4EFC-906E-59453F2F5E7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3E50474-A27D-486B-B46B-C0FB6B40D3C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3E50474-A27D-486B-B46B-C0FB6B40D3C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3E50474-A27D-486B-B46B-C0FB6B40D3C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3E50474-A27D-486B-B46B-C0FB6B40D3C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
