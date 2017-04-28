@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/bundles/css")
+    @Styles.Render("~/bundles/less")
+    @RenderSection("styles", required: false)
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    
+    <div class="container body-content">
+        @RenderBody()
+        <footer class="footer">
+            <div class="footerContainer container">
+                <p class="text-muted">© 2017, Milyli Inc. All Rights Reserved</p>
+            </div>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/libs")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
