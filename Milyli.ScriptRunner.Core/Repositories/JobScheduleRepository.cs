@@ -27,6 +27,14 @@
         {
         }
 
+        private static NLog.Logger Logger
+        {
+            get
+            {
+                return NLog.LogManager.GetLogger("Default");
+            }
+        }
+
         // Returns a list of Jobs to run, filtered by NextExecution constrained to NextExecutionTimes between maxOffset seconds before runtime and runtime
         public List<JobSchedule> GetJobSchedules(DateTime runtime, int maxOffset)
         {
@@ -41,6 +49,7 @@
 
         public JobActivationStatus StartJob(JobSchedule schedule)
         {
+            Logger.Trace($"Trying to start schedule {schedule.Id}");
             using (var connection = (DataConnection)this.DataContext)
             using (var transaction = connection.BeginTransaction(System.Data.IsolationLevel.RepeatableRead))
             {
@@ -49,6 +58,7 @@
                     var activationStatus = this.LockJobSchedule(schedule, transaction);
                     if (activationStatus == JobActivationStatus.Idle)
                     {
+                        Logger.Trace($"Marking {schedule.Id} running");
                         this.EnterRunningStatus(schedule);
                         transaction.Commit();
                         return JobActivationStatus.Started;
@@ -59,8 +69,9 @@
                         return activationStatus;
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
+                    Logger.Fatal(ex, $"Staring {schedule.Id} failed");
                     transaction.Rollback();
                     throw;
                 }
@@ -110,6 +121,7 @@
         /// <param name="jobSchedule">the job that is completing</param>
         public void FinishJob(JobSchedule jobSchedule)
         {
+            Logger.Trace($"Finishing {jobSchedule.Id}");
             jobSchedule.CurrentJobHistory.UpdateRuntime();
             jobSchedule.UpdateExecutionTimes();
             jobSchedule.JobStatus = (int)JobStatus.Idle;
@@ -122,8 +134,9 @@
                     transaction.Commit();
                     jobSchedule.CurrentJobHistory = null;
                 }
-                catch
+                catch (Exception ex)
                 {
+                    Logger.Fatal(ex, $"Could not mark {jobSchedule.Id} as finished");
                     transaction.Rollback();
                     throw;
                 }
@@ -162,6 +175,7 @@
         // this method locks the schedule row for update, in order to coordinate job running.
         private JobActivationStatus LockJobSchedule(JobSchedule jobSchedule, DataConnectionTransaction transaction)
         {
+            Logger.Trace($"Locking {jobSchedule.Id}");
             using (var reader = transaction.DataConnection.ExecuteReader(
                 @"SELECT JobStatus
                             FROM JobSchedule WITH(UPDLOCK, ROWLOCK)

@@ -18,9 +18,19 @@
             this.relativityClient = relativityClient;
         }
 
+        private static NLog.Logger Logger
+        {
+            get
+            {
+                return NLog.LogManager.GetLogger("Default");
+            }
+        }
+
         public void ExecuteAllJobs(DateTime exectionTime)
         {
-            this.jobScheduleRepository.GetJobSchedules(exectionTime).ForEach(this.ExecuteScriptJob);
+            var schedules = this.jobScheduleRepository.GetJobSchedules(exectionTime);
+            Logger.Trace($"found {schedules.Count} jobs to execute");
+            schedules.ForEach(this.ExecuteScriptJob);
         }
 
         public void ExecuteScriptJob(JobSchedule job)
@@ -35,6 +45,7 @@
             {
                 try
                 {
+                    Logger.Trace($"Executing job {job.Id}");
                     RelativityHelper.InWorkspace(
                         (client, ws) =>
                     {
@@ -45,10 +56,9 @@
                 }
                 catch (Exception ex)
                 {
-                    // TODO log the exception
+                    Logger.Fatal(ex, $"Execution of job {job.Id} failed");
                     job.CurrentJobHistory.ResultText = "Exception: " + ex.ToString();
                     job.CurrentJobHistory.Errored = true;
-                    throw;
                 }
                 finally
                 {
@@ -65,11 +75,17 @@
         private void ExecuteJobInWorkspace(IRSAPIClient client, JobSchedule job)
         {
             var inputs = this.jobScheduleRepository.GetJobInputs(job);
+            Logger.Trace($"found ${inputs.Count} inputs for job ${job.Id}");
             var scriptInputs = inputs.Select(i => new RelativityScriptInput(i.InputName, i.InputValue)).ToList();
             var scriptResult = client.ExecuteRelativityScript(client.APIOptions, job.RelativityScriptId, scriptInputs);
 
             job.CurrentJobHistory.Errored = !scriptResult.Success;
             job.CurrentJobHistory.ResultText = scriptResult.Message;
+
+            if (job.CurrentJobHistory.Errored)
+            {
+                Logger.Info($"Job {job.Id} failed with result {scriptResult.Message}");
+            }
         }
     }
 }
