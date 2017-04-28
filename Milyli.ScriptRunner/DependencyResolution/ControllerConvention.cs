@@ -15,15 +15,15 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Milyli.ScriptRunner.DependencyResolution {
+namespace Milyli.ScriptRunner.DependencyResolution
+{
     using System;
     using System.Web.Mvc;
-
+    using StructureMap;
     using StructureMap.Graph;
+    using StructureMap.Graph.Scanning;
     using StructureMap.Pipeline;
     using StructureMap.TypeRules;
-    using StructureMap;
-    using StructureMap.Graph.Scanning;
 
     public class ControllerConvention : IRegistrationConvention {
         #region Public Methods and Operators

@@ -24,89 +24,86 @@ namespace Milyli.ScriptRunner.DependencyResolution {
     using Microsoft.Practices.ServiceLocation;
 
     using StructureMap;
-	
+
     /// <summary>
     /// The structure map dependency scope.
     /// </summary>
-    public class StructureMapDependencyScope : ServiceLocatorImplBase {
-        #region Constants and Fields
-
+    public class StructureMapDependencyScope : ServiceLocatorImplBase
+    {
         private const string NestedContainerKey = "Nested.Container.Key";
 
-        #endregion
-
-        #region Constructors and Destructors
-
-        public StructureMapDependencyScope(IContainer container) {
-            if (container == null) {
+        public StructureMapDependencyScope(IContainer container)
+        {
+            if (container == null)
+            {
                 throw new ArgumentNullException("container");
             }
-            Container = container;
+
+            this.Container = container;
         }
-
-        #endregion
-
-        #region Public Properties
 
         public IContainer Container { get; set; }
 
-        public IContainer CurrentNestedContainer {
-            get {
-                return (IContainer)HttpContext.Items[NestedContainerKey];
+        public IContainer CurrentNestedContainer
+        {
+            get
+            {
+                return (IContainer)this.HttpContext.Items[NestedContainerKey];
             }
-            set {
-                HttpContext.Items[NestedContainerKey] = value;
+
+            set
+            {
+                this.HttpContext.Items[NestedContainerKey] = value;
             }
         }
 
-        #endregion
-
-        #region Properties
-
-        private HttpContextBase HttpContext {
-            get {
-                var ctx = Container.TryGetInstance<HttpContextBase>();
+        private HttpContextBase HttpContext
+        {
+            get
+            {
+                var ctx = this.Container.TryGetInstance<HttpContextBase>();
                 return ctx ?? new HttpContextWrapper(System.Web.HttpContext.Current);
             }
         }
 
-        #endregion
-
-        #region Public Methods and Operators
-
-        public void CreateNestedContainer() {
-            if (CurrentNestedContainer != null) {
+        public void CreateNestedContainer()
+        {
+            if (this.CurrentNestedContainer != null)
+            {
                 return;
             }
-            CurrentNestedContainer = Container.GetNestedContainer();
+
+            this.CurrentNestedContainer = this.Container.GetNestedContainer();
         }
 
-        public void Dispose() {
-            DisposeNestedContainer();
-            Container.Dispose();
+        public void Dispose()
+        {
+            this.DisposeNestedContainer();
+            this.Container.Dispose();
         }
 
-        public void DisposeNestedContainer() {
-            if (CurrentNestedContainer != null) {
-                CurrentNestedContainer.Dispose();
-				CurrentNestedContainer = null;
+        public void DisposeNestedContainer()
+        {
+            if (this.CurrentNestedContainer != null)
+            {
+                this.CurrentNestedContainer.Dispose();
+				this.CurrentNestedContainer = null;
             }
         }
 
-        public IEnumerable<object> GetServices(Type serviceType) {
-            return DoGetAllInstances(serviceType);
+        public IEnumerable<object> GetServices(Type serviceType)
+        {
+            return this.DoGetAllInstances(serviceType);
         }
 
-        #endregion
-
-        #region Methods
-
-        protected override IEnumerable<object> DoGetAllInstances(Type serviceType) {
-            return (CurrentNestedContainer ?? Container).GetAllInstances(serviceType).Cast<object>();
+        protected override IEnumerable<object> DoGetAllInstances(Type serviceType)
+        {
+            return (this.CurrentNestedContainer ?? this.Container).GetAllInstances(serviceType).Cast<object>();
         }
 
-        protected override object DoGetInstance(Type serviceType, string key) {
-            IContainer container = (CurrentNestedContainer ?? Container);
+        protected override object DoGetInstance(Type serviceType, string key)
+        {
+            IContainer container = this.CurrentNestedContainer ?? this.Container;
 
             if (string.IsNullOrEmpty(key)) {
                 return serviceType.IsAbstract || serviceType.IsInterface
@@ -116,7 +113,5 @@ namespace Milyli.ScriptRunner.DependencyResolution {
 
             return container.GetInstance(serviceType, key);
         }
-
-        #endregion
     }
 }

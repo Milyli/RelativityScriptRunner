@@ -2,13 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using LinqToDB;
     using LinqToDB.Data;
     using Milyli.Framework.Repositories;
     using Milyli.ScriptRunner.Core.DataContexts;
     using Milyli.ScriptRunner.Core.Models;
-    using System.Globalization;
 
     public enum JobActivationStatus
     {
@@ -56,7 +56,7 @@
             {
                 try
                 {
-                    var activationStatus = this.LockJobSchedule(schedule, transaction);
+                    var activationStatus = LockJobSchedule(schedule, transaction);
                     if (activationStatus == JobActivationStatus.Idle)
                     {
                         Logger.Trace($"Marking {schedule.Id} running");
@@ -174,7 +174,7 @@
 
         // Critical section:
         // this method locks the schedule row for update, in order to coordinate job running.
-        private JobActivationStatus LockJobSchedule(JobSchedule jobSchedule, DataConnectionTransaction transaction)
+        private static JobActivationStatus LockJobSchedule(JobSchedule jobSchedule, DataConnectionTransaction transaction)
         {
             Logger.Trace($"Locking {jobSchedule.Id}");
             using (var reader = transaction.DataConnection.ExecuteReader(
