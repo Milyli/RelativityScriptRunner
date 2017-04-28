@@ -84,6 +84,10 @@
       <HintPath>..\Solutions\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Milyli.Framework.Relativity, Version=1.0.5.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Milyli.ScriptRunner.Core\bin\Debug\Milyli.Framework.Relativity.dll</HintPath>
+    </Reference>
     <Reference Include="Milyli.Framework.Repositories, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\Milyli.Framework.Repositories.1.0.3\lib\Milyli.Framework.Repositories.dll</HintPath>
       <Private>True</Private>
@@ -210,7 +214,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\JsonBinder.cs" />
     <Compile Include="App_Start\StructuremapMvc.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobScheduleController.cs" />
     <Compile Include="Controllers\ScriptRunnerController.cs" />
     <Compile Include="DependencyResolution\ControllerConvention.cs" />
@@ -269,6 +272,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
+    <Content Include="Views\JobSchedule\NewSchedule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

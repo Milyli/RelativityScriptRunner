@@ -16,23 +16,36 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace Milyli.ScriptRunner.DependencyResolution {
+    using System;
+    using Core.DependencyResolution;
+    using Core.Relativity.Client;
+    using Core.Repositories;
+    using Framework.Relativity;
+    using Framework.Relativity.Interfaces;
+    using kCura.Relativity.Client;
+    using Relativity.API;
+    using Relativity.CustomPages;
     using StructureMap;
-    using StructureMap.Configuration.DSL;
-    using StructureMap.Graph;
+    using StructureMap.Web;
 
-    public class DefaultRegistry : Registry {
-        #region Constructors and Destructors
-
-        public DefaultRegistry() {
-            Scan(
-                scan => {
+    public class DefaultRegistry : Registry
+    {
+        public DefaultRegistry()
+        {
+            this.Scan(
+                scan =>
+                {
                     scan.TheCallingAssembly();
                     scan.WithDefaultConventions();
-					scan.With(new ControllerConvention());
+                    scan.AssemblyContainingType<IJobScheduleRepository>();
+                    scan.With(new ControllerConvention());
                 });
-            //For<IExample>().Use<Example>();
-        }
 
-        #endregion
+            Func<ICPHelper> helper = () => ConnectionHelper.Helper();
+            this.For<IHelper>().HttpContextScoped().Use(c => ConnectionHelper.Helper());
+            this.For<IRelativityClientFactory>().HttpContextScoped().Add<RsapiClientFactory>();
+            this.For<IRelativityContext>().Use(new RelativityContext(-1));
+            this.For<IRSAPIClient>().HttpContextScoped().Use(ctx => ctx.GetInstance<IRelativityClientFactory>().GetRelativityClient());
+        }
     }
 }

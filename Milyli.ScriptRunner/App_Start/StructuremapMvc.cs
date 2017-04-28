@@ -30,27 +30,22 @@ namespace Milyli.ScriptRunner.App_Start {
 	using Milyli.ScriptRunner.DependencyResolution;
 
     using StructureMap;
-    
-	public static class StructuremapMvc {
-        #region Public Properties
 
+	public static class StructuremapMvc
+    {
         public static StructureMapDependencyScope StructureMapDependencyScope { get; set; }
 
-        #endregion
-		
-		#region Public Methods and Operators
-		
-		public static void End() {
+        public static void End()
+        {
             StructureMapDependencyScope.Dispose();
         }
-		
-        public static void Start() {
+
+        public static void Start()
+        {
             IContainer container = IoC.Initialize();
             StructureMapDependencyScope = new StructureMapDependencyScope(container);
             DependencyResolver.SetResolver(StructureMapDependencyScope);
             DynamicModuleUtility.RegisterModule(typeof(StructureMapScopeModule));
         }
-
-        #endregion
     }
 }
