@@ -21,7 +21,9 @@ namespace Milyli.ScriptRunner.DependencyResolution {
     using Core.Relativity.Client;
     using Core.Repositories;
     using Framework.Relativity;
+    using Framework.Relativity.Factories;
     using Framework.Relativity.Interfaces;
+    using Framework.Repositories.Interfaces;
     using kCura.Relativity.Client;
     using Relativity.API;
     using Relativity.CustomPages;
@@ -37,7 +39,6 @@ namespace Milyli.ScriptRunner.DependencyResolution {
                 {
                     scan.TheCallingAssembly();
                     scan.WithDefaultConventions();
-                    scan.AssemblyContainingType<IJobScheduleRepository>();
                     scan.With(new ControllerConvention());
                 });
 
@@ -45,7 +46,8 @@ namespace Milyli.ScriptRunner.DependencyResolution {
             this.For<IHelper>().HttpContextScoped().Use(c => ConnectionHelper.Helper());
             this.For<IRelativityClientFactory>().HttpContextScoped().Add<RsapiClientFactory>();
             this.For<IRelativityContext>().Use(new RelativityContext(-1));
-            this.For<IRSAPIClient>().HttpContextScoped().Use(ctx => ctx.GetInstance<IRelativityClientFactory>().GetRelativityClient());
+            this.For<IInstanceConnectionFactory>().Use<RelativityInstanceConnectionFactory>();
+            this.IncludeRegistry(new ScriptRunnerRegistry());
         }
     }
 }

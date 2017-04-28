@@ -71,8 +71,8 @@
       <HintPath>..\Solutions\packages\Relativity.RSAPI.9.5.41.87\lib\kCura.Relativity.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="linq2db, Version=1.0.7.5, Culture=neutral, PublicKeyToken=f19f8aed7feff67e, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\linq2db.1.7.5\lib\net45\linq2db.dll</HintPath>
+    <Reference Include="linq2db, Version=1.0.7.6, Culture=neutral, PublicKeyToken=f19f8aed7feff67e, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\linq2db.1.7.6\lib\net45\linq2db.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -251,6 +251,7 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="ProjectSettings.ruleset" />
+    <None Include="Properties\PublishProfiles\AG-MilyliScriptRunner.pubxml" />
     <None Include="Properties\PublishProfiles\RelativityCustomPage.pubxml">
       <SubType>Designer</SubType>
     </None>

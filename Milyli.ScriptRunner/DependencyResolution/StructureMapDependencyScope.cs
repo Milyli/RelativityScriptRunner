@@ -48,7 +48,7 @@ namespace Milyli.ScriptRunner.DependencyResolution {
         {
             get
             {
-                return (IContainer)this.HttpContext.Items[NestedContainerKey];
+                return (IContainer)this.HttpContext?.Items[NestedContainerKey];
             }
 
             set
@@ -62,7 +62,11 @@ namespace Milyli.ScriptRunner.DependencyResolution {
             get
             {
                 var ctx = this.Container.TryGetInstance<HttpContextBase>();
-                return ctx ?? new HttpContextWrapper(System.Web.HttpContext.Current);
+                return ctx ??
+                    (System.Web.HttpContext.Current != null ?
+                        new HttpContextWrapper(System.Web.HttpContext.Current)
+                        :
+                        null);
             }
         }
 
