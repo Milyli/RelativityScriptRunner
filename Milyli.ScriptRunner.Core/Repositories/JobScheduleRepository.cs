@@ -8,6 +8,7 @@
     using Milyli.Framework.Repositories;
     using Milyli.ScriptRunner.Core.DataContexts;
     using Milyli.ScriptRunner.Core.Models;
+    using System.Globalization;
 
     public enum JobActivationStatus
     {
@@ -205,7 +206,7 @@
             {
                 JobScheduleId = jobSchedule.Id,
             };
-            jobHistory.Id = Convert.ToInt32(this.DataContext.InsertWithIdentity(jobHistory));
+            jobHistory.Id = Convert.ToInt32(this.DataContext.InsertWithIdentity(jobHistory), CultureInfo.InvariantCulture);
             return jobHistory;
         }
     }

@@ -7,6 +7,7 @@ BEGIN
 		JobScheduleId int not null IDENTITY(1,1),
 		RelativityScriptId INT NOT NULL,
 		WorkspaceId INT NOT NULL,
+		JobName nvarchar(255) NOT NULL,
 		LastExecutionTime DATETIME NULL,
 		NextExecutionTime DATETIME NULL,
 		JobStatus INT not null,

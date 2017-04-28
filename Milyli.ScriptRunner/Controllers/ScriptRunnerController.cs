@@ -9,7 +9,15 @@ namespace Milyli.ScriptRunner.Controllers
 {
     public abstract class ScriptRunnerController : Controller
     {
-        private IJobScheduleRepository jobScheduleRepository;
-        private IRelativityScriptRepository scriptRepository;
+        protected IJobScheduleRepository jobScheduleRepository;
+        protected IRelativityScriptRepository scriptRepository;
+        protected IRelativityWorkspaceRepository workspaceRepository;
+
+        public ScriptRunnerController(IJobScheduleRepository jobScheduleRepository, IRelativityScriptRepository scriptRepository, IRelativityWorkspaceRepository workspaceRepository)
+        {
+            this.jobScheduleRepository = jobScheduleRepository;
+            this.scriptRepository = scriptRepository;
+            this.workspaceRepository = workspaceRepository;
+        }
     }
 }

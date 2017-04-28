@@ -31,6 +31,9 @@
         [Column(Name = "WorkspaceId")]
         public int WorkspaceId { get; set; }
 
+        [Column(Name = "JobName")]
+        public string Name { get; set; }
+
         [Column(Name = "LastExecutionTime")]
         public DateTime? LastExecutionTime { get; set; }
 

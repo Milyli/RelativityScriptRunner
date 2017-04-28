@@ -39,6 +39,13 @@
                 }, workspace);
         }
 
+        public RelativityScript GetRelativityScript(RelativityWorkspace workspace, int scriptArtifactId)
+        {
+            return this.InWorkspace(
+                (client, ws) =>
+                this.GetScript(client, scriptArtifactId, ws), workspace);
+        }
+
         private T InWorkspace<T>(Func<IRSAPIClient, RelativityWorkspace, T> action, RelativityWorkspace workspace)
         {
             return RelativityHelper.InWorkspace(action, workspace, this.relativityClient);
@@ -54,14 +61,26 @@
             {
                 return scriptArtifactResults.Results.Select(r => new RelativityScript()
                 {
-                    Name = r.Artifact["Name"]?.Value.ToString(),
-                    Descirption = r.Artifact["Description"]?.Value.ToString(),
+                    Name = r.Artifact.Name,
+                    Descirption = r.Artifact.Description,
                     WorkspaceId = workspace.WorkspaceId,
                     RelativityScriptId = r.Artifact.ArtifactID
                 }).ToList();
             }
 
             return new List<RelativityScript>();
+        }
+
+        private RelativityScript GetScript(IRSAPIClient client, int scriptArtifactId, RelativityWorkspace workspace)
+        {
+            var scriptArtifact = this.relativityClient.Repositories.RelativityScript.ReadSingle(scriptArtifactId);
+            return new RelativityScript()
+            {
+                Name = scriptArtifact.Name,
+                Descirption = scriptArtifact.Description,
+                RelativityScriptId = scriptArtifact.ArtifactID,
+                WorkspaceId = workspace.WorkspaceId
+            };
         }
     }
 }

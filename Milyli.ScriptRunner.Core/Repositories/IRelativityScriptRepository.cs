@@ -19,5 +19,13 @@
         /// <param name="workspace">the workspace we exect to execute the script in</param>
         /// <returns>A list of inputs</returns>
         List<ScriptInput> GetScriptInputs(RelativityScript script, RelativityWorkspace workspace);
+
+        /// <summary>
+        /// Returns an individual script resource in a workspace for a given script id
+        /// </summary>
+        /// <param name="workspace">the relativity workspace</param>
+        /// <param name="scriptArtifactId">the artifact id for the script in the given workspace</param>
+        /// <returns>a relativity script</returns>
+        RelativityScript GetRelativityScript(RelativityWorkspace workspace, int scriptArtifactId);
     }
 }
