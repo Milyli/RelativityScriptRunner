@@ -6,6 +6,7 @@
     using kCura.Relativity.Client;
     using Milyli.ScriptRunner.Core.Relativity.Client;
 
+#pragma warning disable CA1704
     public class RsapiClientFactory : IRelativityClientFactory
     {
         private readonly IRelativityContext context;
@@ -27,3 +28,4 @@
         }
     }
 }
+#pragma warning enable CA1704

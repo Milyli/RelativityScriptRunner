@@ -190,7 +190,6 @@
                     return JobActivationStatus.InvalidJob;
                 }
             }
-
         }
 
         private void EnterRunningStatus(JobSchedule jobSchedule)

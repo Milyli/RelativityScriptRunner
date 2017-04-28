@@ -36,7 +36,13 @@ namespace Milyli.ScriptRunner.DependencyResolution {
 
         public void ScanTypes(TypeSet types, Registry registry)
         {
-            throw new NotImplementedException();
+            foreach (var type in types.AllTypes())
+            {
+                if (type.CanBeCastTo<Controller>() && !type.IsAbstract)
+                {
+                    registry.For(type).LifecycleIs(new UniquePerRequestLifecycle());
+                }
+            }
         }
 
         #endregion
