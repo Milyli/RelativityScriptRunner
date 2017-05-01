@@ -226,6 +226,8 @@
     </Compile>
     <Compile Include="Models\JobScheduleModel.cs" />
     <Compile Include="Models\JobScriptInputModel.cs" />
+    <Compile Include="Models\RelativityScriptModel.cs" />
+    <Compile Include="Models\ScriptListModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -264,6 +266,8 @@
     <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
     <Content Include="Scripts\knockout-3.4.2.debug.js" />
     <Content Include="Scripts\knockout-3.4.2.js" />
+    <Content Include="Scripts\knockout.viewmodel.2.0.3.js" />
+    <Content Include="Scripts\knockout.viewmodel.2.0.3.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -274,6 +278,7 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\JobSchedule\NewSchedule.cshtml" />
+    <Content Include="Views\JobSchedule\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

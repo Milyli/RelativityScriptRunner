@@ -1,11 +1,11 @@
 ﻿namespace Milyli.ScriptRunner.Controllers
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Web.Mvc;
     using Milyli.ScriptRunner.Core.Models;
     using Milyli.ScriptRunner.Core.Repositories;
     using Milyli.ScriptRunner.Models;
-    using System.Linq;
-    using System.Collections.Generic;
 
     public class JobScheduleController : ScriptRunnerController
     {
@@ -18,16 +18,21 @@
 
         public ActionResult Index(int jobScheduleId)
         {
-            var schedule = this.jobScheduleRepository.Read(jobScheduleId);
-            var scriptInputs = this.jobScheduleRepository.GetJobInputs(schedule);
+            var jobSchedule = this.jobScheduleRepository.Read(jobScheduleId);
+            if (jobSchedule == null)
+            {
+                return new HttpNotFoundResult($"could not find the job schedule with id {jobScheduleId}");
+            }
+
+            var scriptInputs = this.jobScheduleRepository.GetJobInputs(jobSchedule);
             var jobScheduleModel = new JobScheduleModel()
             {
-                JobSchedule = schedule
+                JobSchedule = jobSchedule
             };
 
-            if (schedule != null)
+            if (jobSchedule != null)
             {
-                this.PopulateJobScheduleModel(jobScheduleModel, schedule.WorkspaceId, schedule.RelativityScriptId);
+                this.PopulateJobScheduleModel(jobScheduleModel, jobSchedule.WorkspaceId, jobSchedule.RelativityScriptId);
                 this.MergeScriptInputs(jobScheduleModel);
             }
 
@@ -56,6 +61,41 @@
             return this.View(jobScheduleModel);
         }
 
+        public ActionResult List(int workspaceId)
+        {
+            var relativityWorkspace = this.workspaceRepository.Read(workspaceId);
+            if (relativityWorkspace == null)
+            {
+                return new HttpNotFoundResult($"Cannot find a workspace with id ${workspaceId}");
+            }
+
+            var scriptListModel = new ScriptListModel()
+            {
+                RelativityWorkspace = relativityWorkspace,
+                RelativityScripts = this.GetScriptList(relativityWorkspace).ToList()
+            };
+
+            return this.View(scriptListModel);
+        }
+
+        private IEnumerable<RelativityScriptModel> GetScriptList(RelativityWorkspace relativityWorkspace)
+        {
+            var jobSchedules = this.jobScheduleRepository.GetJobSchedules(relativityWorkspace).GroupBy(s => s.RelativityScriptId);
+            var scripts = this.scriptRepository.GetRelativityScripts(relativityWorkspace).ToDictionary(s => s.RelativityScriptId);
+            foreach (var jobScheduleGroup in jobSchedules)
+            {
+                if (scripts.ContainsKey(jobScheduleGroup.Key))
+                {
+                    yield return new RelativityScriptModel(scripts[jobScheduleGroup.Key], jobScheduleGroup);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Takes the current job schedule model, merges the list of inputs used for deferred invocation with the list of inputs
+        /// available in the Relativity script
+        /// </summary>
+        /// <param name="jobScheduleModel">The model of the current jobschedule operated on</param>
         private void MergeScriptInputs(JobScheduleModel jobScheduleModel)
         {
             var jobSchedule = jobScheduleModel.JobSchedule;
@@ -76,6 +116,12 @@
             jobScheduleModel.JobScriptInputs = currentScriptInputs;
         }
 
+        /// <summary>
+        /// Returns a list of script input models
+        /// </summary>
+        /// <param name="relativityScript">the reference to the relativity script</param>
+        /// <param name="relativityWorkspace">the reference to the expected execution workspace</param>
+        /// <returns>a list of script input models</returns>
         private List<JobScriptInputModel> GetScriptInputs(RelativityScript relativityScript, RelativityWorkspace relativityWorkspace)
         {
             var inputs = this.scriptRepository.GetScriptInputs(relativityScript, relativityWorkspace);

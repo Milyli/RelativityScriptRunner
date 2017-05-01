@@ -15,6 +15,13 @@
         List<JobSchedule> GetJobSchedules(DateTime runtime);
 
         /// <summary>
+        /// Returns the list of jobs scheduled in the current workspace
+        /// </summary>
+        /// <param name="relativityWorkspace">the relativity workspace</param>
+        /// <returns>the list of currently scheduled jobs in that workspace</returns>
+        List<JobSchedule> GetJobSchedules(RelativityWorkspace relativityWorkspace);
+
+        /// <summary>
         /// Starts a job, ensuring that no other parties have started job execution
         /// </summary>
         /// <param name="jobSchedule">the job to execute</param>
@@ -32,8 +39,10 @@
         /// Returns the entire history for a particular job
         /// </summary>
         /// <param name="jobSchedule">the job to get the history for</param>
+        /// <param name="currentPage">the page currently in view</param>
+        /// <param name="pageSize">the number of entries we want to view</param>
         /// <returns>the full set of job history records</returns>
-        List<JobHistory> GetJobHistory(JobSchedule jobSchedule);
+        List<JobHistory> GetJobHistory(JobSchedule jobSchedule, int currentPage = 0, int pageSize = 10);
 
         /// <summary>
         /// Get the list of script input values used for deferred execution of the given job
@@ -54,5 +63,6 @@
         /// </summary>
         /// <param name="jobSchedule">The job to complete.  The jobSchedule object is expected to have a JobHistory record in the CurrentJobHistory property</param>
         void FinishJob(JobSchedule jobSchedule);
+
     }
 }

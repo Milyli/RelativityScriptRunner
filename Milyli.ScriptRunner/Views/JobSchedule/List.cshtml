@@ -1,0 +1,56 @@
+﻿@model ScriptListModel
+@using Newtonsoft.Json    
+@{
+    ViewBag.Title = string.Format("Relativity Script List - {0}", Model.RelativityWorkspace.WorkspaceName);
+}
+
+<h2>Relativity Script List</h2>
+<div id="script-list">
+    <table>
+        <tbody>
+            <tr data-bind="foreach: RelativityScripts">
+                <td data-bind="text: RelativityScript.Name"></td>
+                <td data-bind="text: JobScheduleCount"></td>
+                <td data-bind="text : NextExecutionTime"></td>
+                <td data-bind="click : NewSchedule"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        var options = {
+            extend : {
+                "{root}.RelativityScripts[i]" : function(RelativityScript)
+                {
+                    RelativityScript.NextExecutionTime = ko.computed(function(){
+                        if(RelativityScript.JobSchedules && RelativityScript.JobSchedules.length)
+                        {
+                            return RelativityScript.JobSchedules[0].NextExecutionTime;
+                        }
+                        return "";
+                    }),
+                    
+                    RelativityScript.JobScheduleCount = ko.computed(function(){
+                        if(RelativityScript.JobSchedules && RelativityScript.JobSchedules.length)
+                        {
+                            return RelativityScript.JobSchedules.length
+                        }
+                        return 0;
+                    })
+                    
+                    NewSchedule = function(event, data)
+                    {
+                    }
+                }
+            }
+        };
+
+        var viewmodel = ko.viewmodel.fromModel(@Html.Raw(JsonConvert.SerializeObject(Model)), options);
+
+        ko.applyBindings(viewmodel, $("#script-list"));
+    </script>
+}

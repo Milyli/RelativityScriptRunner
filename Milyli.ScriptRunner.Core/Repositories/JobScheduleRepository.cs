@@ -48,6 +48,13 @@
             return this.GetJobSchedules(runtime, DEFAULT_MAX_OFFSET);
         }
 
+        public List<JobSchedule> GetJobSchedules(RelativityWorkspace relativityWorkspace)
+        {
+            return this.DataContext.JobSchedule
+                .Where(s => s.WorkspaceId == relativityWorkspace.WorkspaceId)
+                .ToList();
+        }
+
         public JobActivationStatus StartJob(JobSchedule schedule)
         {
             Logger.Trace($"Trying to start schedule {schedule.Id}");
@@ -158,9 +165,19 @@
                 .FirstOrDefault();
         }
 
-        public List<JobHistory> GetJobHistory(JobSchedule jobSchedule)
+        /// <summary>
+        /// returns all history entries for the current job
+        /// </summary>
+        /// <param name="jobSchedule">the job we are getting history for</param>
+        /// <param name="currentPage">the current page</param>
+        /// <param name="pageSize">the number of records to retreive at one time</param>
+        /// <returns>the history of the job</returns>
+        public List<JobHistory> GetJobHistory(JobSchedule jobSchedule, int currentPage = 0, int pageSize = 10)
         {
+            var offset = currentPage * pageSize;
             return this.DataContext.JobHistory
+                .Take(pageSize)
+                .Skip(offset)
                 .Where(h => h.JobScheduleId == jobSchedule.Id)
                 .OrderByDescending(h => h.StartTime).ToList();
         }
@@ -168,7 +185,7 @@
         public List<JobScriptInput> GetJobInputs(JobSchedule jobSchedule)
         {
             return this.DataContext.JobScriptInput
-                .Where(i => i.JobScheduleId == jobSchedule.Id)
+                .Where(i => i.JobScheduleId == jobSchedule.Id)?
                 .ToList();
         }
 

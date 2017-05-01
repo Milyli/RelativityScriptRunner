@@ -18,15 +18,13 @@
                 "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
-                "~/Scripts/knockout-{version}.js"));
-
+                "~/Scripts/knockout-{version}.js",
+                "~/Scripts/knockout.viewmodel.{version}.js"));
 
             /*style bundles*/
             bundles.Add(new StyleBundle("~/bundles/css").Include(
                 "~/Content/bootstrap.css",
                 "~/Content/font-awesome.css"));
-
-
         }
     }
 }
