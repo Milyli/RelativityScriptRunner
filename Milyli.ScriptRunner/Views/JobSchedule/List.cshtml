@@ -47,7 +47,7 @@
                             return RelativityScript.JobSchedules[0].NextExecutionTime;
                         }
                         return "";
-                    }),
+                    });
                     
                     RelativityScript.JobScheduleCount = ko.computed(function(){
                         if(RelativityScript.JobSchedules && RelativityScript.JobSchedules.length)
@@ -55,11 +55,14 @@
                             return RelativityScript.JobSchedules.length
                         }
                         return 0;
-                    })
+                    });
                     
-                    NewSchedule = function(event, data)
+                    NewSchedule = function(data, event)
                     {
-                    }
+                        var baseUrl = "@Url.Action("NewSchedule", new { workspaceId = Model.RelativityWorkspace.WorkspaceId })";
+                        var id = data.RelativityScript.RelativityScriptId();
+                        window.location.href=baseUrl + "&relativityScriptId="+id;
+                    };
                 }
             }
         };

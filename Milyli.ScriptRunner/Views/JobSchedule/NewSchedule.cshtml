@@ -1,11 +1,56 @@
-﻿@using Milyli.ScriptRunner.Models
+﻿@using Newtonsoft.Json
 @model JobScheduleModel
 @{
     ViewBag.Title = "New Schedule";
+    var days = new List<string>() { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 }
 
-<fieldset>
-    @Html.TextBoxFor(model=>model.JobSchedule.Name);
-</fieldset>
+<div id="new-schedule">
 
+    <h4>Schedule</h4>
+    <div class="schedule-section">
+        <div>
+            <h5>Execution Time</h5>
+
+        </div>
+        <div>
+            <h5>Runs On</h5>
+            <ul>
+                <li>
+                    @foreach (var day in days)
+                    {
+
+                        <input type="checkbox" data-bind="checked: @day" />
+                        <label>@day</label>
+                    }
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+</div>
+@section Scripts
+{
+    <script type="text/javascript">
+        var days  = @Html.Raw(JsonConvert.SerializeObject(days));
+        var options = {
+            "{root}" : function(JobScheduleModel)
+            {
+                var schedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
+                $.each(days, function (idx, day) {
+                    var dayEnabled = (schedule & (1 << idx) == 1);
+                    JobScheduleModel[day] = ko.observable(dayEnabled);
+                    JobScheduleModel[day].subscribe(function (newvalue) {
+                        var oldSchedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
+                        var mask = newValue ? ~(1 << idx) : 1 << idx;
+                        var newSchedule = newValue ? oldSchedule | mask : oldSchedule & mask;
+                        JobScheduleModel.JobSchedule.ExecutionSchedule(newSchedule);
+                    });
+                });
+            }
+        };
+        var viewmodel = ko.viewmodel.fromModel(@Html.Raw(JsonConvert.SerializeObject(Model)), options);
+        ko.applyBindings(viewmodel, $("#new-schedule")[0]);
+    </script>
+}
 

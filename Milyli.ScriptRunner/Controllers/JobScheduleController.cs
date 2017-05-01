@@ -43,10 +43,10 @@
             return this.View(jobScheduleModel);
         }
 
-        public ActionResult NewSchedule(int workspaceId, int scriptId)
+        public ActionResult NewSchedule(int workspaceId, int relativityScriptId)
         {
             var jobScheduleModel = new JobScheduleModel();
-            this.PopulateJobScheduleModel(jobScheduleModel, workspaceId, scriptId);
+            this.PopulateJobScheduleModel(jobScheduleModel, workspaceId, relativityScriptId);
             if (jobScheduleModel.RelativityScript != null)
             {
                 var inputs = this.scriptRepository.GetScriptInputs(jobScheduleModel.RelativityScript, jobScheduleModel.RelativityWorkspace);
