@@ -6,6 +6,10 @@
 
     public class RelativityScriptModel
     {
+        public RelativityScriptModel()
+        {
+        }
+
         public RelativityScriptModel(RelativityScript relativityScript, IEnumerable<JobSchedule> jobSchedules)
         {
             this.RelativityScript = relativityScript;

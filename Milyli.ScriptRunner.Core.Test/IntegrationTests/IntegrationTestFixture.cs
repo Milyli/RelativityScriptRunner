@@ -1,5 +1,7 @@
 ﻿namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
 {
+    using global::Relativity.API;
+    using kCura.Relativity.Client;
     using Milyli.Framework.Relativity.IOC;
     using Milyli.Framework.Relativity.TestTools;
     using Milyli.Framework.Relativity.TestTools.Extensions;
@@ -17,6 +19,10 @@
                 c.AddRegistry(new RelativityDependencyRegistry(new TestIHelper(), -1));
                 c.AddRegistry(new ScriptRunnerRegistry());
                 c.For<IRelativityClientFactory>().Add<RsapiClientFactory>();
+
+                c.For<IRSAPIClient>()
+                    .Use(ctx => ctx.GetInstance<IRelativityClientFactory>().GetRelativityClient(ExecutionIdentity.System))
+                    .ContainerScoped();
             });
         }
 

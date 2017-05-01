@@ -19,10 +19,6 @@
                 s.IncludeNamespaceContainingType<IJobScheduleRepository>();
                 s.WithDefaultConventions();
             });
-
-            this.For<IRSAPIClient>()
-                .Use(ctx => ctx.GetInstance<IRelativityClientFactory>().GetRelativityClient())
-                .ContainerScoped();
         }
     }
 }

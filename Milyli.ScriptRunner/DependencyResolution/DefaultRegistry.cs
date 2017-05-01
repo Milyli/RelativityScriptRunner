@@ -48,6 +48,10 @@ namespace Milyli.ScriptRunner.DependencyResolution {
             this.For<IRelativityContext>().Use(new RelativityContext(-1));
             this.For<IInstanceConnectionFactory>().Use<RelativityInstanceConnectionFactory>();
             this.IncludeRegistry(new ScriptRunnerRegistry());
+
+            this.For<IRSAPIClient>()
+                .Use(ctx => ctx.GetInstance<IRelativityClientFactory>().GetRelativityClient(ExecutionIdentity.CurrentUser))
+                .ContainerScoped();
         }
     }
 }

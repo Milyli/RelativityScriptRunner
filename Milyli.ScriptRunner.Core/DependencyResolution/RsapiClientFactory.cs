@@ -18,10 +18,10 @@
             this.context = context;
         }
 
-        public IRSAPIClient GetRelativityClient()
+        public IRSAPIClient GetRelativityClient(ExecutionIdentity executionIdentity)
         {
             var servicesManager = this.helper.GetServicesManager();
-            var rsapiClient = servicesManager.CreateProxy<IRSAPIClient>(ExecutionIdentity.System);
+            var rsapiClient = servicesManager.CreateProxy<IRSAPIClient>(executionIdentity);
             rsapiClient.APIOptions.StrictMode = true;
             rsapiClient.APIOptions.WorkspaceID = this.context.WorkspaceId;
             return rsapiClient;

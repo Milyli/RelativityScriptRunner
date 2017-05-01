@@ -66,7 +66,7 @@
             var relativityWorkspace = this.workspaceRepository.Read(workspaceId);
             if (relativityWorkspace == null)
             {
-                return new HttpNotFoundResult($"Cannot find a workspace with id ${workspaceId}");
+                return new HttpNotFoundResult($"Cannot find a workspace with id {workspaceId}");
             }
 
             var scriptListModel = new ScriptListModel()
