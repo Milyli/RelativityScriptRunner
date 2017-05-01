@@ -6,6 +6,10 @@
     using Milyli.ScriptRunner.Core.Models;
     using Milyli.ScriptRunner.Core.Repositories;
     using Milyli.ScriptRunner.Models;
+    using Relativity.CustomPages;
+    using kCura.Relativity.Client;
+    using DTOs = kCura.Relativity.Client.DTOs;
+    using Relativity.API;
 
     public class JobScheduleController : ScriptRunnerController
     {
@@ -63,6 +67,14 @@
 
         public ActionResult List(int workspaceId)
         {
+            using (var client = ConnectionHelper.Helper().GetServicesManager().CreateProxy<IRSAPIClient>(ExecutionIdentity.System))
+            {
+                var workspaces = client.Repositories.Workspace.Query(new DTOs.Query<DTOs.Workspace>()
+                {
+                    Fields = new List<DTOs.FieldValue>() { new DTOs.FieldValue("Name") }
+                });
+            }
+
             var relativityWorkspace = this.workspaceRepository.Read(workspaceId);
             if (relativityWorkspace == null)
             {
@@ -80,13 +92,17 @@
 
         private IEnumerable<RelativityScriptModel> GetScriptList(RelativityWorkspace relativityWorkspace)
         {
-            var jobSchedules = this.jobScheduleRepository.GetJobSchedules(relativityWorkspace).GroupBy(s => s.RelativityScriptId);
-            var scripts = this.scriptRepository.GetRelativityScripts(relativityWorkspace).ToDictionary(s => s.RelativityScriptId);
-            foreach (var jobScheduleGroup in jobSchedules)
+            var jobSchedules = this.jobScheduleRepository.GetJobSchedules(relativityWorkspace).GroupBy(s => s.RelativityScriptId).ToDictionary(s => s.Key, s => s);
+            var scripts = this.scriptRepository.GetRelativityScripts(relativityWorkspace);
+            foreach (var script in scripts)
             {
-                if (scripts.ContainsKey(jobScheduleGroup.Key))
+                if (jobSchedules.ContainsKey(script.RelativityScriptId))
                 {
-                    yield return new RelativityScriptModel(scripts[jobScheduleGroup.Key], jobScheduleGroup);
+                    yield return new RelativityScriptModel(script, jobSchedules[script.RelativityScriptId]);
+                }
+                else
+                {
+                    yield return new RelativityScriptModel(script);
                 }
             }
         }

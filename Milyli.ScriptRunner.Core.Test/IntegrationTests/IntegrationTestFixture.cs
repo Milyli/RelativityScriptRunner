@@ -19,10 +19,6 @@
                 c.AddRegistry(new RelativityDependencyRegistry(new TestIHelper(), -1));
                 c.AddRegistry(new ScriptRunnerRegistry());
                 c.For<IRelativityClientFactory>().Add<RsapiClientFactory>();
-
-                c.For<IRSAPIClient>()
-                    .Use(ctx => ctx.GetInstance<IRelativityClientFactory>().GetRelativityClient(ExecutionIdentity.System))
-                    .ContainerScoped();
             });
         }
 

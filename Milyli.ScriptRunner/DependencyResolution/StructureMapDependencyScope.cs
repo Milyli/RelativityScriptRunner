@@ -109,7 +109,8 @@ namespace Milyli.ScriptRunner.DependencyResolution {
         {
             IContainer container = this.CurrentNestedContainer ?? this.Container;
 
-            if (string.IsNullOrEmpty(key)) {
+            if (string.IsNullOrEmpty(key))
+            {
                 return serviceType.IsAbstract || serviceType.IsInterface
                     ? container.TryGetInstance(serviceType)
                     : container.GetInstance(serviceType);

@@ -44,14 +44,10 @@ namespace Milyli.ScriptRunner.DependencyResolution {
 
             Func<ICPHelper> helper = () => ConnectionHelper.Helper();
             this.For<IHelper>().HttpContextScoped().Use(c => ConnectionHelper.Helper());
-            this.For<IRelativityClientFactory>().HttpContextScoped().Add<RsapiClientFactory>();
+            this.For<IRelativityClientFactory>().HttpContextScoped().Use<RsapiClientFactory>();
             this.For<IRelativityContext>().Use(new RelativityContext(-1));
             this.For<IInstanceConnectionFactory>().Use<RelativityInstanceConnectionFactory>();
             this.IncludeRegistry(new ScriptRunnerRegistry());
-
-            this.For<IRSAPIClient>()
-                .Use(ctx => ctx.GetInstance<IRelativityClientFactory>().GetRelativityClient(ExecutionIdentity.CurrentUser))
-                .ContainerScoped();
         }
     }
 }

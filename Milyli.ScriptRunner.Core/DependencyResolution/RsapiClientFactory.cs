@@ -28,4 +28,4 @@
         }
     }
 }
-#pragma warning enable CA1704
+#pragma warning restore CA1704

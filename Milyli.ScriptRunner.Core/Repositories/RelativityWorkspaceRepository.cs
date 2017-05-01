@@ -6,17 +6,17 @@
     using System.Threading;
     using kCura.Relativity.Client;
     using Milyli.ScriptRunner.Core.Models;
+    using Relativity.Client;
     using DTOs = kCura.Relativity.Client.DTOs;
 
-    public class RelativityWorkspaceRepository : IRelativityWorkspaceRepository
+    public class RelativityWorkspaceRepository : RelativityClientRepository, IRelativityWorkspaceRepository
     {
         private const string NAME_FIELD = "Name";
-        private IRSAPIClient relativityClient;
         private Lazy<Dictionary<int, RelativityWorkspace>> relativityWorkspaceCollection;
 
-        public RelativityWorkspaceRepository(IRSAPIClient relativityClient)
+        public RelativityWorkspaceRepository(IRelativityClientFactory relativityClientFactory) 
+            : base(relativityClientFactory)
         {
-            this.relativityClient = relativityClient;
             this.relativityWorkspaceCollection = new Lazy<Dictionary<int, RelativityWorkspace>>(this.GetWorkspaceDictionary, LazyThreadSafetyMode.ExecutionAndPublication);
         }
 
@@ -36,7 +36,7 @@
 
         private Dictionary<int, RelativityWorkspace> GetWorkspaceDictionary()
         {
-            var workspaces = this.relativityClient.Repositories.Workspace.Query(new DTOs.Query<DTOs.Workspace>()
+            var workspaces = this.RelativityClient.Repositories.Workspace.Query(new DTOs.Query<DTOs.Workspace>()
             {
                 Fields = new List<DTOs.FieldValue>() { new DTOs.FieldValue(NAME_FIELD) }
             });

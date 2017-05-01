@@ -117,6 +117,7 @@
     <Compile Include="Models\RelativityWorkspace.cs" />
     <Compile Include="Repositories\IRelativityScriptRepository.cs" />
     <Compile Include="Repositories\IRelativityWorkspaceRepository.cs" />
+    <Compile Include="Repositories\RelativityClientRepository.cs" />
     <Compile Include="Repositories\RelativityScriptRepository.cs" />
     <Compile Include="Repositories\RelativityWorkspaceRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

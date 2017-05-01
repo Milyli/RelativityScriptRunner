@@ -11,13 +11,18 @@
         }
 
         public RelativityScriptModel(RelativityScript relativityScript, IEnumerable<JobSchedule> jobSchedules)
+            : this(relativityScript)
+        {
+            this.JobSchedules = jobSchedules.OrderBy(s => s.NextExecutionTime).ToList();
+        }
+
+        public RelativityScriptModel(RelativityScript relativityScript)
         {
             this.RelativityScript = relativityScript;
-            this.JobSchedules = jobSchedules.OrderBy(s => s.NextExecutionTime).ToList();
         }
 
         public RelativityScript RelativityScript { get; private set; }
 
-        public List<JobSchedule> JobSchedules { get; private set; }
+        public List<JobSchedule> JobSchedules { get; private set; } = new List<JobSchedule>();
     }
 }

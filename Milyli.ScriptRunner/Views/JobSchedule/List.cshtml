@@ -7,12 +7,27 @@
 <h2>Relativity Script List</h2>
 <div id="script-list">
     <table>
-        <tbody>
-            <tr data-bind="foreach: RelativityScripts">
+        <thead>
+            <tr>
+                <th>
+                    Script Name
+                </th>
+                <th>
+                    Schedule Count
+                </th>
+                <th>
+                    Next Execution Time
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: RelativityScripts">
+            <tr>
                 <td data-bind="text: RelativityScript.Name"></td>
                 <td data-bind="text: JobScheduleCount"></td>
                 <td data-bind="text : NextExecutionTime"></td>
-                <td data-bind="click : NewSchedule"></td>
+                <td><a data-bind="click : NewSchedule" href="javascript:;" class="fa fa-plus" title="add new schedule"></a></td>
             </tr>
         </tbody>
     </table>
@@ -51,6 +66,6 @@
 
         var viewmodel = ko.viewmodel.fromModel(@Html.Raw(JsonConvert.SerializeObject(Model)), options);
 
-        ko.applyBindings(viewmodel, $("#script-list"));
+        ko.applyBindings(viewmodel, $("#script-list")[0]);
     </script>
 }
