@@ -1,4 +1,8 @@
-﻿namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
+﻿// <copyright file="IntegrationTestFixture.cs" company="Milyli">
+// Copyright © 2016 Milyli
+// </copyright>
+
+namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
 {
     using global::Relativity.API;
     using kCura.Relativity.Client;

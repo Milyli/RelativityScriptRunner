@@ -14,8 +14,8 @@
 // limitations under the License.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
-namespace Milyli.ScriptRunner.DependencyResolution {
+namespace Milyli.ScriptRunner.DependencyResolution
+{
     using System;
     using System.Collections.Generic;
     using System.Linq;

@@ -14,7 +14,7 @@
         private const string NAME_FIELD = "Name";
         private Lazy<Dictionary<int, RelativityWorkspace>> relativityWorkspaceCollection;
 
-        public RelativityWorkspaceRepository(IRelativityClientFactory relativityClientFactory) 
+        public RelativityWorkspaceRepository(IRelativityClientFactory relativityClientFactory)
             : base(relativityClientFactory)
         {
             this.relativityWorkspaceCollection = new Lazy<Dictionary<int, RelativityWorkspace>>(this.GetWorkspaceDictionary, LazyThreadSafetyMode.ExecutionAndPublication);

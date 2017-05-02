@@ -1,4 +1,8 @@
-﻿namespace Milyli.ScriptRunner.Core.Test.UnitTests
+﻿// <copyright file="TestRelativityScriptRunner.cs" company="Milyli">
+// Copyright © 2016 Milyli
+// </copyright>
+
+namespace Milyli.ScriptRunner.Core.Test.UnitTests
 {
     using System;
     using System.Collections.Generic;
@@ -49,7 +53,7 @@
             var scriptRunner = new RelativityScriptRunner(jobScheduleRepositoryMock.JobScheduleRepository, clientMock.Object);
             var jobSchedule = jobScheduleRepositoryMock.CurrentJobSchedule;
 
-            Assert.Throws<Exception>(() => scriptRunner.ExecuteScriptJob(jobSchedule));
+            scriptRunner.ExecuteScriptJob(jobSchedule);
             Assert.That(jobSchedule.CurrentJobHistory.Errored);
             Assert.That(jobScheduleRepositoryMock.JobScheduleStarted && jobScheduleRepositoryMock.JobScheduleFinished);
         }

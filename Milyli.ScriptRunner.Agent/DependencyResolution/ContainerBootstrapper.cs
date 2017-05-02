@@ -1,4 +1,8 @@
-﻿namespace Milyli.ScriptRunner.Agent.DependencyResolution
+﻿// <copyright file="ContainerBootstrapper.cs" company="Milyli">
+// Copyright © 2016 Milyli
+// </copyright>
+
+namespace Milyli.ScriptRunner.Agent.DependencyResolution
 {
     using Milyli.Framework.Relativity;
     using Milyli.Framework.Relativity.Interfaces;

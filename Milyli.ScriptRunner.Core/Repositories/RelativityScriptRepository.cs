@@ -12,7 +12,8 @@
 
     public class RelativityScriptRepository : RelativityClientRepository, IRelativityScriptRepository
     {
-        public RelativityScriptRepository(IRelativityClientFactory relativityClientFactory) : base(relativityClientFactory)
+        public RelativityScriptRepository(IRelativityClientFactory relativityClientFactory) 
+            : base(relativityClientFactory)
         {
         }
 
@@ -80,11 +81,6 @@
                 RelativityScriptId = scriptArtifact.ArtifactID,
                 WorkspaceId = workspace.WorkspaceId
             };
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
         }
     }
 }

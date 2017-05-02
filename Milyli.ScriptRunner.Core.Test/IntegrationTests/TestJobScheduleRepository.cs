@@ -1,4 +1,8 @@
-﻿namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
+﻿// <copyright file="TestJobScheduleRepository.cs" company="Milyli">
+// Copyright © 2016 Milyli
+// </copyright>
+
+namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
 {
     using System;
     using System.Collections.Generic;
@@ -150,6 +154,7 @@
 
             var result = this.JobScheduleRepository.SaveJobSchedule(jobSchedule, jobInputs);
             Assert.That(result > 0);
+            Assert.That(this.JobScheduleRepository.GetJobInputs(jobSchedule).All(jsi => jsi.JobScheduleId != 0 && jsi.JobScheduleId == jobSchedule.Id));
         }
     }
 }

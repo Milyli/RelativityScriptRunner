@@ -14,7 +14,6 @@
 // limitations under the License.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Milyli.ScriptRunner.DependencyResolution
 {
     using System;
@@ -25,11 +24,12 @@ namespace Milyli.ScriptRunner.DependencyResolution
     using StructureMap.Pipeline;
     using StructureMap.TypeRules;
 
-    public class ControllerConvention : IRegistrationConvention {
-        #region Public Methods and Operators
-
-        public void Process(Type type, Registry registry) {
-            if (type.CanBeCastTo<Controller>() && !type.IsAbstract) {
+    public class ControllerConvention : IRegistrationConvention
+    {
+        public void Process(Type type, Registry registry)
+        {
+            if (type.CanBeCastTo<Controller>() && !type.IsAbstract)
+            {
                 registry.For(type).LifecycleIs(new UniquePerRequestLifecycle());
             }
         }
@@ -44,7 +44,5 @@ namespace Milyli.ScriptRunner.DependencyResolution
                 }
             }
         }
-
-        #endregion
     }
 }

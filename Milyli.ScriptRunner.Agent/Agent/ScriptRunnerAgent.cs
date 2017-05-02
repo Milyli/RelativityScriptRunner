@@ -1,4 +1,8 @@
-﻿namespace Milyli.ScriptRunner.Agent.Agent
+﻿// <copyright file="ScriptRunnerAgent.cs" company="Milyli">
+// Copyright © 2016 Milyli
+// </copyright>
+
+namespace Milyli.ScriptRunner.Agent.Agent
 {
     using System;
     using Milyli.ScriptRunner.Agent.DependencyResolution;

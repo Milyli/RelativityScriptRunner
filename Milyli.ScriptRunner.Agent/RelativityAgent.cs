@@ -1,4 +1,8 @@
-﻿namespace Milyli.ScriptRunner.Agent
+﻿// <copyright file="RelativityAgent.cs" company="Milyli">
+// Copyright © 2016 Milyli
+// </copyright>
+
+namespace Milyli.ScriptRunner.Agent
 {
     using System;
     using Core.Services;

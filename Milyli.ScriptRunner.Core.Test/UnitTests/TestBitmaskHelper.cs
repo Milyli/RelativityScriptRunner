@@ -1,4 +1,8 @@
-﻿namespace Milyli.ScriptRunner.Core.Test.UnitTests
+﻿// <copyright file="TestBitmaskHelper.cs" company="Milyli">
+// Copyright © 2016 Milyli
+// </copyright>
+
+namespace Milyli.ScriptRunner.Core.Test.UnitTests
 {
     using Milyli.ScriptRunner.Core.Tools;
     using NUnit.Framework;

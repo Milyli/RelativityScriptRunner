@@ -12,47 +12,69 @@
     label.invalid {
         font-style : italic;
     }
+
+    #mask {
+        position:fixed;
+        height:100%;
+        width:100%;
+        top:0px;
+        left:0px;
+        background: rgba(0,0,0,0.3);
+        display : none;
+    }
+
 </style>
 
 <div id="new-schedule">
+    <div id="mask"></div>
+        <h4>Schedule</h4>
+        <div class="schedule-section">
+            <div>
+                <h5>Execution Time</h5>
 
-    <h4>Schedule</h4>
-    <div class="schedule-section">
-        <div>
-            <h5>Execution Time</h5>
-
-        </div>
-        <div>
-            <h5>Runs On</h5>
-            <ul>
-                <li>
-                    @foreach (var day in days)
-                    {
-
-                        <input type="checkbox" data-bind="checked: @day" />
-                        <label>@day</label>
-                    }
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div>
-        <h5>Script Inputs</h5>
-        <div data-bind="foreach: JobScriptInputs" class="script-inputs">
-            <div data-bind="text: InputName, css: { required : IsRequired(), invalid : IsInvalid() }">
             </div>
             <div>
-                <input type="text" data-bind="value: InputValue, css: { required : IsRequired(), invalid : IsInvalid() }" />
+                <h5>Runs On</h5>
+                <ul>
+                    <li>
+                        @foreach (var day in days)
+                        {
+
+                            <input type="checkbox" data-bind="checked: @day" />
+                            <label>@day</label>
+                        }
+                    </li>
+                </ul>
             </div>
         </div>
-    </div>
-    <div>
-        <button data-bind="click: SaveJobSchedule">Save</button>
-    </div>
+        <div>
+            <h5>Script Inputs</h5>
+            <div data-bind="foreach: JobScriptInputs" class="script-inputs">
+                <div data-bind="text: InputName, css: { required : IsRequired(), invalid : IsInvalid() }">
+                </div>
+                <div>
+                    <input type="text" data-bind="value: InputValue, css: { required : IsRequired(), invalid : IsInvalid() }" />
+                </div>
+            </div>
+        </div>
+        <div>
+            <button data-bind="click: SaveJobSchedule">Save</button>
+        </div>
 </div>
 @section Scripts
 {
     <script type="text/javascript">
+        function unmask()
+        {
+            $("#mask").css("display", "none");
+        };
+
+        function mask()
+        {
+            $("#mask").css("display", "block");
+        }
+
+
         var days  = @Html.Raw(JsonConvert.SerializeObject(days));
         var options = {
             extend: {
@@ -69,6 +91,7 @@
                 {
                     JobScheduleModel.SaveJobSchedule = function()
                     {
+                        mask();
                         $.ajax({
                             type :'POST',
                             url: "@Url.Action("Save")",
@@ -76,6 +99,14 @@
                             dataType: 'json',
                             contentType: "application/json",
                             data : ko.toJSON(JobScheduleModel)
+                        })
+                        .done(function(data)
+                        {
+                            window.location.href = "@Url.Action("Index")?jobScheduleId="+data.JobSchedule.Id;
+                        })
+                        .always(function(data)
+                        {
+                            unmask();
                         });
                     };
 

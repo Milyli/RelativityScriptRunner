@@ -1,8 +1,8 @@
 ﻿namespace Milyli.ScriptRunner.Models
 {
     using System.Collections.Generic;
-    using Milyli.ScriptRunner.Core.Models;
     using System.Linq;
+    using Milyli.ScriptRunner.Core.Models;
 
     public class JobScheduleModel
     {
@@ -14,9 +14,11 @@
 
         public List<JobScriptInputModel> JobScriptInputs { get; set; }
 
-        public List<JobScriptInput> GetJobScriptInputs()
+        public List<JobScriptInput> ToJobScriptInputs()
         {
-            return this.JobScriptInputs.Select(si => new JobScriptInput()
+            return this.JobScriptInputs
+                .Where(si => !string.IsNullOrWhiteSpace(si.InputValue))
+                .Select(si => new JobScriptInput()
             {
                 JobScheduleId = this.JobSchedule.Id,
                 InputName = si.InputName,

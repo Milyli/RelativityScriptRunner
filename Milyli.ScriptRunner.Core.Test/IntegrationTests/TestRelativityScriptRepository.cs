@@ -1,4 +1,8 @@
-﻿namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
+﻿// <copyright file="TestRelativityScriptRepository.cs" company="Milyli">
+// Copyright © 2016 Milyli
+// </copyright>
+
+namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
 {
     using System.Linq;
     using Milyli.ScriptRunner.Core.Repositories;

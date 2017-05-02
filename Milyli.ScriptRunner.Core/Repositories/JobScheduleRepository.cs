@@ -201,13 +201,16 @@
                 else
                 {
                     jobSchedule.Id = this.Create(jobSchedule);
+                    jobScriptInputs.ForEach(jsi => jsi.JobScheduleId = jobSchedule.Id);
                 }
 
                 this.DataContext.JobScriptInput
                     .Where(jsi => jsi.JobScheduleId == jobSchedule.Id)
                     .Delete();
                 this.DataContext.BulkCopy(jobScriptInputs);
+                transaction.Commit();
             }
+
             return jobSchedule.Id;
         }
 

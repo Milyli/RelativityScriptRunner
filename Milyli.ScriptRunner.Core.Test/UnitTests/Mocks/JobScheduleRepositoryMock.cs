@@ -1,4 +1,8 @@
-﻿namespace Milyli.ScriptRunner.Core.Test.UnitTests.Mocks
+﻿// <copyright file="JobScheduleRepositoryMock.cs" company="Milyli">
+// Copyright © 2016 Milyli
+// </copyright>
+
+namespace Milyli.ScriptRunner.Core.Test.UnitTests.Mocks
 {
     using System.Collections.Generic;
     using Milyli.ScriptRunner.Core.Models;
