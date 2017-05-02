@@ -12,7 +12,7 @@
 
     public class RelativityScriptRepository : RelativityClientRepository, IRelativityScriptRepository
     {
-        public RelativityScriptRepository(IRelativityClientFactory relativityClientFactory) 
+        public RelativityScriptRepository(IRelativityClientFactory relativityClientFactory)
             : base(relativityClientFactory)
         {
         }

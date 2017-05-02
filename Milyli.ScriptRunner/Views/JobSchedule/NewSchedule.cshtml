@@ -36,14 +36,13 @@
             <div>
                 <h5>Runs On</h5>
                 <ul>
+                @foreach (var day in days)
+                {
                     <li>
-                        @foreach (var day in days)
-                        {
-
-                            <input type="checkbox" data-bind="checked: @day" />
-                            <label>@day</label>
-                        }
+                        <input type="checkbox" data-bind="checked: @day" />
+                        <label>@day</label>                                
                     </li>
+                }
                 </ul>
             </div>
         </div>

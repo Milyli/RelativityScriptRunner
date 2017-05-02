@@ -107,6 +107,7 @@
     <Compile Include="DataContexts\InstanceDataContext.cs" />
     <Compile Include="DependencyResolution\RsapiClientFactory.cs" />
     <Compile Include="DependencyResolution\ScriptRunnerRegistry.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Logging\LoggingBootstrapper.cs" />
     <Compile Include="Models\JobHistory.cs" />
     <Compile Include="Models\JobSchedule.cs" />

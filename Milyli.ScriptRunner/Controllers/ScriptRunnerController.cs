@@ -11,7 +11,7 @@
         protected IRelativityWorkspaceRepository workspaceRepository;
 #pragma warning restore SA1401 // Fields must be private
 
-        public ScriptRunnerController(IJobScheduleRepository jobScheduleRepository, IRelativityScriptRepository scriptRepository, IRelativityWorkspaceRepository workspaceRepository)
+        protected ScriptRunnerController(IJobScheduleRepository jobScheduleRepository, IRelativityScriptRepository scriptRepository, IRelativityWorkspaceRepository workspaceRepository)
         {
             this.jobScheduleRepository = jobScheduleRepository;
             this.relativityScriptRepository = scriptRepository;

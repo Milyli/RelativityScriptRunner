@@ -7,14 +7,14 @@
 
     public abstract class RelativityClientRepository : IDisposable
     {
-        public RelativityClientRepository(IRelativityClientFactory relativityClientFactory)
-        {
-            this.relativityClientFactory = relativityClientFactory;
-        }
-
         private IRelativityClientFactory relativityClientFactory;
 
         private IRSAPIClient relativityClient;
+
+        protected RelativityClientRepository(IRelativityClientFactory relativityClientFactory)
+        {
+            this.relativityClientFactory = relativityClientFactory;
+        }
 
         protected IRSAPIClient RelativityClient
         {
@@ -32,6 +32,7 @@
         public void Dispose()
         {
             this.relativityClient?.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

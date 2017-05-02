@@ -15,11 +15,12 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-namespace Milyli.ScriptRunner.DependencyResolution {
+namespace Milyli.ScriptRunner.DependencyResolution
+{
     using StructureMap;
-	
-    public static class IoC {
+
+    public static class IoC
+    {
         public static IContainer Initialize() {
             return new Container(c => c.AddRegistry<DefaultRegistry>());
         }
