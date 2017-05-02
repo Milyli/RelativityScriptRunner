@@ -59,10 +59,16 @@
         int DeleteAllJobs(int relativityScriptId);
 
         /// <summary>
+        /// Creates the input settings used for deferred execution of the given relativity script
+        /// </summary>
+        /// <param name="jobSchedule">the job schedule to create/update</param>
+        /// <param name="jobScriptInputs">The list of inputs to create</param>
+        int SaveJobSchedule(JobSchedule jobSchedule, List<JobScriptInput> jobScriptInputs);
+
+        /// <summary>
         /// Marks a job as done and updates the JobHistory record
         /// </summary>
         /// <param name="jobSchedule">The job to complete.  The jobSchedule object is expected to have a JobHistory record in the CurrentJobHistory property</param>
         void FinishJob(JobSchedule jobSchedule);
-
     }
 }

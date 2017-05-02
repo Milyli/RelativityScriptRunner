@@ -22,22 +22,10 @@
 
         public ActionResult Index(int jobScheduleId)
         {
-            var jobSchedule = this.jobScheduleRepository.Read(jobScheduleId);
-            if (jobSchedule == null)
+            var jobScheduleModel = this.GetJobScheduleModel(jobScheduleId);
+            if (jobScheduleModel == null)
             {
-                return new HttpNotFoundResult($"could not find the job schedule with id {jobScheduleId}");
-            }
-
-            var scriptInputs = this.jobScheduleRepository.GetJobInputs(jobSchedule);
-            var jobScheduleModel = new JobScheduleModel()
-            {
-                JobSchedule = jobSchedule
-            };
-
-            if (jobSchedule != null)
-            {
-                this.PopulateJobScheduleModel(jobScheduleModel, jobSchedule.WorkspaceId, jobSchedule.RelativityScriptId);
-                this.MergeScriptInputs(jobScheduleModel);
+                new HttpNotFoundResult($"could not find the job schedule with id {jobScheduleId}");
             }
 
             return this.View(jobScheduleModel);
@@ -63,6 +51,15 @@
                 Name = $"{jobScheduleModel.RelativityWorkspace.WorkspaceName} - {jobScheduleModel.RelativityScript.Name}"
             };
             return this.View(jobScheduleModel);
+        }
+
+        public JsonResult Save(JobScheduleModel jobScheduleModel)
+        {
+            var jobSchedule = jobScheduleModel.JobSchedule;
+            var scriptInputs = jobScheduleModel.JobScriptInputs;
+            var id = this.jobScheduleRepository.SaveJobSchedule(jobSchedule, jobScheduleModel.GetJobScriptInputs());
+
+            return this.Json(this.GetJobScheduleModel(id));
         }
 
         public ActionResult List(int workspaceId)
@@ -153,6 +150,29 @@
         {
             jobScheduleModel.RelativityWorkspace = this.workspaceRepository.Read(workspaceId);
             jobScheduleModel.RelativityScript = this.scriptRepository.GetRelativityScript(jobScheduleModel.RelativityWorkspace, scriptArtifactId);
+        }
+
+        private JobScheduleModel GetJobScheduleModel(int jobScheduleId)
+        {
+            var jobSchedule = this.jobScheduleRepository.Read(jobScheduleId);
+            if (jobSchedule == null)
+            {
+                return null;
+            }
+
+            var scriptInputs = this.jobScheduleRepository.GetJobInputs(jobSchedule);
+            var jobScheduleModel = new JobScheduleModel()
+            {
+                JobSchedule = jobSchedule
+            };
+
+            if (jobSchedule != null)
+            {
+                this.PopulateJobScheduleModel(jobScheduleModel, jobSchedule.WorkspaceId, jobSchedule.RelativityScriptId);
+                this.MergeScriptInputs(jobScheduleModel);
+            }
+
+            return jobScheduleModel;
         }
     }
 }

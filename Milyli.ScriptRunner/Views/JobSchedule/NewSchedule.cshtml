@@ -27,29 +27,46 @@
             </ul>
         </div>
     </div>
-    
+    <div>
+        <h5>Script Inputs</h5>
+        <div data-bind="foreach: JobScriptInputs" class="script-inputs">
+            <div data-bind="text: InputName">
+            </div>
+            <div data-bind="text: InputType">
+            </div>
+            <div>
+                <input type="text" data-bind="value: InputValue" />
+            </div>
+        </div>
+    </div>
+    <div>
+        <button data-bind="click: SaveJobSchedule">Save</button>
+    </div>
 </div>
 @section Scripts
 {
     <script type="text/javascript">
         var days  = @Html.Raw(JsonConvert.SerializeObject(days));
         var options = {
-            "{root}" : function(JobScheduleModel)
-            {
-                var schedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
-                $.each(days, function (idx, day) {
-                    var dayEnabled = (schedule & (1 << idx) == 1);
-                    JobScheduleModel[day] = ko.observable(dayEnabled);
-                    JobScheduleModel[day].subscribe(function (newvalue) {
-                        var oldSchedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
-                        var mask = newValue ? ~(1 << idx) : 1 << idx;
-                        var newSchedule = newValue ? oldSchedule | mask : oldSchedule & mask;
-                        JobScheduleModel.JobSchedule.ExecutionSchedule(newSchedule);
+            extend: {
+                "{root}" : function(JobScheduleModel)
+                {
+                    var schedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
+                    $.each(days, function (idx, day) {
+                        var dayEnabled = (schedule & (1 << idx) == 1);
+                        JobScheduleModel[day] = ko.observable(dayEnabled);
+                        JobScheduleModel[day].subscribe(function (newValue) {
+                            var oldSchedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
+                            var mask = newValue ? ~(1 << idx) : 1 << idx;
+                            var newSchedule = newValue ? oldSchedule | mask : oldSchedule & mask;
+                            JobScheduleModel.JobSchedule.ExecutionSchedule(newSchedule);
+                        });
                     });
-                });
+                }
             }
         };
         var viewmodel = ko.viewmodel.fromModel(@Html.Raw(JsonConvert.SerializeObject(Model)), options);
+
         ko.applyBindings(viewmodel, $("#new-schedule")[0]);
     </script>
 }

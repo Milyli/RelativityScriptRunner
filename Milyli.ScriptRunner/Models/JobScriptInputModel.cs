@@ -1,4 +1,6 @@
-﻿namespace Milyli.ScriptRunner.Models
+﻿using Milyli.ScriptRunner.Core.Models;
+
+namespace Milyli.ScriptRunner.Models
 {
     public class JobScriptInputModel
     {

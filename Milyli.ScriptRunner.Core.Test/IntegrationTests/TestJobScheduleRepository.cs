@@ -1,6 +1,7 @@
 ﻿namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using Milyli.ScriptRunner.Core.Repositories;
     using Models;
@@ -119,6 +120,36 @@
             var lastExecution = this.JobScheduleRepository.GetLastJobExecution(jobSchedule);
             Assert.That(lastExecution != null, "Expected a last execution record");
             Assert.That(lastExecution.Runtime > 0, "Expected a non-zero runtime duration");
+        }
+
+        [Test]
+        public void TestSaveJobSchedule()
+        {
+            var jobSchedule = new JobSchedule()
+            {
+                RelativityScriptId = TEST_SCRIPT_ID,
+                WorkspaceId = TEST_WORKSPACE_ID,
+                ExecutionSchedule = 0x7F,
+                ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now),
+                JobEnabled = true
+            };
+
+            var jobInputs = new List<JobScriptInput>()
+            {
+                new JobScriptInput()
+                {
+                    InputName = "scriptInput1",
+                    InputValue = "scriptValue1"
+                },
+                new JobScriptInput()
+                {
+                    InputName = "scriptInput2",
+                    InputValue = "scriptValue2"
+                },
+            };
+
+            var result = this.JobScheduleRepository.SaveJobSchedule(jobSchedule, jobInputs);
+            Assert.That(result > 0);
         }
     }
 }

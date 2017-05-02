@@ -189,6 +189,28 @@
                 .ToList();
         }
 
+        public int SaveJobSchedule(JobSchedule jobSchedule, List<JobScriptInput> jobScriptInputs)
+        {
+            using (var transaction = this.DataContext.BeginTransaction())
+            {
+                if (jobSchedule.Id > 0)
+                {
+                    LockJobSchedule(jobSchedule, transaction);
+                    this.Update(jobSchedule);
+                }
+                else
+                {
+                    jobSchedule.Id = this.Create(jobSchedule);
+                }
+
+                this.DataContext.JobScriptInput
+                    .Where(jsi => jsi.JobScheduleId == jobSchedule.Id)
+                    .Delete();
+                this.DataContext.BulkCopy(jobScriptInputs);
+            }
+            return jobSchedule.Id;
+        }
+
         // Critical section:
         // this method locks the schedule row for update, in order to coordinate job running.
         private static JobActivationStatus LockJobSchedule(JobSchedule jobSchedule, DataConnectionTransaction transaction)
