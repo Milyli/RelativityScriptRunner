@@ -8,11 +8,6 @@
         {
         }
 
-        public RelativityWorkspace(DTOs.Artifact artifact)
-        {
-            this.WorkspaceId = artifact.ArtifactID;
-        }
-
         public static RelativityWorkspace AdminWorkspace
         {
             get

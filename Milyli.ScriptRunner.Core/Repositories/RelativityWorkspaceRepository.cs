@@ -42,7 +42,13 @@
             });
             if (workspaces.Success)
             {
-                return workspaces.Results.Select(ws => new RelativityWorkspace(ws.Artifact)).ToDictionary(rws => rws.WorkspaceId);
+                return workspaces.Results
+                    .Select(ws => new RelativityWorkspace()
+                    {
+                        WorkspaceId = ws.Artifact.ArtifactID,
+                        WorkspaceName = ws.Artifact.Name
+                    })
+                    .ToDictionary(rws => rws.WorkspaceId);
             }
 
             // TODO throw instead of return?

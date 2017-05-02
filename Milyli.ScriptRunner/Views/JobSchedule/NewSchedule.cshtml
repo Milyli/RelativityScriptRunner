@@ -115,7 +115,7 @@
                         JobScheduleModel[day] = ko.observable(dayEnabled);
                         JobScheduleModel[day].subscribe(function (newValue) {
                             var oldSchedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
-                            var mask = newValue ? ~(1 << idx) : 1 << idx;
+                            var mask = newValue ? 1 << idx :  ~(1 << idx);
                             var newSchedule = newValue ? oldSchedule | mask : oldSchedule & mask;
                             JobScheduleModel.JobSchedule.ExecutionSchedule(newSchedule);
                         });
