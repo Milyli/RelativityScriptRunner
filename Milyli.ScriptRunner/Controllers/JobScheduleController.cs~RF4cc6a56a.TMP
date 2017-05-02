@@ -10,7 +10,6 @@
     using kCura.Relativity.Client;
     using DTOs = kCura.Relativity.Client.DTOs;
     using Relativity.API;
-    using App_Start;
 
     public class JobScheduleController : ScriptRunnerController
     {
@@ -54,13 +53,13 @@
             return this.View(jobScheduleModel);
         }
 
-        public JsonResult Save([ModelBinder(typeof(JsonBinder))]JobScheduleModel jobScheduleModel)
+        public JsonResult Save(JobScheduleModel jobScheduleModel)
         {
             var jobSchedule = jobScheduleModel.JobSchedule;
             var scriptInputs = jobScheduleModel.JobScriptInputs;
-            var id = this.jobScheduleRepository.SaveJobSchedule(jobSchedule, jobScheduleModel.GetJobScriptInputs());
+            this.jobScheduleRepository.SaveJobSchedule(jobSchedule, jobScheduleModel.GetJobScriptInputs());
 
-            return this.Json(this.GetJobScheduleModel(id));
+            return new JsonResult()
         }
 
         public ActionResult List(int workspaceId)
@@ -172,8 +171,6 @@
                 this.PopulateJobScheduleModel(jobScheduleModel, jobSchedule.WorkspaceId, jobSchedule.RelativityScriptId);
                 this.MergeScriptInputs(jobScheduleModel);
             }
-
-            return jobScheduleModel;
         }
     }
 }

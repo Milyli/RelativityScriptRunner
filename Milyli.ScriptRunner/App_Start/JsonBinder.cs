@@ -10,20 +10,18 @@
         protected override object CreateModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Type modelType)
         {
             HttpRequestBase request = controllerContext.HttpContext.Request;
-            var json = request.Form.Get("json");
-            if (json == null)
+            if (request.Headers["content-type"].Equals("application/json", StringComparison.InvariantCultureIgnoreCase) && request.Form.Count > 0)
             {
-                return null;
+                try
+                {
+                    return JsonConvert.DeserializeObject(request.Form[0], modelType);
+                }
+                catch
+                {
+                    return null;
+                }
             }
-
-            try
-            {
-                return JsonConvert.DeserializeObject(json, modelType);
-            }
-            catch
-            {
-                return null;
-            }
+            return null;
         }
     }
 }

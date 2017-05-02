@@ -4,6 +4,15 @@
     ViewBag.Title = "New Schedule";
     var days = new List<string>() { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 }
+<style>
+    label.required {
+        font-weight : bold;
+    }
+
+    label.invalid {
+        font-style : italic;
+    }
+</style>
 
 <div id="new-schedule">
 
@@ -30,12 +39,10 @@
     <div>
         <h5>Script Inputs</h5>
         <div data-bind="foreach: JobScriptInputs" class="script-inputs">
-            <div data-bind="text: InputName">
-            </div>
-            <div data-bind="text: InputType">
+            <div data-bind="text: InputName, css: { required : IsRequired(), invalid : IsInvalid() }">
             </div>
             <div>
-                <input type="text" data-bind="value: InputValue" />
+                <input type="text" data-bind="value: InputValue, css: { required : IsRequired(), invalid : IsInvalid() }" />
             </div>
         </div>
     </div>
@@ -49,8 +56,29 @@
         var days  = @Html.Raw(JsonConvert.SerializeObject(days));
         var options = {
             extend: {
+                "{root}.JobScriptInputs[i]" : function(JobScriptInput)
+                {
+                    JobScriptInput.IsInvalid = ko.computed(function()
+                    {
+                        var currentValue = JobScriptInput.InputValue();
+                        return !(currentValue && currentValue.trim && currentValue.trim());
+                    });
+                },
+
                 "{root}" : function(JobScheduleModel)
                 {
+                    JobScheduleModel.SaveJobSchedule = function()
+                    {
+                        $.ajax({
+                            type :'POST',
+                            url: "@Url.Action("Save")",
+                            processData : false,
+                            dataType: 'json',
+                            contentType: "application/json",
+                            data : ko.toJSON(JobScheduleModel)
+                        });
+                    };
+
                     var schedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
                     $.each(days, function (idx, day) {
                         var dayEnabled = (schedule & (1 << idx) == 1);
@@ -62,11 +90,27 @@
                             JobScheduleModel.JobSchedule.ExecutionSchedule(newSchedule);
                         });
                     });
+
+                    JobScheduleModel.Validate = function()
+                    {
+                        var validationResults = JobScheduleModel.JobScriptInputs().reduce(function(accum, scriptInput)
+                        {
+                            if(scriptInput.IsRequired())
+                            {
+                                var currentValue = scriptInput.InputValue();
+                                if(!(currentValue && currentValue.trim && currentValue.trim()))
+                                {
+                                    accum[scriptInput.InputName()] = "Input Required";
+                                }
+                            }
+                            return accum;
+                        }, {});
+                    };
                 }
             }
         };
         var viewmodel = ko.viewmodel.fromModel(@Html.Raw(JsonConvert.SerializeObject(Model)), options);
-
+        
         ko.applyBindings(viewmodel, $("#new-schedule")[0]);
     </script>
 }
