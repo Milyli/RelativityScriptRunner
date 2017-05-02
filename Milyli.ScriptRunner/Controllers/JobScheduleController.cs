@@ -120,6 +120,7 @@
                 if (currentJobScriptInputs.ContainsKey(input.InputName))
                 {
                     input.Id = currentJobScriptInputs[input.InputName].Id;
+                    input.InputValue = currentJobScriptInputs[input.InputName].InputValue;
                 }
 
                 input.JobScheduleId = jobSchedule.Id;

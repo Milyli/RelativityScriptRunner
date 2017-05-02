@@ -23,44 +23,82 @@
         display : none;
     }
 
+    .day-picker ul {
+        list-style-type: none;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    
+    .schedule
+    {
+        display : flex;
+        flex-direction : row;
+        flex-wrap: wrap;
+    }
+
+    .schedule-section
+    {
+        flex-grow : 1;
+    }
+
+    .schedule-footer
+    {
+        flex-basis : 100%;
+    }
+    .schedule h4
+    {
+        font-weight : bold;
+    }
+    .job-details input
+    {
+        width:80%;
+    }
+    .job-details label::after
+    {
+        content : ":";        
+    }
 </style>
 
-<div id="new-schedule">
+<div id="edit-schedule">
     <div id="mask"></div>
-        <h4>Schedule</h4>
+        <h3>Schedule</h3>
+    <div class="schedule">
         <div class="schedule-section">
-            <div class="schedule-section">
+            <div class="job-details">
+                <h4>Job Details</h4>
                 <div data-bind="with: JobSchedule">
-                    <h5>Job Name</h5>
-                    <input type="text" data-bind="value : Name" />
+                    <label>Job Name</label><input type="text" data-bind="value : Name"  maxlength="255" />
+                    <label>Last Execution Time</label> <span data-bind="text : LastExecutionTime"></span> <label>Next Execution Time</label> <span data-bind="text : NextExecutionTime"></span>
                 </div>
                 <div data-bind="with: RelativityWorkspace">
-                    Workspace : <span data-bind="text : Name"></span> (<span data-bind="text : WorkspaceId"></span>)                    
+                    <label>Workspace</label><span data-bind="text : Name"></span> (<span data-bind="text : WorkspaceId"></span>)
                 </div>
                 <div data-bind="with: RelativityScript">
-                    Script : <span data-bind="text : Name"></span> (<span data-bind="text : RelativityScriptId"></span>)
+                    <label>Script</label><span data-bind="text : Name"></span> (<span data-bind="text : RelativityScriptId"></span>)
                 </div>
-
+                <div>
+                    <label>Job Status</label><span data-bind="text : JobStatusName"></span>
+                </div>
             </div>
             <div>
-                <h5>Execution Time</h5>
-
+                <h4>Execution Time</h4>
             </div>
-            <div>
-                <h5>Runs On</h5>
+            <div class="day-picker">
+                <h4>Runs On</h4>
                 <ul>
-                @foreach (var day in days)
-                {
-                    <li>
-                        <input type="checkbox" data-bind="checked: @day" />
-                        <label>@day</label>                                
-                    </li>
-                }
+                    @foreach (var day in days)
+                    {
+                        <li>
+                            <input type="checkbox" data-bind="checked: @day" />
+                            <label>@day</label>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
-        <div>
-            <h5>Script Inputs</h5>
+        <div class="schedule-section">
+            <h4>Script Inputs</h4>
             <div data-bind="foreach: JobScriptInputs" class="script-inputs">
                 <div data-bind="text: InputName, css: { required : IsRequired(), invalid : IsInvalid() }">
                 </div>
@@ -69,9 +107,10 @@
                 </div>
             </div>
         </div>
-        <div>
+        <div class="schedule-footer">
             <button data-bind="click: SaveJobSchedule">Save</button>
         </div>
+    </div>
 </div>
 @section Scripts
 {
@@ -88,6 +127,13 @@
 
 
         var days  = @Html.Raw(JsonConvert.SerializeObject(days));
+        var JobStatus = 
+        {
+            "0" : "Idle",
+            "1" : "Waiting",
+            "2" : "Running"
+        };
+
         var options = {
             extend: {
                 "{root}.JobScriptInputs[i]" : function(JobScriptInput)
@@ -98,9 +144,19 @@
                         return !(currentValue && currentValue.trim && currentValue.trim());
                     });
                 },
-
+                
                 "{root}" : function(JobScheduleModel)
                 {                    
+                    JobScheduleModel.JobStatusName = ko.computed(function()
+                    {
+                        var status =  JobScheduleModel.JobSchedule.JobStatus();
+                        if (JobStatus[status])
+                        {
+                            return JobStatus[status];
+                        }
+                        return "Unknown";
+                    });
+
                     JobScheduleModel.SaveJobSchedule = function()
                     {
                         mask();
@@ -124,7 +180,7 @@
 
                     var schedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
                     $.each(days, function (idx, day) {
-                        var dayEnabled = (schedule & (1 << idx) != 0);
+                        var dayEnabled = (schedule & (1 << idx)) > 0;
                         JobScheduleModel[day] = ko.observable(dayEnabled);
                         JobScheduleModel[day].subscribe(function (newValue) {
                             var oldSchedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
@@ -154,7 +210,7 @@
         };
         var viewmodel = ko.viewmodel.fromModel(@Html.Raw(JsonConvert.SerializeObject(Model)), options);
         
-        ko.applyBindings(viewmodel, $("#new-schedule")[0]);
+        ko.applyBindings(viewmodel, $("#edit-schedule")[0]);
     </script>
 }
 
