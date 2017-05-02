@@ -46,7 +46,7 @@
                     .Select(ws => new RelativityWorkspace()
                     {
                         WorkspaceId = ws.Artifact.ArtifactID,
-                        WorkspaceName = ws.Artifact.Name
+                        Name = ws.Artifact.Name
                     })
                     .ToDictionary(rws => rws.WorkspaceId);
             }

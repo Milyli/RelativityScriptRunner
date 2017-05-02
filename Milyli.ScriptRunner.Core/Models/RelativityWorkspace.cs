@@ -1,7 +1,5 @@
 ﻿namespace Milyli.ScriptRunner.Core.Models
 {
-    using DTOs = kCura.Relativity.Client.DTOs;
-
     public class RelativityWorkspace
     {
         public RelativityWorkspace()
@@ -21,6 +19,6 @@
 
         public int WorkspaceId { get; set; }
 
-        public string WorkspaceName { get; set; }
+        public string Name { get; set; }
     }
 }

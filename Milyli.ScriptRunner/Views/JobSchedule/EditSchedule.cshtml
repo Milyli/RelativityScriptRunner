@@ -29,6 +29,19 @@
     <div id="mask"></div>
         <h4>Schedule</h4>
         <div class="schedule-section">
+            <div class="schedule-section">
+                <div data-bind="with: JobSchedule">
+                    <h5>Job Name</h5>
+                    <input type="text" data-bind="value : Name" />
+                </div>
+                <div data-bind="with: RelativityWorkspace">
+                    Workspace : <span data-bind="text : Name"></span> (<span data-bind="text : WorkspaceId"></span>)                    
+                </div>
+                <div data-bind="with: RelativityScript">
+                    Script : <span data-bind="text : Name"></span> (<span data-bind="text : RelativityScriptId"></span>)
+                </div>
+
+            </div>
             <div>
                 <h5>Execution Time</h5>
 
@@ -87,7 +100,7 @@
                 },
 
                 "{root}" : function(JobScheduleModel)
-                {
+                {                    
                     JobScheduleModel.SaveJobSchedule = function()
                     {
                         mask();
@@ -111,7 +124,7 @@
 
                     var schedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
                     $.each(days, function (idx, day) {
-                        var dayEnabled = (schedule & (1 << idx) == 1);
+                        var dayEnabled = (schedule & (1 << idx) != 0);
                         JobScheduleModel[day] = ko.observable(dayEnabled);
                         JobScheduleModel[day].subscribe(function (newValue) {
                             var oldSchedule = JobScheduleModel.JobSchedule.ExecutionSchedule();

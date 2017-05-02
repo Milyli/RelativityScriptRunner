@@ -28,7 +28,7 @@
                 new HttpNotFoundResult($"could not find the job schedule with id {jobScheduleId}");
             }
 
-            return this.View(jobScheduleModel);
+            return this.View("EditSchedule", jobScheduleModel);
         }
 
         public ActionResult NewSchedule(int workspaceId, int relativityScriptId)
@@ -39,7 +39,7 @@
                 var script = this.relativityScriptRepository.GetRelativityScript(workspace, relativityScriptId);
                 if (script != null)
                 {
-                    return this.View(this.NewJobScheduleModel(script, workspace));
+                    return this.View("EditSchedule", this.NewJobScheduleModel(script, workspace));
                 }
                 else
                 {
@@ -178,7 +178,7 @@
         {
             var jobSchedule = new JobSchedule()
             {
-                Name = $"{relativityWorkspace.WorkspaceName} - {relativityScript.Name}",
+                Name = $"{relativityWorkspace.Name} - {relativityScript.Name}",
                 RelativityScriptId = relativityScript.RelativityScriptId,
                 WorkspaceId = relativityWorkspace.WorkspaceId
             };
