@@ -63,14 +63,6 @@
 
         public ActionResult List(int workspaceId)
         {
-            using (var client = ConnectionHelper.Helper().GetServicesManager().CreateProxy<IRSAPIClient>(ExecutionIdentity.System))
-            {
-                var workspaces = client.Repositories.Workspace.Query(new DTOs.Query<DTOs.Workspace>()
-                {
-                    Fields = new List<DTOs.FieldValue>() { new DTOs.FieldValue("Name") }
-                });
-            }
-
             var relativityWorkspace = this.workspaceRepository.Read(workspaceId);
             if (relativityWorkspace == null)
             {

@@ -1,0 +1,82 @@
+﻿@using Newtonsoft.Json
+@model RelativityScriptModel
+@{
+    ViewBag.Title = string.Format("Script Information - {0}", Model.RelativityScript.Name);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .schedule-container{
+        display : flex;
+        flex-direction :row;
+    }
+</style>
+
+<h2>@ViewBag.Title</h2>
+<div id="relativity-script">
+    <div class="schedule-container" data-bind="foreach : JobSchedules">
+        <div class="job-schedule">
+            <h4><a data-bind="text : Name, href : JobScheduleUrl"></a></h4>
+            <span data-bind="StatusDescription"></span>
+            Runs At <span data-bind="TimeOfDay"></span>
+            Runs On
+            <ul class="day-list" data-bind="foreach : DaysExecuted">
+                <li data-bind="text : $data"></li>
+            </ul>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+<script type="text/javascript">
+    var options = {
+        extend: {
+            "{root}.JobSchedule[i]" : function(JobSchedule)
+            {
+                var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                JobSchedule.DaysExecuted = [];
+                $.each(days, function(i, curr)
+                {
+                    if ((1 << i) & JobSchedule.ExecutionSchedule() > 0)
+                    {
+                        JobSchedule.DaysExecuted.push(curr);
+                    }                   
+                });
+
+                JobSchedule.StatusDescription = ko.computed(function(){
+                    if (!this.JobEnabled())
+                    {
+                        return "Disabled";
+                    }
+                    else
+                    {
+                        return this.JobStatus() == 0 ? "Idle" : "Running";
+                    }
+                });
+
+                JobSchedule.TimeOfDay = ko.computed(function(){
+                    var time = this.ExecutionTime();
+                    var seconds = time % 60;
+                    var timeminutes = Math.floor(time / 60);
+                    var minutes = timeminutes % 60;
+                    var hours = Math.floor(timeminutes / 60) % 24;
+                    var now = new Date();
+                    now.setHours(hours);
+                    now.setMinutes(minutes);
+                    now.setSeconds(seconds);
+                    return now.toLocaleTimeString();
+                });
+
+                JobScheduleUrl = ko.computed(function(){
+                    return "@Url.Action("Index", "JobSchedule", new { })?jobScheduleId="+this.Id();
+                });
+            }
+        }
+    }
+
+    
+    var viewmodel = ko.viewmodel.fromModel(@Html.Raw(JsonConvert.SerializeObject(Model)), options);
+
+    ko.applyBindings(viewmodel, $("#relativity-script")[0]);
+</script>
+}

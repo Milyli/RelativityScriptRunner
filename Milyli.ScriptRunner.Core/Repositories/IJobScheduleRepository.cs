@@ -29,6 +29,13 @@
         JobActivationStatus StartJob(JobSchedule jobSchedule);
 
         /// <summary>
+        /// Returns a list of jobschedules for the given <see cref="RelativityScript" />
+        /// </summary>
+        /// <param name="relativityScript">the script to return schedules for</param>
+        /// <returns>a list of all schedules for a script</returns>
+        List<JobSchedule> GetJobSchedules(RelativityScript relativityScript);
+
+        /// <summary>
         /// Returns the most recent JobHistory record for the current job
         /// </summary>
         /// <param name="jobSchedule">the job to get the history for</param>

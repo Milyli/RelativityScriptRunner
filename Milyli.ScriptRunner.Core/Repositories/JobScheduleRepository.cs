@@ -55,6 +55,13 @@
                 .ToList();
         }
 
+        public List<JobSchedule> GetJobSchedules(RelativityScript relativityScript)
+        {
+            return this.DataContext.JobSchedule
+                .Where(s => s.WorkspaceId == relativityScript.WorkspaceId && s.RelativityScriptId == relativityScript.RelativityScriptId)
+                .ToList();
+        }
+
         public JobActivationStatus StartJob(JobSchedule schedule)
         {
             Logger.Trace($"Trying to start schedule {schedule.Id}");

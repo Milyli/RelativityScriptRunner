@@ -215,6 +215,7 @@
     <Compile Include="App_Start\JsonBinder.cs" />
     <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="Controllers\JobScheduleController.cs" />
+    <Compile Include="Controllers\RelativityScriptController.cs" />
     <Compile Include="Controllers\ScriptRunnerController.cs" />
     <Compile Include="DependencyResolution\ControllerConvention.cs" />
     <Compile Include="DependencyResolution\DefaultRegistry.cs" />
@@ -280,6 +281,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\JobSchedule\EditSchedule.cshtml" />
     <Content Include="Views\JobSchedule\List.cshtml" />
+    <Content Include="Views\RelativityScript\Script.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

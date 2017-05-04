@@ -41,6 +41,10 @@
             extend : {
                 "{root}.RelativityScripts[i]" : function(RelativityScript)
                 {
+                    RelativityScript.ScriptDetailsUrl = ko.computed(function(){
+                        return "@Url.Action("Script", "RelativityScript", new { relativityWorkspaceId = Model.RelativityWorkspace.WorkspaceId})"
+                    });
+
                     RelativityScript.NextExecutionTime = ko.computed(function(){
                         if(RelativityScript.JobSchedules && RelativityScript.JobSchedules.length)
                         {
