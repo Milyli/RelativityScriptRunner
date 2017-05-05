@@ -24,7 +24,7 @@
         </thead>
         <tbody data-bind="foreach: RelativityScripts">
             <tr>
-                <td data-bind="text: RelativityScript.Name"></td>
+                <td><a data-bind="attr: {href: ScriptDetailsUrl}, text: RelativityScript.Name"></a></td>
                 <td data-bind="text: JobScheduleCount"></td>
                 <td data-bind="text : NextExecutionTime"></td>
                 <td><a data-bind="click : NewSchedule" href="javascript:;" class="fa fa-plus" title="add new schedule"></a></td>
@@ -42,7 +42,8 @@
                 "{root}.RelativityScripts[i]" : function(RelativityScript)
                 {
                     RelativityScript.ScriptDetailsUrl = ko.computed(function(){
-                        return "@Url.Action("Script", "RelativityScript", new { relativityWorkspaceId = Model.RelativityWorkspace.WorkspaceId})"
+                        return "@Url.Action("Script", "RelativityScript", new { relativityWorkspaceId = Model.RelativityWorkspace.WorkspaceId})"+
+                            "&relativityScriptId="+RelativityScript.RelativityScriptId();
                     });
 
                     RelativityScript.NextExecutionTime = ko.computed(function(){

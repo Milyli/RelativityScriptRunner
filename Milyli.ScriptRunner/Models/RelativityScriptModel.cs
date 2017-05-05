@@ -10,6 +10,38 @@
         {
         }
 
+        public int? RelativityScriptId
+        {
+            get
+            {
+                return this.RelativityScript?.RelativityScriptId;
+            }
+
+            set
+            {
+                if (this.RelativityScript != null)
+                {
+                    this.RelativityScript.RelativityScriptId = value.Value;
+                }
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return this.RelativityScript.Name;
+            }
+
+            set
+            {
+                if (this.RelativityScript != null)
+                {
+                    this.RelativityScript.Name = value;
+                }
+            }
+        }
+
         public RelativityScriptModel(RelativityScript relativityScript, IEnumerable<JobSchedule> jobSchedules)
             : this(relativityScript)
         {

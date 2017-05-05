@@ -1,7 +1,7 @@
 ﻿@using Newtonsoft.Json
 @model JobScheduleModel
 @{
-    ViewBag.Title = "New Schedule";
+    ViewBag.Title = Model.JobSchedule.Name;
     var days = new List<string>() { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 }
 <style>
@@ -62,20 +62,22 @@
 
 <div id="edit-schedule">
     <div id="mask"></div>
-        <h3>Schedule</h3>
+        <h3>Job Schedule Details - @Model.JobSchedule.Name</h3>
     <div class="schedule">
         <div class="schedule-section">
             <div class="job-details">
                 <h4>Job Details</h4>
                 <div data-bind="with: JobSchedule">
-                    <label>Job Name</label><input type="text" data-bind="value : Name"  maxlength="255" />
+                    <label>Job Name</label><input type="text" data-bind="value : Name"  maxlength="255" /><br />
                     <label>Last Execution Time</label> <span data-bind="text : LastExecutionTime"></span> <label>Next Execution Time</label> <span data-bind="text : NextExecutionTime"></span>
                 </div>
                 <div data-bind="with: RelativityWorkspace">
                     <label>Workspace</label><span data-bind="text : Name"></span> (<span data-bind="text : WorkspaceId"></span>)
                 </div>
                 <div data-bind="with: RelativityScript">
-                    <label>Script</label><span data-bind="text : Name"></span> (<span data-bind="text : RelativityScriptId"></span>)
+                    <label>Script</label><a data-bind="text : Name" 
+                                            href="@Url.Action("Script", "RelativityScript",
+                                                 new { relativityWorkspaceId = Model.RelativityWorkspace.WorkspaceId, relativityScriptId = Model.RelativityScript.RelativityScriptId })"></a> (<span data-bind="text : RelativityScriptId"></span>)
                 </div>
                 <div>
                     <label>Job Status</label><span data-bind="text : JobStatusName"></span>

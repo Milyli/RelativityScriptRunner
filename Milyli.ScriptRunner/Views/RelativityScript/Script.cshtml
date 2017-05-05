@@ -1,7 +1,7 @@
 ﻿@using Newtonsoft.Json
 @model RelativityScriptModel
 @{
-    ViewBag.Title = string.Format("Script Information - {0}", Model.RelativityScript.Name);
+    ViewBag.Title = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -10,19 +10,34 @@
         display : flex;
         flex-direction :row;
     }
+
+    .job-schedule h4 {
+        font-size: 12pt;
+        font-weight: bold;
+    }
+
+    .job-schedule {
+        flex-basis: 25%;
+        font-size: 10pt;
+    }
+
 </style>
 
-<h2>@ViewBag.Title</h2>
+
 <div id="relativity-script">
+    <h2>@ViewBag.Title</h2>
+    <h4>Script Scheduling Information</h4>
     <div class="schedule-container" data-bind="foreach : JobSchedules">
         <div class="job-schedule">
-            <h4><a data-bind="text : Name, href : JobScheduleUrl"></a></h4>
-            <span data-bind="StatusDescription"></span>
-            Runs At <span data-bind="TimeOfDay"></span>
-            Runs On
-            <ul class="day-list" data-bind="foreach : DaysExecuted">
-                <li data-bind="text : $data"></li>
-            </ul>
+            <h4><a data-bind="text : Name, attr : { href : JobScheduleUrl }"></a></h4>
+            <span data-bind="text : StatusDescription"></span>
+            <p>Runs At <span data-bind="text : TimeOfDay"></span></p>
+            <p>
+                Runs On
+                <ul class="day-list" data-bind="foreach : DaysExecuted">
+                    <li data-bind="text : $data"></li>
+                </ul>
+            </p>
         </div>
     </div>
 </div>
@@ -31,19 +46,19 @@
 <script type="text/javascript">
     var options = {
         extend: {
-            "{root}.JobSchedule[i]" : function(JobSchedule)
+            "{root}.JobSchedules[i]" : function(JobSchedule)
             {
                 var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
                 JobSchedule.DaysExecuted = [];
                 $.each(days, function(i, curr)
                 {
-                    if ((1 << i) & JobSchedule.ExecutionSchedule() > 0)
+                    if (((1 << i) & JobSchedule.ExecutionSchedule()) > 0)
                     {
                         JobSchedule.DaysExecuted.push(curr);
                     }                   
                 });
 
-                JobSchedule.StatusDescription = ko.computed(function(){
+                JobSchedule.StatusDescription = ko.computed((function(){
                     if (!this.JobEnabled())
                     {
                         return "Disabled";
@@ -52,9 +67,9 @@
                     {
                         return this.JobStatus() == 0 ? "Idle" : "Running";
                     }
-                });
+                }).bind(JobSchedule));
 
-                JobSchedule.TimeOfDay = ko.computed(function(){
+                JobSchedule.TimeOfDay = ko.computed((function(){
                     var time = this.ExecutionTime();
                     var seconds = time % 60;
                     var timeminutes = Math.floor(time / 60);
@@ -65,11 +80,11 @@
                     now.setMinutes(minutes);
                     now.setSeconds(seconds);
                     return now.toLocaleTimeString();
-                });
+                }).bind(JobSchedule));
 
-                JobScheduleUrl = ko.computed(function(){
+                JobSchedule.JobScheduleUrl = ko.computed((function(){
                     return "@Url.Action("Index", "JobSchedule", new { })?jobScheduleId="+this.Id();
-                });
+                }).bind(JobSchedule));
             }
         }
     }
