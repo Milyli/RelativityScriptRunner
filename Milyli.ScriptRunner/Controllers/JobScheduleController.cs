@@ -90,11 +90,11 @@
             {
                 if (jobSchedules.ContainsKey(script.RelativityScriptId))
                 {
-                    yield return new RelativityScriptModel(script, jobSchedules[script.RelativityScriptId]);
+                    yield return new RelativityScriptModel(script, relativityWorkspace, jobSchedules[script.RelativityScriptId]);
                 }
                 else
                 {
-                    yield return new RelativityScriptModel(script);
+                    yield return new RelativityScriptModel(script, relativityWorkspace);
                 }
             }
         }

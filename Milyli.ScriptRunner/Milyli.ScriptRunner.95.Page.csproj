@@ -282,6 +282,7 @@
     <Content Include="Views\JobSchedule\EditSchedule.cshtml" />
     <Content Include="Views\JobSchedule\List.cshtml" />
     <Content Include="Views\RelativityScript\Script.cshtml" />
+    <Content Include="Views\RelativityScript\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

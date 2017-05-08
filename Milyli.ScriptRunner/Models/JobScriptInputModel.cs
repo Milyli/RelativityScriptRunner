@@ -18,6 +18,7 @@
         /// <param name="relativityScriptInput">the relativity ScriptInput object</param>
         public JobScriptInputModel(ScriptInput relativityScriptInput)
         {
+            this.InputId = relativityScriptInput.InputId;
             this.InputName = relativityScriptInput.Name;
             this.InputType = relativityScriptInput.InputType;
             this.IsRequired = relativityScriptInput.IsRequired;
