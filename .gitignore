@@ -5,8 +5,8 @@
 /Milyli.ScriptRunner/bin
 /Milyli.ScriptRunner/obj
 /Milyli.ScriptRunner/Deployment
-/Milyli.ScriptRunner.Agent/bin
-/Milyli.ScriptRunner.Agent/obj
+/Milyli.ScriptRunner*/bin
+/Milyli.ScriptRunner*/obj
 /Solutions/packages
 /Solutions/.vs
 *.user
