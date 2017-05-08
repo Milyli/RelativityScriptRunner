@@ -77,5 +77,11 @@
         /// </summary>
         /// <param name="jobSchedule">The job to complete.  The jobSchedule object is expected to have a JobHistory record in the CurrentJobHistory property</param>
         void FinishJob(JobSchedule jobSchedule);
+
+        /// <summary>
+        /// Marks a job as "Waiting for activation"
+        /// </summary>
+        /// <param name="jobSchedule">the job schedule to mark</param>
+        void ActivateJob(JobSchedule jobSchedule);
     }
 }

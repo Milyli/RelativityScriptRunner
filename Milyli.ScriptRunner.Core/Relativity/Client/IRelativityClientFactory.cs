@@ -6,5 +6,7 @@
     public interface IRelativityClientFactory
     {
         IRSAPIClient GetRelativityClient(ExecutionIdentity executionIdentity);
+
+        IRSAPIClient GetRelativityClient();
     }
 }

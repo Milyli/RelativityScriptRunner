@@ -10,6 +10,17 @@
         {
         }
 
+        public RelativityScriptModel(RelativityScript relativityScript, IEnumerable<JobSchedule> jobSchedules)
+            : this(relativityScript)
+        {
+            this.JobSchedules = jobSchedules.OrderBy(s => s.NextExecutionTime).ToList();
+        }
+
+        public RelativityScriptModel(RelativityScript relativityScript)
+        {
+            this.RelativityScript = relativityScript;
+        }
+
         public int? RelativityScriptId
         {
             get
@@ -40,17 +51,6 @@
                     this.RelativityScript.Name = value;
                 }
             }
-        }
-
-        public RelativityScriptModel(RelativityScript relativityScript, IEnumerable<JobSchedule> jobSchedules)
-            : this(relativityScript)
-        {
-            this.JobSchedules = jobSchedules.OrderBy(s => s.NextExecutionTime).ToList();
-        }
-
-        public RelativityScriptModel(RelativityScript relativityScript)
-        {
-            this.RelativityScript = relativityScript;
         }
 
         public RelativityScript RelativityScript { get; private set; }

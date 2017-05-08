@@ -11,11 +11,24 @@
     {
         private readonly IRelativityContext context;
         private readonly IHelper helper;
+        private ExecutionIdentity defaultExecutionIdentity;
 
         public RsapiClientFactory(IHelper helper, IRelativityContext context)
         {
             this.helper = helper;
             this.context = context;
+            this.defaultExecutionIdentity = ExecutionIdentity.CurrentUser;
+        }
+
+        public RsapiClientFactory(IHelper helper, IRelativityContext context, ExecutionIdentity defaultExecutionIdentity)
+            : this(helper, context)
+        {
+            this.defaultExecutionIdentity = defaultExecutionIdentity;
+        }
+
+        public IRSAPIClient GetRelativityClient()
+        {
+            return this.GetRelativityClient(this.defaultExecutionIdentity);
         }
 
         public IRSAPIClient GetRelativityClient(ExecutionIdentity executionIdentity)

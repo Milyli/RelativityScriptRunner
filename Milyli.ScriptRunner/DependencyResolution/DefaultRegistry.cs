@@ -42,7 +42,6 @@ namespace Milyli.ScriptRunner.DependencyResolution
                     scan.With(new ControllerConvention());
                 });
 
-            Func<ICPHelper> helper = () => ConnectionHelper.Helper();
             this.For<IHelper>().HttpContextScoped().Use(c => ConnectionHelper.Helper());
             this.For<IRelativityClientFactory>().HttpContextScoped().Use<RsapiClientFactory>();
             this.For<IRelativityContext>().Use(new RelativityContext(-1));

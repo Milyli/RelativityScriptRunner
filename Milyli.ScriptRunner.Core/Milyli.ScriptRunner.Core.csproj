@@ -145,9 +145,6 @@
     <None Include="ProjectSettings.ruleset" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SQL\ScriptRunnerSchema.sql" />
-  </ItemGroup>
-  <ItemGroup>
     <Analyzer Include="..\Solutions\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\Newtonsoft.Json.dll" />
     <Analyzer Include="..\Solutions\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\Solutions\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />

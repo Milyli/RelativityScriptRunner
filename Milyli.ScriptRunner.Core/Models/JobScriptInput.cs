@@ -11,6 +11,9 @@
         [Column("JobScheduleId")]
         public int JobScheduleId { get; set; }
 
+        [Column("InputId")]
+        public string InputId { get; set; }
+
         [Column(Name = "InputName")]
         public string InputName { get; set; }
 

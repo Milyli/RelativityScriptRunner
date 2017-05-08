@@ -21,6 +21,7 @@
                 .Select(si => new JobScriptInput()
             {
                 JobScheduleId = this.JobSchedule.Id,
+                InputId = si.InputId,
                 InputName = si.InputName,
                 InputValue = si.InputValue
             }).ToList();

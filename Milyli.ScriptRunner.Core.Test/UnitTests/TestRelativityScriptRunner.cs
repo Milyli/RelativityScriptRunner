@@ -6,10 +6,12 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
 {
     using System;
     using System.Collections.Generic;
+    using global::Relativity.API;
     using kCura.Relativity.Client;
     using Mocks;
     using Moq;
     using NUnit.Framework;
+    using Relativity.Client;
     using Services;
 
     [TestFixture(Category="Unit")]
@@ -19,16 +21,22 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
         public void TestGoodRun()
         {
             var clientMock = new Mock<IRSAPIClient>();
+            var factoryMock = new Mock<IRelativityClientFactory>();
+            factoryMock.Setup(m => m.GetRelativityClient(It.IsAny<ExecutionIdentity>())).Returns(clientMock.Object);
+            factoryMock.Setup(m => m.GetRelativityClient()).Returns(clientMock.Object);
+
             var result = new RelativityScriptResult()
             {
                 Success = true,
                 Message = "unit test result"
             };
-            var jobScheduleRepositoryMock = new JobScheduleRepositoryMock();
-            var scriptRunner = new RelativityScriptRunner(jobScheduleRepositoryMock.JobScheduleRepository, clientMock.Object);
 
             clientMock.Setup(client => client.ExecuteRelativityScript(It.IsAny<APIOptions>(), It.IsAny<int>(), It.IsAny<List<RelativityScriptInput>>())).Returns(result);
             clientMock.Setup(m => m.APIOptions).Returns(new APIOptions(-1));
+
+            var jobScheduleRepositoryMock = new JobScheduleRepositoryMock();
+            var scriptRunner = new RelativityScriptRunner(jobScheduleRepositoryMock.JobScheduleRepository, factoryMock.Object);
+
             var jobSchedule = jobScheduleRepositoryMock.CurrentJobSchedule;
             scriptRunner.ExecuteScriptJob(jobSchedule);
 
@@ -41,6 +49,9 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
         public void TestExecptionThrown()
         {
             var clientMock = new Mock<IRSAPIClient>();
+            var factoryMock = new Mock<IRelativityClientFactory>();
+            factoryMock.Setup(m => m.GetRelativityClient(It.IsAny<ExecutionIdentity>())).Returns(clientMock.Object);
+            factoryMock.Setup(m => m.GetRelativityClient()).Returns(clientMock.Object);
 
             clientMock
                 .Setup(client => client.ExecuteRelativityScript(It.IsAny<APIOptions>(), It.IsAny<int>(), It.IsAny<List<RelativityScriptInput>>()))
@@ -50,7 +61,7 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
 
             var jobScheduleRepositoryMock = new JobScheduleRepositoryMock();
 
-            var scriptRunner = new RelativityScriptRunner(jobScheduleRepositoryMock.JobScheduleRepository, clientMock.Object);
+            var scriptRunner = new RelativityScriptRunner(jobScheduleRepositoryMock.JobScheduleRepository, factoryMock.Object);
             var jobSchedule = jobScheduleRepositoryMock.CurrentJobSchedule;
 
             scriptRunner.ExecuteScriptJob(jobSchedule);

@@ -6,13 +6,14 @@
     using Milyli.ScriptRunner.Core.Models;
     using Milyli.ScriptRunner.Core.Repositories;
     using Milyli.ScriptRunner.Core.Tools;
+    using Relativity.Client;
 
     public class RelativityScriptRunner : IRelativityScriptRunner
     {
         private IJobScheduleRepository jobScheduleRepository;
-        private IRSAPIClient relativityClient;
+        private IRelativityClientFactory relativityClient;
 
-        public RelativityScriptRunner(IJobScheduleRepository jobScheduleRepository, IRSAPIClient relativityClient)
+        public RelativityScriptRunner(IJobScheduleRepository jobScheduleRepository, IRelativityClientFactory relativityClient)
         {
             this.jobScheduleRepository = jobScheduleRepository;
             this.relativityClient = relativityClient;
@@ -52,7 +53,7 @@
                         this.ExecuteJobInWorkspace(client, job);
                     },
                         workspace,
-                        this.relativityClient);
+                        this.relativityClient.GetRelativityClient());
                 }
                 catch (Exception ex)
                 {

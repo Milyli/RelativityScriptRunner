@@ -9,7 +9,7 @@ namespace Milyli.ScriptRunner.Agent.Agent
     using Relativity.API;
     using StructureMap;
 
-    public abstract class ScriptRunnerAgent : kCura.Agent.AgentBase
+    public abstract class AScriptRunnerAgent : kCura.Agent.AgentBase
     {
         private Lazy<IContainer> lazyContainer;
 

@@ -39,8 +39,35 @@
         // Returns a list of Jobs to run, filtered by NextExecution constrained to NextExecutionTimes between maxOffset seconds before runtime and runtime
         public List<JobSchedule> GetJobSchedules(DateTime runtime, int maxOffset)
         {
-            var result = this.DataContext.JobSchedule.Where(s => s.NextExecutionTime <= runtime && runtime.AddSeconds(-1 * maxOffset) <= s.NextExecutionTime).ToList();
+            var end = runtime;
+            var start = runtime.AddSeconds(-1 * maxOffset);
+            var result = this.DataContext.JobSchedule
+                .Where(s =>
+                    ((start <= s.NextExecutionTime && s.NextExecutionTime <= end)
+                    && (s.LastExecutionTime <= start || s.LastExecutionTime == null))
+                    || s.JobStatus == (int)JobStatus.Waiting)
+                .ToList();
             return result;
+        }
+
+        public void ActivateJob(JobSchedule jobSchedule)
+        {
+            using (var connection = (DataConnection)this.DataContext)
+            using (var transaction = connection.BeginTransaction(System.Data.IsolationLevel.RepeatableRead))
+            {
+                var activationStatus = LockJobSchedule(jobSchedule, transaction);
+                if (activationStatus == JobActivationStatus.Idle)
+                {
+                    Logger.Trace($"Marking {jobSchedule.Id} 'Waiting For Activation'");
+                    jobSchedule.JobStatus = (int)JobStatus.Waiting;
+                    this.Update(jobSchedule);
+                    transaction.Commit();
+                }
+                else
+                {
+                    transaction.Rollback();
+                }
+            }
         }
 
         public List<JobSchedule> GetJobSchedules(DateTime runtime)
@@ -233,7 +260,7 @@
             {
                 if (reader.Reader.Read())
                 {
-                    return reader.Reader.GetInt32(0) > 0 ? JobActivationStatus.AlreadyRunning : JobActivationStatus.Idle;
+                    return reader.Reader.GetInt32(0) > 1 ? JobActivationStatus.AlreadyRunning : JobActivationStatus.Idle;
                 }
                 else
                 {

@@ -1,16 +1,13 @@
 ﻿namespace Milyli.ScriptRunner.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
     using App_Start;
-    using kCura.Relativity.Client;
     using Milyli.ScriptRunner.Core.Models;
     using Milyli.ScriptRunner.Core.Repositories;
     using Milyli.ScriptRunner.Models;
-    using Relativity.API;
-    using Relativity.CustomPages;
-    using DTOs = kCura.Relativity.Client.DTOs;
 
     public class JobScheduleController : ScriptRunnerController
     {
@@ -56,9 +53,16 @@
         {
             var jobSchedule = jobScheduleModel.JobSchedule;
             var scriptInputs = jobScheduleModel.JobScriptInputs;
+            jobSchedule.NextExecutionTime = jobSchedule.GetNextExecution(DateTime.Now);
             var id = this.jobScheduleRepository.SaveJobSchedule(jobSchedule, jobScheduleModel.ToJobScriptInputs());
 
             return this.Json(this.GetJobScheduleModel(id));
+        }
+
+        public JsonResult Run([ModelBinder(typeof(JsonBinder))]JobSchedule jobSchedule)
+        {
+            this.jobScheduleRepository.ActivateJob(jobSchedule);
+            return this.Json(this.GetJobScheduleModel(jobSchedule.Id));
         }
 
         public ActionResult List(int workspaceId)
@@ -106,13 +110,13 @@
             var relativityScript = jobScheduleModel.RelativityScript;
             var relativityWorkspace = jobScheduleModel.RelativityWorkspace;
             var currentScriptInputs = this.GetScriptInputs(relativityScript, relativityWorkspace);
-            var currentJobScriptInputs = this.jobScheduleRepository.GetJobInputs(jobSchedule).ToDictionary(i => i.InputName);
+            var currentJobScriptInputs = this.jobScheduleRepository.GetJobInputs(jobSchedule).ToDictionary(i => i.InputId);
             foreach (var input in currentScriptInputs)
             {
-                if (currentJobScriptInputs.ContainsKey(input.InputName))
+                if (currentJobScriptInputs.ContainsKey(input.InputId))
                 {
-                    input.Id = currentJobScriptInputs[input.InputName].Id;
-                    input.InputValue = currentJobScriptInputs[input.InputName].InputValue;
+                    input.Id = currentJobScriptInputs[input.InputId].Id;
+                    input.InputValue = currentJobScriptInputs[input.InputId].InputValue;
                 }
 
                 input.JobScheduleId = jobSchedule.Id;
@@ -132,6 +136,7 @@
             var inputs = this.relativityScriptRepository.GetScriptInputs(relativityScript, relativityWorkspace);
             return inputs.Select(i => new JobScriptInputModel()
             {
+                InputId = i.InputId,
                 InputName = i.Name,
                 InputType = i.InputType,
                 IsRequired = i.IsRequired

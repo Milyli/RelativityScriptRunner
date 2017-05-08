@@ -27,6 +27,8 @@
 
         public int? JobScheduleId { get; set; }
 
+        public string InputId { get; set; }
+
         public string InputName { get; set; }
 
         public string InputValue { get; set; }

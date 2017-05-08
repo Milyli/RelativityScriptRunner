@@ -33,6 +33,7 @@
                     return fields.Select(f => new Models.ScriptInput()
                     {
                         Name = f.Name,
+                        InputId = f.Id,
                         InputType = f.InputType.ToString(),
                         IsRequired = f.IsRequired
                     }).ToList();

@@ -5,12 +5,13 @@
     var days = new List<string>() { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 }
 <style>
-    label.required {
+    .required label{
         font-weight : bold;
     }
 
-    label.invalid {
+    .invalid label{
         font-style : italic;
+        color: #af4c4c;
     }
 
     #mask {
@@ -58,6 +59,16 @@
     {
         content : ":";        
     }
+
+    .run-script-container
+    {
+        display:none;
+    }
+
+    button:disabled
+    {
+        color: gray;
+    }
 </style>
 
 <div id="edit-schedule">
@@ -81,6 +92,7 @@
                 </div>
                 <div>
                     <label>Job Status</label><span data-bind="text : JobStatusName"></span>
+                    <button data-bind="click: RunJob">Run</button>
                 </div>
             </div>
             <div>
@@ -102,21 +114,36 @@
         <div class="schedule-section">
             <h4>Script Inputs</h4>
             <div data-bind="foreach: JobScriptInputs" class="script-inputs">
-                <div data-bind="text: InputName, css: { required : IsRequired(), invalid : IsInvalid() }">
-                </div>
-                <div>
-                    <input type="text" data-bind="value: InputValue, css: { required : IsRequired(), invalid : IsInvalid() }" />
+                <div class="input-container" data-bind="css: { required : IsRequired(), invalid : IsInvalid() }">
+                    <label data-bind="text: InputName">
+                    </label>
+                    <div data-bind="ifnot : Options">
+                        <input type="text" data-bind="value: InputValue" />
+                    </div>
+                    <div data-bind="if: Options">
+                        <select data-bind="options: Options, optionsText : 'name', optionsValue : 'value', value: InputValue"></select>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="schedule-footer">
-            <button data-bind="click: SaveJobSchedule">Save</button>
+            <div data-bind="css : { 'error-notification' : IsInvalid() }, text : InvalidText"></div>
+            <button id="save-job-schedule" data-bind="click: SaveJobSchedule, disable: IsInvalid, attr {title : InvalidText}">Save</button>
+        </div>
+        <div class="run-script-container">
+            <iframe id="run-script" src="/Relativity/Case/RelativityScript/Run.aspx?AppID=@Model.RelativityWorkspace.WorkspaceId&ArtifactID=@Model.RelativityScript.RelativityScriptId"></iframe>
         </div>
     </div>
 </div>
 @section Scripts
 {
     <script type="text/javascript">
+        //Used by the RunScript iframe.  Yes this is janky.
+        function ResetTimeout()
+        {
+
+        };
+
         function unmask()
         {
             $("#mask").css("display", "none");
@@ -125,7 +152,44 @@
         function mask()
         {
             $("#mask").css("display", "block");
+        };
+
+        function MakeOptionsArray($inputContainerElement)
+        {
+            return $inputContainerElement.find("option")
+                .map(function(idx, element) 
+                {
+                    var $element = $(element); 
+                    return {
+                        value: $element.attr("value"), 
+                        name : $element.text()
+                    };
+                })
+                .toArray();
         }
+
+        //Yes we're finding script input DDLs by scraping. Yes this is janky. I have tried looking for a better way to grab input values in a better manner
+        //but none of the RSAPI mechanisms for Relativity Scripts seems geared toward populating input lists.               
+        function getInputValues()
+        {
+            return $("#run-script").contents()
+                                    .find("table.fieldTable")
+                                    .map(function(idx, element)
+                                    {
+                                        var $element = $(element);
+                                        var inputId = $element.find("tr:first").attr("id");
+                                        var options = MakeOptionsArray($element);
+                                        return {
+                                            inputId : inputId,
+                                            options : options
+                                        };
+                                    })
+            .toArray()
+            .reduce(function(accum, curr){
+                accum[curr.inputId] = curr.options;
+                return accum;
+            },{});
+        };
 
 
         var days  = @Html.Raw(JsonConvert.SerializeObject(days));
@@ -136,83 +200,132 @@
             "2" : "Running"
         };
 
-        var options = {
-            extend: {
-                "{root}.JobScriptInputs[i]" : function(JobScriptInput)
-                {
-                    JobScriptInput.IsInvalid = ko.computed(function()
+        $("#run-script").on("load", function()
+        {
+            var selectableInputValues = getInputValues();
+            var options = {
+                extend: {
+                    "{root}.JobScriptInputs[i]" : function(JobScriptInput)
                     {
-                        var currentValue = JobScriptInput.InputValue();
-                        return !(currentValue && currentValue.trim && currentValue.trim());
-                    });
-                },
+                        JobScriptInput.Options = selectableInputValues[JobScriptInput.InputId()];
+                        JobScriptInput.SelectedValue = ko.observable();
+
+                        JobScriptInput.IsInvalid = ko.computed(function()
+                        {
+                            var currentValue = JobScriptInput.InputValue();
+                            return !JobScriptInput.IsRequired() || !(currentValue && currentValue.trim && currentValue.trim());
+                        });
+                    },
                 
-                "{root}" : function(JobScheduleModel)
-                {                    
-                    JobScheduleModel.JobStatusName = ko.computed(function()
-                    {
-                        var status =  JobScheduleModel.JobSchedule.JobStatus();
-                        if (JobStatus[status])
+                    "{root}" : function(JobScheduleModel)
+                    {                                            
+                        JobScheduleModel.JobStatusName = ko.computed(function()
                         {
-                            return JobStatus[status];
-                        }
-                        return "Unknown";
-                    });
-
-                    JobScheduleModel.SaveJobSchedule = function()
-                    {
-                        mask();
-                        $.ajax({
-                            type :'POST',
-                            url: "@Url.Action("Save")",
-                            processData : false,
-                            dataType: 'json',
-                            contentType: "application/json",
-                            data : ko.toJSON(JobScheduleModel)
-                        })
-                        .done(function(data)
-                        {
-                            window.location.href = "@Url.Action("Index")?jobScheduleId="+data.JobSchedule.Id;
-                        })
-                        .always(function(data)
-                        {
-                            unmask();
-                        });
-                    };
-
-                    var schedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
-                    $.each(days, function (idx, day) {
-                        var dayEnabled = (schedule & (1 << idx)) > 0;
-                        JobScheduleModel[day] = ko.observable(dayEnabled);
-                        JobScheduleModel[day].subscribe(function (newValue) {
-                            var oldSchedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
-                            var mask = newValue ? 1 << idx :  ~(1 << idx);
-                            var newSchedule = newValue ? oldSchedule | mask : oldSchedule & mask;
-                            JobScheduleModel.JobSchedule.ExecutionSchedule(newSchedule);
-                        });
-                    });
-
-                    JobScheduleModel.Validate = function()
-                    {
-                        var validationResults = JobScheduleModel.JobScriptInputs().reduce(function(accum, scriptInput)
-                        {
-                            if(scriptInput.IsRequired())
+                            var status =  JobScheduleModel.JobSchedule.JobStatus();
+                            if (JobStatus[status])
                             {
-                                var currentValue = scriptInput.InputValue();
-                                if(!(currentValue && currentValue.trim && currentValue.trim()))
-                                {
-                                    accum[scriptInput.InputName()] = "Input Required";
-                                }
+                                return JobStatus[status];
                             }
-                            return accum;
-                        }, {});
-                    };
+                            return "Unknown";
+                        });
+
+                        JobScheduleModel.InvalidInputs = ko.computed(function()
+                        {
+                            var invalidInputs = JobScheduleModel.JobScriptInputs()
+                            .filter(function (jobScriptInput)
+                            {
+                                return jobScriptInput.IsInvalid();
+                            })
+                            .map(function (jobScriptInput)
+                            {
+                                return jobScriptInput.InputName();
+                            });
+                            return invalidInputs;
+                        })
+
+                        JobScheduleModel.IsInvalid = ko.computed(function()
+                        {
+
+                            
+                            var isInvalid = JobScheduleModel.InvalidInputs().length > 0;                                                     
+                            return isInvalid;
+                        });
+
+                        JobScheduleModel.InvalidText = ko.computed(function()
+                        {
+                            if(JobScheduleModel.IsInvalid())
+                            {
+                                return "Inputs are required by invalid: " + JobScheduleModel.InvalidInputs().join(", ");
+                            }
+                            else
+                            {
+                                return "";
+                            }
+                        });
+
+                        $("#edit-schedule").on("jsi:validate", function(event){
+                            JobScheduleModel.Validate();
+                        });
+
+                        JobScheduleModel.SaveJobSchedule = function()
+                        {
+                            mask();
+                            $.ajax({
+                                type :'POST',
+                                url: "@Url.Action("Save")",
+                                processData : false,
+                                dataType: 'json',
+                                contentType: "application/json",
+                                data : ko.toJSON(JobScheduleModel)
+                            })
+                            .done(function(data)
+                            {
+                                window.location.href = "@Url.Action("Index")?jobScheduleId="+data.JobSchedule.Id;
+                            })
+                            .always(function(data)
+                            {
+                                unmask();
+                            });
+                        };
+
+                        
+                        var schedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
+                        $.each(days, function (idx, day) {
+                            var dayEnabled = (schedule & (1 << idx)) > 0;
+                            JobScheduleModel[day] = ko.observable(dayEnabled);
+                            JobScheduleModel[day].subscribe(function (newValue) {
+                                var oldSchedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
+                                var mask = newValue ? 1 << idx :  ~(1 << idx);
+                                var newSchedule = newValue ? oldSchedule | mask : oldSchedule & mask;
+                                JobScheduleModel.JobSchedule.ExecutionSchedule(newSchedule);
+                            });
+                        });
+                    }
                 }
-            }
-        };
-        var viewmodel = ko.viewmodel.fromModel(@Html.Raw(JsonConvert.SerializeObject(Model)), options);
-        
-        ko.applyBindings(viewmodel, $("#edit-schedule")[0]);
+            };
+            var viewmodel = ko.viewmodel.fromModel(@Html.Raw(JsonConvert.SerializeObject(Model)), options);
+            viewmodel.RunJob = function(jobScheduleModel)
+            {
+                mask();
+                $.ajax({
+                    type :'POST',
+                    url: "@Url.Action("Run")",
+                    processData : false,
+                    dataType: 'json',
+                    contentType: "application/json",
+                    data : ko.toJSON(jobScheduleModel.JobSchedule)
+                })
+                .done(function(data)
+                {
+                    ko.viewmodel.updateFromModel(viewmodel, data)
+                })
+                .always(function(data)
+                {
+                    unmask();
+                });
+            };
+            ko.applyBindings(viewmodel, $("#edit-schedule")[0]);
+        });
     </script>
 }
 

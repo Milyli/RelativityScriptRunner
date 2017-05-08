@@ -4,10 +4,6 @@
 
 namespace Milyli.ScriptRunner.Agent.DependencyResolution
 {
-    using Milyli.Framework.Relativity;
-    using Milyli.Framework.Relativity.Interfaces;
-    using Milyli.ScriptRunner.Core.DependencyResolution;
-    using Milyli.ScriptRunner.Core.Relativity.Client;
     using Relativity.API;
     using StructureMap;
 
@@ -17,12 +13,7 @@ namespace Milyli.ScriptRunner.Agent.DependencyResolution
         {
             var container = new Container(c =>
             {
-                c.For<IRelativityContext>().Use(new RelativityContext(-1));
-
-                c.AddRegistry(new ScriptRunnerRegistry());
-
-                c.ForSingletonOf<IRelativityClientFactory>()
-                    .Add<RsapiClientFactory>();
+                c.AddRegistry(new AgentRegistry(helper));
             });
             return container;
         }
