@@ -24,7 +24,11 @@
         {
             get
             {
-                return this.relativityWorkspaceCollection.Value.Values;
+                yield return RelativityWorkspace.AdminWorkspace;
+                foreach (var workspace in this.relativityWorkspaceCollection.Value.Values)
+                {
+                    yield return workspace;
+                }
             }
         }
 

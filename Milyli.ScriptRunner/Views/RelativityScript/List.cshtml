@@ -1,36 +1,59 @@
 ﻿@model ScriptListModel
-@using Newtonsoft.Json    
+@using Newtonsoft.Json
 @{
     ViewBag.Title = string.Format("Relativity Script List - {0}", Model.RelativityWorkspace.Name);
 }
 
-<h2>Relativity Script List</h2>
+<style>
+    td, th {
+        padding-left: 5px;
+        padding-right: 5px;
+        text-align: center;
+    }
+
+        td:first-child {
+            text-align: left;
+        }
+
+    #script-list {
+        display: flex;
+        flex-direction: row;
+    }
+</style>
+<h3>Relativity Script List</h3>
+
 <div id="script-list">
-    <table>
-        <thead>
-            <tr>
-                <th>
-                    Script Name
-                </th>
-                <th>
-                    Schedule Count
-                </th>
-                <th>
-                    Next Execution Time
-                </th>
-                <th>
-                </th>
-            </tr>
-        </thead>
-        <tbody data-bind="foreach: RelativityScripts">
-            <tr>
-                <td><a data-bind="attr: {href: ScriptDetailsUrl}, text: RelativityScript.Name"></a></td>
-                <td data-bind="text: JobScheduleCount"></td>
-                <td data-bind="text : NextExecutionTime"></td>
-                <td><a data-bind="click : NewSchedule" href="javascript:;" class="fa fa-plus" title="add new schedule"></a></td>
-            </tr>
-        </tbody>
-    </table>
+    <div id="workspace-list section">
+        <h4>Current Workspace</h4>
+        <select data-bind="options : RelativityWorkspaces, optionsText : 'Name', optionsValue : 'WorkspaceId', value : SelectedWorkspace"></select>
+    </div>
+    <div class="script-list section">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        Script Name
+                    </th>
+                    <th>
+                        Schedule Count
+                    </th>
+                    <th>
+                        Next Execution Time
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: RelativityScripts">
+                <tr>
+                    <td><a data-bind="attr: {href: ScriptDetailsUrl}, text: RelativityScript.Name"></a></td>
+                    <td data-bind="text: JobScheduleCount"></td>
+                    <td data-bind="text : NextExecutionTime"></td>
+                    <td><a data-bind="click : NewSchedule" href="javascript:;" class="fa fa-plus" title="add new schedule"></a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 
@@ -39,6 +62,10 @@
     <script type="text/javascript">
         var options = {
             extend : {
+                "{root}" : function (ScriptListModel)
+                {
+                    ScriptListModel.SelectedWorkspace = ko.observable(ScriptListModel.RelativityWorkspace.WorkspaceId());
+                },
                 "{root}.RelativityScripts[i]" : function(RelativityScript)
                 {
                     RelativityScript.ScriptDetailsUrl = ko.computed(function(){
@@ -47,21 +74,21 @@
                     });
 
                     RelativityScript.NextExecutionTime = ko.computed(function(){
-                        if(RelativityScript.JobSchedules && RelativityScript.JobSchedules.length)
+                        if(RelativityScript.JobSchedules && RelativityScript.JobSchedules().length)
                         {
-                            return RelativityScript.JobSchedules[0].NextExecutionTime;
+                            return RelativityScript.JobSchedules()[0].NextExecutionTime();
                         }
                         return "";
                     });
-                    
+
                     RelativityScript.JobScheduleCount = ko.computed(function(){
-                        if(RelativityScript.JobSchedules && RelativityScript.JobSchedules.length)
+                        if(RelativityScript.JobSchedules && RelativityScript.JobSchedules().length)
                         {
-                            return RelativityScript.JobSchedules.length
+                            return RelativityScript.JobSchedules().length
                         }
                         return 0;
                     });
-                    
+
                     NewSchedule = function(data, event)
                     {
                         var baseUrl = "@Url.Action("NewSchedule", "JobSchedule", new { workspaceId = Model.RelativityWorkspace.WorkspaceId })";
@@ -73,6 +100,13 @@
         };
 
         var viewmodel = ko.viewmodel.fromModel(@Html.Raw(JsonConvert.SerializeObject(Model)), options);
+        viewmodel.SelectedWorkspace.subscribe(function(workspace)
+        {
+            if(workspace !== viewmodel.RelativityWorkspace.WorkspaceId())
+            {
+                window.location.href = "@Url.Action("List")?relativityWorkspaceId="+workspace;
+            }
+        });
 
         ko.applyBindings(viewmodel, $("#script-list")[0]);
     </script>

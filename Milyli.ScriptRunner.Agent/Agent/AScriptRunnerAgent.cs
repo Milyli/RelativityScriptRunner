@@ -1,4 +1,4 @@
-﻿// <copyright file="ScriptRunnerAgent.cs" company="Milyli">
+﻿// <copyright file="AScriptRunnerAgent.cs" company="Milyli">
 // Copyright © 2016 Milyli
 // </copyright>
 

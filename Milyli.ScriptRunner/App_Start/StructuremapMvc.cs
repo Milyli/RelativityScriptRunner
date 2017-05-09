@@ -21,7 +21,8 @@ using WebActivatorEx;
 [assembly: PreApplicationStartMethod(typeof(StructuremapMvc), "Start")]
 [assembly: ApplicationShutdownMethod(typeof(StructuremapMvc), "End")]
 
-namespace Milyli.ScriptRunner.App_Start {
+namespace Milyli.ScriptRunner.App_Start
+{
 	using System.Web.Mvc;
 
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;

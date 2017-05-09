@@ -7,12 +7,13 @@
 
     public static class LoggingBootstrapper
     {
-        public const string EVENT_LOG_APPLICATION = "Application";
+#pragma warning disable CA1709
+        public const string EventLogApplication = "Application";
 
-        public const string EVENT_LOG_DEFAULT_TARGET = EVENT_LOG_APPLICATION;
+        public const string EventLogDefaultTarget = EventLogApplication;
 
-        public const string DEFAULT_LAYOUT = "${message}${newline}${newline}${exception:format=tostring}";
-
+        public const string DefaultLayout = "${message}${newline}${newline}${exception:format=tostring}";
+#pragma warning restore CA1709
         public const string EventLogTargetName = "milyli-scriptrunner-event-log";
 
         public const string MemoryTargetName = "milyli-scriptrunner-memotry";
@@ -27,10 +28,10 @@
             var configuration = EnsureCongifuration();
             var eventLogTarget = new EventLogTarget()
             {
-                Layout = DEFAULT_LAYOUT,
+                Layout = DefaultLayout,
                 MachineName = ".",
                 Source = sourceName,
-                Log = EVENT_LOG_DEFAULT_TARGET,
+                Log = EventLogDefaultTarget,
                 Name = EventLogTargetName
             };
             configuration.AddTarget(eventLogTarget);
@@ -45,7 +46,7 @@
             var memoryTarget = new MemoryTarget()
             {
                 Name = MemoryTargetName,
-                Layout = DEFAULT_LAYOUT
+                Layout = DefaultLayout
             };
             configuration.AddTarget(memoryTarget);
             FlushCurrentRules(MemoryTargetName);

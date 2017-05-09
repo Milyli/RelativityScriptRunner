@@ -13,7 +13,7 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="JobScriptInputModel"/> class from a <see cref="ScriptInput"/> instance. 
+        /// Initializes a new instance of the <see cref="JobScriptInputModel"/> class from a <see cref="ScriptInput"/> instance.
         /// </summary>
         /// <param name="relativityScriptInput">the relativity ScriptInput object</param>
         public JobScriptInputModel(ScriptInput relativityScriptInput)

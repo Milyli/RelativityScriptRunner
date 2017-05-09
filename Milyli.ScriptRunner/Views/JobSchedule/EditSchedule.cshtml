@@ -5,8 +5,8 @@
     var days = new List<string>() { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 }
 <style>
-    .required label{
-        font-weight : bold;
+    .required label::after{
+        content : " (required)";
     }
 
     .invalid label{
@@ -51,9 +51,13 @@
     {
         font-weight : bold;
     }
-    .job-details input
+    #JobName
     {
         width:80%;
+    }
+    .job-details label
+    {
+        min-width: 15em;        
     }
     .job-details label::after
     {
@@ -79,20 +83,37 @@
             <div class="job-details">
                 <h4>Job Details</h4>
                 <div data-bind="with: JobSchedule">
-                    <label>Job Name</label><input type="text" data-bind="value : Name"  maxlength="255" /><br />
-                    <label>Last Execution Time</label> <span data-bind="text : LastExecutionTime"></span> <label>Next Execution Time</label> <span data-bind="text : NextExecutionTime"></span>
+                    <label>Job Name</label><input id="JobName" type="text" data-bind="value : Name"  maxlength="255" /><br />
+                    <label>Last Execution Time</label><span data-bind="text : LastExecutionTimeString"></span><br />
+                    <label>Next Execution Time</label> <span data-bind="text : NextExecutionTimeString"></span><br />
+                    <label>Exectues At</label> 
+                    <input data-bind="value : ExecutionTimeHours" type="number" min="1" max="12" step="1"/>:<input data-bind="value : ExecutionTimeMinutes" type="number" min="0" max="59" step="1"/>
+                    <select data-bind="value:ExecutionTimeMeridian">
+                        <option>AM</option>
+                        <option>PM</option>
+                    </select>
                 </div>
                 <div data-bind="with: RelativityWorkspace">
-                    <label>Workspace</label><span data-bind="text : Name"></span> (<span data-bind="text : WorkspaceId"></span>)
+                    <label>Workspace</label><a href="@Url.Action("List", "RelativityScript", new { relativityWorkspaceId = Model.RelativityWorkspace.WorkspaceId })">@Model.RelativityWorkspace.Name</a>
                 </div>
                 <div data-bind="with: RelativityScript">
-                    <label>Script</label><a data-bind="text : Name" 
+                    <label>Script</label><a data-bind="text : Name"
                                             href="@Url.Action("Script", "RelativityScript",
                                                  new { relativityWorkspaceId = Model.RelativityWorkspace.WorkspaceId, relativityScriptId = Model.RelativityScript.RelativityScriptId })"></a> (<span data-bind="text : RelativityScriptId"></span>)
                 </div>
                 <div>
                     <label>Job Status</label><span data-bind="text : JobStatusName"></span>
-                    <button data-bind="click: RunJob">Run</button>
+                    <span data-bind="if : AllowRun">
+                        <button data-bind="click: RunJob">Run</button>
+                    </span>
+                    <span data-bind="ifnot : IsNew">
+                        <span data-bind="if: JobSchedule.JobEnabled">
+                            <button data-bind="click: DisableJob">Disable</button>
+                        </span>
+                        <span data-bind="ifnot: JobSchedule.JobEnabled()">
+                            <button data-bind="click: EnableJob">Enable</button>
+                        </span>
+                    </span>
                 </div>
             </div>
             <div>
@@ -157,11 +178,11 @@
         function MakeOptionsArray($inputContainerElement)
         {
             return $inputContainerElement.find("option")
-                .map(function(idx, element) 
+                .map(function(idx, element)
                 {
-                    var $element = $(element); 
+                    var $element = $(element);
                     return {
-                        value: $element.attr("value"), 
+                        value: $element.attr("value"),
                         name : $element.text()
                     };
                 })
@@ -169,7 +190,7 @@
         }
 
         //Yes we're finding script input DDLs by scraping. Yes this is janky. I have tried looking for a better way to grab input values in a better manner
-        //but none of the RSAPI mechanisms for Relativity Scripts seems geared toward populating input lists.               
+        //but none of the RSAPI mechanisms for Relativity Scripts seems geared toward populating input lists.
         function getInputValues()
         {
             return $("#run-script").contents()
@@ -178,7 +199,7 @@
                                     {
                                         var $element = $(element);
                                         var inputId = $element.find("tr:first").attr("id");
-                                        var options = MakeOptionsArray($element);
+                                        var options = MakeOptionsArray($element);                                        
                                         return {
                                             inputId : inputId,
                                             options : options
@@ -186,19 +207,35 @@
                                     })
             .toArray()
             .reduce(function(accum, curr){
-                accum[curr.inputId] = curr.options;
+                if(curr.options && curr.options.length)
+                {
+                    accum[curr.inputId] = curr.options;
+                }
                 return accum;
             },{});
         };
 
 
         var days  = @Html.Raw(JsonConvert.SerializeObject(days));
-        var JobStatus = 
+        var JobStatus =
         {
             "0" : "Idle",
             "1" : "Waiting",
             "2" : "Running"
         };
+
+        toTimeString = function(timeString)
+        {
+            if(timeString)
+            {
+                var date = new Date(timeString.replace('T', ' '));
+                if(!isNaN(date.getDay()))
+                {
+                    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+                }
+            }
+            return "Unknown";
+        }
 
         $("#run-script").on("load", function()
         {
@@ -213,14 +250,83 @@
                         JobScriptInput.IsInvalid = ko.computed(function()
                         {
                             var currentValue = JobScriptInput.InputValue();
-                            return !JobScriptInput.IsRequired() || !(currentValue && currentValue.trim && currentValue.trim());
+                            return JobScriptInput.IsRequired() && !(currentValue && currentValue.trim && currentValue.trim());
                         });
                     },
-                
+
+                    "{root}.JobSchedule" : function(JobSchedule)
+                    {
+                        JobSchedule.NextExecutionTimeString = ko.computed(function(){
+                            return toTimeString(JobSchedule.NextExecutionTime());
+                        });
+
+                        JobSchedule.LastExecutionTimeString = ko.computed(function(){
+                            return toTimeString(JobSchedule.LastExecutionTime());
+                        });
+
+                        (function ()
+                        {
+                            var time = JobSchedule.ExecutionTime();
+                            var minutes = Math.floor(time / 60);
+                            var hours = Math.floor(minutes / 60);
+                            var meridian = hours >= 12 ? "PM" : "AM";
+                            hours = hours == 0 ? 12 : hours > 12 ? hours - 12 : hours;
+                            var minuteValue = minutes % 60;
+                        
+                            JobSchedule.ExecutionTimeHours = ko.observable(hours);
+                            JobSchedule.ExecutionTimeMinutes = ko.observable(minuteValue < 10 ? "0"+minuteValue : minuteValue);
+                            JobSchedule.ExecutionTimeMeridian = ko.observable(meridian);
+                        })();
+
+                        var setTime = function(inputHours, inputMinutes, meridian)
+                        {
+                            var hours = parseInt(inputHours);
+                            if(meridian=== "PM" && hours !== 12)
+                            {
+                                hours+=12;
+                            }
+                            if(meridian === "AM" && hours === 12)
+                            {
+                                hours = 0;
+                            }
+                            var minutes = parseInt(inputMinutes);
+                            var timeSeconds = ((hours * 60) + minutes) * 60;
+                            JobSchedule.ExecutionTime(timeSeconds);
+                        }
+
+                        JobSchedule.ExecutionTimeHours.subscribe(function(newValue)
+                        {
+                            setTime(newValue, JobSchedule.ExecutionTimeMinutes(), JobSchedule.ExecutionTimeMeridian());
+                        });
+
+                        JobSchedule.ExecutionTimeMinutes.subscribe(function(newValue)
+                        {
+                            setTime(JobSchedule.ExecutionTimeHours(), newValue, JobSchedule.ExecutionTimeMeridian());
+                        });
+                        JobSchedule.ExecutionTimeMeridian.subscribe(function(newValue)
+                        {
+                            setTime(JobSchedule.ExecutionTimeHours(), JobSchedule.ExecutionTimeMinutes(), newValue);
+                        });
+                    },
+
                     "{root}" : function(JobScheduleModel)
-                    {                                            
+                    {
+                        JobScheduleModel.AllowRun = ko.computed(function(){
+                            return JobScheduleModel.JobSchedule.JobEnabled() && !JobScheduleModel.IsNew()
+                        });
+
                         JobScheduleModel.JobStatusName = ko.computed(function()
                         {
+                            if (JobScheduleModel.IsNew())
+                            {
+                                return "New";
+                            }
+
+                            if(!JobScheduleModel.JobSchedule.JobEnabled())
+                            {
+                                return "Disabled";
+                            }
+
                             var status =  JobScheduleModel.JobSchedule.JobStatus();
                             if (JobStatus[status])
                             {
@@ -246,8 +352,8 @@
                         JobScheduleModel.IsInvalid = ko.computed(function()
                         {
 
-                            
-                            var isInvalid = JobScheduleModel.InvalidInputs().length > 0;                                                     
+
+                            var isInvalid = JobScheduleModel.InvalidInputs().length > 0;
                             return isInvalid;
                         });
 
@@ -267,28 +373,7 @@
                             JobScheduleModel.Validate();
                         });
 
-                        JobScheduleModel.SaveJobSchedule = function()
-                        {
-                            mask();
-                            $.ajax({
-                                type :'POST',
-                                url: "@Url.Action("Save")",
-                                processData : false,
-                                dataType: 'json',
-                                contentType: "application/json",
-                                data : ko.toJSON(JobScheduleModel)
-                            })
-                            .done(function(data)
-                            {
-                                window.location.href = "@Url.Action("Index")?jobScheduleId="+data.JobSchedule.Id;
-                            })
-                            .always(function(data)
-                            {
-                                unmask();
-                            });
-                        };
 
-                        
                         var schedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
                         $.each(days, function (idx, day) {
                             var dayEnabled = (schedule & (1 << idx)) > 0;
@@ -304,6 +389,41 @@
                 }
             };
             var viewmodel = ko.viewmodel.fromModel(@Html.Raw(JsonConvert.SerializeObject(Model)), options);
+            
+            viewmodel.SaveJobSchedule = function()
+            {
+                mask();
+                $.ajax({
+                    type :'POST',
+                    url: "@Url.Action("Save")",
+                    processData : false,
+                    dataType: 'json',
+                    contentType: "application/json",
+                    data : ko.toJSON(ko.viewmodel.toModel(viewmodel))
+                })
+                .done(function(data)
+                {
+                    ko.viewmodel.updateFromModel(viewmodel, data)
+                })
+                .always(function(data)
+                {
+                    unmask();
+                });
+            };
+
+            viewmodel.DisableJob = function()
+            {
+                viewmodel.JobSchedule.JobEnabled(false);
+                viewmodel.SaveJobSchedule();
+            };
+
+            viewmodel.EnableJob = function()
+            {
+                viewmodel.JobSchedule.JobEnabled(true);
+                viewmodel.SaveJobSchedule();
+            };
+
+
             viewmodel.RunJob = function(jobScheduleModel)
             {
                 mask();

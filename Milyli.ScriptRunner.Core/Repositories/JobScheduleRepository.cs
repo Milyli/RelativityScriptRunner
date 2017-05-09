@@ -18,6 +18,7 @@
         AlreadyRunning = 2
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
     public class JobScheduleRepository : BaseReadWriteRepository<InstanceDataContext, JobSchedule, int>, IJobScheduleRepository
     {
         // One day, in seconds

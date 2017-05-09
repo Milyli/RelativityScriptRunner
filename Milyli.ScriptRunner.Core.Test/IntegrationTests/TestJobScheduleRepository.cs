@@ -14,8 +14,11 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
     [TestFixture(Category="Integration")]
     public class TestJobScheduleRepository : IntegrationTestFixture
     {
+#pragma warning disable SA1310 // Field names must not contain underscore
         private static readonly int TEST_SCRIPT_ID = 42;
+
         private static readonly int TEST_WORKSPACE_ID = -1;
+#pragma warning restore SA1310 // Field names must not contain underscore
 
         private IJobScheduleRepository JobScheduleRepository
         {
@@ -26,7 +29,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
         }
 
         [OneTimeTearDown]
-        public void Cleanup ()
+        public void Cleanup()
         {
             this.JobScheduleRepository.DeleteAllJobs(TEST_SCRIPT_ID);
         }

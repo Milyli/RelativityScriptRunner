@@ -2,6 +2,10 @@
 {
     public class RelativityWorkspace
     {
+        public const int AdminWorkspaceId = -1;
+
+        public const string AdminWorkspaceName = "Admin Workspace";
+
         public RelativityWorkspace()
         {
         }
@@ -12,7 +16,8 @@
             {
                 return new RelativityWorkspace()
                 {
-                    WorkspaceId = -1
+                    Name = AdminWorkspaceName,
+                    WorkspaceId = AdminWorkspaceId
                 };
             }
         }

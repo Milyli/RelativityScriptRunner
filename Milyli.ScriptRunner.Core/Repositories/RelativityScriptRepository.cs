@@ -44,7 +44,7 @@
         {
             return this.InWorkspace(
                 (client, ws) =>
-                this.GetScript(client, scriptArtifactId, ws), workspace);
+                this.GetScript(scriptArtifactId, ws), workspace);
         }
 
         private T InWorkspace<T>(Func<IRSAPIClient, RelativityWorkspace, T> action, RelativityWorkspace workspace)
@@ -72,7 +72,7 @@
             return new List<RelativityScript>();
         }
 
-        private RelativityScript GetScript(IRSAPIClient client, int scriptArtifactId, RelativityWorkspace workspace)
+        private RelativityScript GetScript(int scriptArtifactId, RelativityWorkspace workspace)
         {
             var scriptArtifact = this.RelativityClient.Repositories.RelativityScript.ReadSingle(scriptArtifactId);
             return new RelativityScript()

@@ -6,6 +6,8 @@
 
     public class JobScheduleModel
     {
+        public bool IsNew { get; internal set; }
+
         public RelativityWorkspace RelativityWorkspace { get; set; }
 
         public RelativityScript RelativityScript { get; set; }

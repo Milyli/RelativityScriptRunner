@@ -11,7 +11,7 @@
 
     public class JobScheduleController : ScriptRunnerController
     {
-        public JobScheduleController(IJobScheduleRepository jobScheduleRepository, IRelativityScriptRepository scriptRepository, IRelativityWorkspaceRepository workspaceRepository) 
+        public JobScheduleController(IJobScheduleRepository jobScheduleRepository, IRelativityScriptRepository scriptRepository, IRelativityWorkspaceRepository workspaceRepository)
             : base(jobScheduleRepository, scriptRepository, workspaceRepository)
         {
         }
@@ -30,10 +30,10 @@
 
         public ActionResult NewSchedule(int workspaceId, int relativityScriptId)
         {
-            var workspace = this.workspaceRepository.Read(workspaceId);
+            var workspace = this.GetWorkspace(workspaceId);
             if (workspace != null)
             {
-                var script = this.relativityScriptRepository.GetRelativityScript(workspace, relativityScriptId);
+                var script = this.RelativityScriptRepository.GetRelativityScript(workspace, relativityScriptId);
                 if (script != null)
                 {
                     return this.View("EditSchedule", this.NewJobScheduleModel(script, workspace));
@@ -49,43 +49,25 @@
             }
         }
 
-        public JsonResult Save([ModelBinder(typeof(JsonBinder))]JobScheduleModel jobScheduleModel)
+        public ActionResult Save([ModelBinder(typeof(JsonBinder))]JobScheduleModel jobScheduleModel)
         {
             var jobSchedule = jobScheduleModel.JobSchedule;
             var scriptInputs = jobScheduleModel.JobScriptInputs;
             jobSchedule.NextExecutionTime = jobSchedule.GetNextExecution(DateTime.Now);
-            var id = this.jobScheduleRepository.SaveJobSchedule(jobSchedule, jobScheduleModel.ToJobScriptInputs());
-
-            return this.Json(this.GetJobScheduleModel(id));
+            var id = this.JobScheduleRepository.SaveJobSchedule(jobSchedule, jobScheduleModel.ToJobScriptInputs());
+            return JsonContent(this.GetJobScheduleModel(id));
         }
 
-        public JsonResult Run([ModelBinder(typeof(JsonBinder))]JobSchedule jobSchedule)
+        public ActionResult Run([ModelBinder(typeof(JsonBinder))]JobSchedule jobSchedule)
         {
-            this.jobScheduleRepository.ActivateJob(jobSchedule);
-            return this.Json(this.GetJobScheduleModel(jobSchedule.Id));
-        }
-
-        public ActionResult List(int workspaceId)
-        {
-            var relativityWorkspace = this.workspaceRepository.Read(workspaceId);
-            if (relativityWorkspace == null)
-            {
-                return new HttpNotFoundResult($"Cannot find a workspace with id {workspaceId}");
-            }
-
-            var scriptListModel = new ScriptListModel()
-            {
-                RelativityWorkspace = relativityWorkspace,
-                RelativityScripts = this.GetScriptList(relativityWorkspace).ToList()
-            };
-
-            return this.View(scriptListModel);
+            this.JobScheduleRepository.ActivateJob(jobSchedule);
+            return JsonContent(this.GetJobScheduleModel(jobSchedule.Id));
         }
 
         private IEnumerable<RelativityScriptModel> GetScriptList(RelativityWorkspace relativityWorkspace)
         {
-            var jobSchedules = this.jobScheduleRepository.GetJobSchedules(relativityWorkspace).GroupBy(s => s.RelativityScriptId).ToDictionary(s => s.Key, s => s);
-            var scripts = this.relativityScriptRepository.GetRelativityScripts(relativityWorkspace);
+            var jobSchedules = this.JobScheduleRepository.GetJobSchedules(relativityWorkspace).GroupBy(s => s.RelativityScriptId).ToDictionary(s => s.Key, s => s);
+            var scripts = this.RelativityScriptRepository.GetRelativityScripts(relativityWorkspace);
             foreach (var script in scripts)
             {
                 if (jobSchedules.ContainsKey(script.RelativityScriptId))
@@ -110,7 +92,7 @@
             var relativityScript = jobScheduleModel.RelativityScript;
             var relativityWorkspace = jobScheduleModel.RelativityWorkspace;
             var currentScriptInputs = this.GetScriptInputs(relativityScript, relativityWorkspace);
-            var currentJobScriptInputs = this.jobScheduleRepository.GetJobInputs(jobSchedule).ToDictionary(i => i.InputId);
+            var currentJobScriptInputs = this.JobScheduleRepository.GetJobInputs(jobSchedule).ToDictionary(i => i.InputId);
             foreach (var input in currentScriptInputs)
             {
                 if (currentJobScriptInputs.ContainsKey(input.InputId))
@@ -133,7 +115,7 @@
         /// <returns>a list of script input models</returns>
         private List<JobScriptInputModel> GetScriptInputs(RelativityScript relativityScript, RelativityWorkspace relativityWorkspace)
         {
-            var inputs = this.relativityScriptRepository.GetScriptInputs(relativityScript, relativityWorkspace);
+            var inputs = this.RelativityScriptRepository.GetScriptInputs(relativityScript, relativityWorkspace);
             return inputs.Select(i => new JobScriptInputModel()
             {
                 InputId = i.InputId,
@@ -145,19 +127,19 @@
 
         private void PopulateJobScheduleModel(JobScheduleModel jobScheduleModel, int workspaceId, int scriptArtifactId)
         {
-            jobScheduleModel.RelativityWorkspace = this.workspaceRepository.Read(workspaceId);
-            jobScheduleModel.RelativityScript = this.relativityScriptRepository.GetRelativityScript(jobScheduleModel.RelativityWorkspace, scriptArtifactId);
+            jobScheduleModel.RelativityWorkspace = this.GetWorkspace(workspaceId);
+            jobScheduleModel.RelativityScript = this.RelativityScriptRepository.GetRelativityScript(jobScheduleModel.RelativityWorkspace, scriptArtifactId);
         }
 
         private JobScheduleModel GetJobScheduleModel(int jobScheduleId)
         {
-            var jobSchedule = this.jobScheduleRepository.Read(jobScheduleId);
+            var jobSchedule = this.JobScheduleRepository.Read(jobScheduleId);
             if (jobSchedule == null)
             {
                 return null;
             }
 
-            var scriptInputs = this.jobScheduleRepository.GetJobInputs(jobSchedule);
+            var scriptInputs = this.JobScheduleRepository.GetJobInputs(jobSchedule);
             var jobScheduleModel = new JobScheduleModel()
             {
                 JobSchedule = jobSchedule
@@ -181,7 +163,7 @@
                 WorkspaceId = relativityWorkspace.WorkspaceId
             };
 
-            var inputs = this.relativityScriptRepository
+            var inputs = this.RelativityScriptRepository
                 .GetScriptInputs(relativityScript, relativityWorkspace)
                 .Select(i => new JobScriptInputModel(i))
                 .ToList();
@@ -191,7 +173,8 @@
                 JobSchedule = jobSchedule,
                 RelativityWorkspace = relativityWorkspace,
                 RelativityScript = relativityScript,
-                JobScriptInputs = inputs
+                JobScriptInputs = inputs,
+                IsNew = true
             };
             return jobScheduleModel;
         }

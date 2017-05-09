@@ -70,6 +70,7 @@
         /// </summary>
         /// <param name="jobSchedule">the job schedule to create/update</param>
         /// <param name="jobScriptInputs">The list of inputs to create</param>
+        /// <returns>the id of the jobSchedule, which may be new if the schedule is newly inserted</returns>
         int SaveJobSchedule(JobSchedule jobSchedule, List<JobScriptInput> jobScriptInputs);
 
         /// <summary>

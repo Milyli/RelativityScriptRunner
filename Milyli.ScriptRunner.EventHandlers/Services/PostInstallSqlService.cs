@@ -7,12 +7,12 @@
         private const int DEFAULT_CASE_ID = -1;
         private IDBContext dbContext;
 
-        public PostInstallSqlService (IDBContext context)
+        public PostInstallSqlService(IDBContext context)
         {
             this.dbContext = context;
         }
 
-        public PostInstallSqlService (IHelper helper)
+        public PostInstallSqlService(IHelper helper)
             : this(helper.GetDBContext(DEFAULT_CASE_ID))
         {
         }

@@ -1,4 +1,5 @@
-namespace Milyli.ScriptRunner.DependencyResolution {
+namespace Milyli.ScriptRunner.DependencyResolution
+{
     using System.Web;
 
     using Milyli.ScriptRunner.App_Start;
