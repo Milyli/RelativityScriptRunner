@@ -63,7 +63,7 @@
                 return scriptArtifactResults.Results.Select(r => new RelativityScript()
                 {
                     Name = r.Artifact.Name,
-                    Descirption = r.Artifact.Description,
+                    Description = r.Artifact.Description,
                     WorkspaceId = workspace.WorkspaceId,
                     RelativityScriptId = r.Artifact.ArtifactID
                 }).ToList();
@@ -78,7 +78,7 @@
             return new RelativityScript()
             {
                 Name = scriptArtifact.Name,
-                Descirption = scriptArtifact.Description,
+                Description = scriptArtifact.Description,
                 RelativityScriptId = scriptArtifact.ArtifactID,
                 WorkspaceId = workspace.WorkspaceId
             };

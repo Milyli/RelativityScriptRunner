@@ -84,7 +84,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PostInstall\PostInstallEventHandler.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="PostInstall\ScriptRunnerSetupSchema.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\PostInstallSqlService.cs" />
     <Compile Include="SqlScript.Designer.cs">

@@ -22,7 +22,7 @@
         public int? Runtime { get; set; }
 
         [Column("Errored")]
-        public bool Errored { get; set; }
+        public bool HasError { get; set; }
 
         [Column("ResultText")]
         public string ResultText { get; set; }

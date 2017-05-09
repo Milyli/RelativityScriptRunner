@@ -7,7 +7,6 @@
 
     public abstract class ScriptRunnerController : Controller
     {
-
         private IJobScheduleRepository jobScheduleRepository;
         private IRelativityScriptRepository relativityScriptRepository;
         private IRelativityWorkspaceRepository workspaceRepository;
@@ -17,15 +16,6 @@
             this.jobScheduleRepository = jobScheduleRepository;
             this.relativityScriptRepository = scriptRepository;
             this.workspaceRepository = workspaceRepository;
-        }
-
-        protected static ContentResult JsonContent(object model)
-        {
-            return new ContentResult()
-            {
-                ContentType = "application/json",
-                Content = JsonConvert.SerializeObject(model)
-            };
         }
 
         protected IJobScheduleRepository JobScheduleRepository
@@ -50,6 +40,15 @@
             {
                 return this.workspaceRepository;
             }
+        }
+
+        protected static ContentResult JsonContent(object model)
+        {
+            return new ContentResult()
+            {
+                ContentType = "application/json",
+                Content = JsonConvert.SerializeObject(model)
+            };
         }
 
         protected RelativityWorkspace GetWorkspace(int? workspaceId)

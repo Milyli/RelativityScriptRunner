@@ -41,7 +41,7 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
             scriptRunner.ExecuteScriptJob(jobSchedule);
 
             Assert.That(jobSchedule.CurrentJobHistory.ResultText.Equals(result.Message));
-            Assert.That(!jobSchedule.CurrentJobHistory.Errored);
+            Assert.That(!jobSchedule.CurrentJobHistory.HasError);
             Assert.That(jobScheduleRepositoryMock.JobScheduleStarted && jobScheduleRepositoryMock.JobScheduleFinished);
         }
 
@@ -65,7 +65,7 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
             var jobSchedule = jobScheduleRepositoryMock.CurrentJobSchedule;
 
             scriptRunner.ExecuteScriptJob(jobSchedule);
-            Assert.That(jobSchedule.CurrentJobHistory.Errored);
+            Assert.That(jobSchedule.CurrentJobHistory.HasError);
             Assert.That(jobScheduleRepositoryMock.JobScheduleStarted && jobScheduleRepositoryMock.JobScheduleFinished);
         }
     }

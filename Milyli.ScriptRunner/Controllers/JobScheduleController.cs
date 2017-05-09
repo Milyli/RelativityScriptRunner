@@ -22,7 +22,7 @@
             var jobScheduleModel = this.GetJobScheduleModel(jobScheduleId);
             if (jobScheduleModel == null)
             {
-                new HttpNotFoundResult($"could not find the job schedule with id {jobScheduleId}");
+                return new HttpNotFoundResult($"could not find the job schedule with id {jobScheduleId}");
             }
 
             return this.View("EditSchedule", jobScheduleModel);
@@ -52,7 +52,6 @@
         public ActionResult Save([ModelBinder(typeof(JsonBinder))]JobScheduleModel jobScheduleModel)
         {
             var jobSchedule = jobScheduleModel.JobSchedule;
-            var scriptInputs = jobScheduleModel.JobScriptInputs;
             jobSchedule.NextExecutionTime = jobSchedule.GetNextExecution(DateTime.Now);
             var id = this.JobScheduleRepository.SaveJobSchedule(jobSchedule, jobScheduleModel.ToJobScriptInputs());
             return JsonContent(this.GetJobScheduleModel(id));
@@ -62,23 +61,6 @@
         {
             this.JobScheduleRepository.ActivateJob(jobSchedule);
             return JsonContent(this.GetJobScheduleModel(jobSchedule.Id));
-        }
-
-        private IEnumerable<RelativityScriptModel> GetScriptList(RelativityWorkspace relativityWorkspace)
-        {
-            var jobSchedules = this.JobScheduleRepository.GetJobSchedules(relativityWorkspace).GroupBy(s => s.RelativityScriptId).ToDictionary(s => s.Key, s => s);
-            var scripts = this.RelativityScriptRepository.GetRelativityScripts(relativityWorkspace);
-            foreach (var script in scripts)
-            {
-                if (jobSchedules.ContainsKey(script.RelativityScriptId))
-                {
-                    yield return new RelativityScriptModel(script, relativityWorkspace, jobSchedules[script.RelativityScriptId]);
-                }
-                else
-                {
-                    yield return new RelativityScriptModel(script, relativityWorkspace);
-                }
-            }
         }
 
         /// <summary>
@@ -139,7 +121,6 @@
                 return null;
             }
 
-            var scriptInputs = this.JobScheduleRepository.GetJobInputs(jobSchedule);
             var jobScheduleModel = new JobScheduleModel()
             {
                 JobSchedule = jobSchedule

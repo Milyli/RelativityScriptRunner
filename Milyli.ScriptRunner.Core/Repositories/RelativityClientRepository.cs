@@ -3,13 +3,15 @@
     using System;
     using global::Relativity.API;
     using kCura.Relativity.Client;
-    using Milyli.ScriptRunner.Core.Relativity.Client;
+    using Relativity.Client;
 
     public abstract class RelativityClientRepository : IDisposable
     {
         private IRelativityClientFactory relativityClientFactory;
 
         private IRSAPIClient relativityClient;
+
+        private bool disposedValue = false;
 
         protected RelativityClientRepository(IRelativityClientFactory relativityClientFactory)
         {
@@ -31,8 +33,21 @@
 
         public void Dispose()
         {
-            this.relativityClient?.Dispose();
+            this.Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposedValue)
+            {
+                if (disposing)
+                {
+                    this.RelativityClient?.Dispose();
+                }
+
+                this.disposedValue = true;
+            }
         }
     }
 }

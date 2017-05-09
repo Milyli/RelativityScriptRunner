@@ -7,6 +7,6 @@
     {
         void ExecuteScriptJob(JobSchedule job);
 
-        void ExecuteAllJobs(DateTime exectionTime);
+        void ExecuteAllJobs(DateTime executionTime);
     }
 }

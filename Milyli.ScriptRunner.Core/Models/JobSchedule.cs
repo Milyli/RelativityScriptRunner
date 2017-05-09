@@ -15,7 +15,7 @@
     [Table(Name = "JobSchedule")]
     public class JobSchedule : IModel<int>
     {
-        public const int NO_RUNTIME_LIMIT = -1;
+        public const int NoRuntimeLimit = -1;
 
         [PrimaryKey]
         [Identity]
@@ -50,7 +50,7 @@
         /// Gets or sets the maximum runtime (in seconds) for the job
         /// </summary>
         [Column(Name = "MaximumRuntime")]
-        public int MaximumRuntime { get; set; } = NO_RUNTIME_LIMIT;
+        public int MaximumRuntime { get; set; } = NoRuntimeLimit;
 
         /// <summary>
         /// Gets or sets the bitmask that represents the schedule.  Only the first 7 bits (0x01 through 0x7F) are used, the LSB represents Sunday, the 7th bit represents Saturday

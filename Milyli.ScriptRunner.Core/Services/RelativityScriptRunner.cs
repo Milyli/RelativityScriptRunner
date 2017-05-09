@@ -27,13 +27,14 @@
             }
         }
 
-        public void ExecuteAllJobs(DateTime exectionTime)
+        public void ExecuteAllJobs(DateTime executionTime)
         {
-            var schedules = this.jobScheduleRepository.GetJobSchedules(exectionTime);
+            var schedules = this.jobScheduleRepository.GetJobSchedules(executionTime);
             Logger.Trace($"found {schedules.Count} jobs to execute");
             schedules.ForEach(this.ExecuteScriptJob);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "TODO: this is probably a good idea")]
         public void ExecuteScriptJob(JobSchedule job)
         {
             var activationStatus = this.jobScheduleRepository.StartJob(job);
@@ -59,7 +60,7 @@
                 {
                     Logger.Fatal(ex, $"Execution of job {job.Id} failed");
                     job.CurrentJobHistory.ResultText = "Exception: " + ex.ToString();
-                    job.CurrentJobHistory.Errored = true;
+                    job.CurrentJobHistory.HasError = true;
                 }
                 finally
                 {
@@ -80,10 +81,10 @@
             var scriptInputs = inputs.Select(i => new RelativityScriptInput(i.InputName, i.InputValue)).ToList();
             var scriptResult = client.ExecuteRelativityScript(client.APIOptions, job.RelativityScriptId, scriptInputs);
 
-            job.CurrentJobHistory.Errored = !scriptResult.Success;
+            job.CurrentJobHistory.HasError = !scriptResult.Success;
             job.CurrentJobHistory.ResultText = scriptResult.Message;
 
-            if (job.CurrentJobHistory.Errored)
+            if (job.CurrentJobHistory.HasError)
             {
                 Logger.Info($"Job {job.Id} failed with result {scriptResult.Message}");
             }

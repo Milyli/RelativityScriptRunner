@@ -18,7 +18,7 @@
         AlreadyRunning = 2
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Dispose method not exposed")]
     public class JobScheduleRepository : BaseReadWriteRepository<InstanceDataContext, JobSchedule, int>, IJobScheduleRepository
     {
         // One day, in seconds
@@ -41,7 +41,8 @@
         public List<JobSchedule> GetJobSchedules(DateTime runtime, int maxOffset)
         {
             var end = runtime;
-            var start = runtime.AddSeconds(-1 * maxOffset);
+            var offset = maxOffset < int.MaxValue ? maxOffset : int.MaxValue - 1;
+            var start = runtime.AddSeconds(-1 * offset);
             var result = this.DataContext.JobSchedule
                 .Where(s =>
                     ((start <= s.NextExecutionTime && s.NextExecutionTime <= end)
@@ -90,19 +91,19 @@
                 .ToList();
         }
 
-        public JobActivationStatus StartJob(JobSchedule schedule)
+        public JobActivationStatus StartJob(JobSchedule jobSchedule)
         {
-            Logger.Trace($"Trying to start schedule {schedule.Id}");
+            Logger.Trace($"Trying to start schedule {jobSchedule.Id}");
             using (var connection = (DataConnection)this.DataContext)
             using (var transaction = connection.BeginTransaction(System.Data.IsolationLevel.RepeatableRead))
             {
                 try
                 {
-                    var activationStatus = LockJobSchedule(schedule, transaction);
+                    var activationStatus = LockJobSchedule(jobSchedule, transaction);
                     if (activationStatus == JobActivationStatus.Idle)
                     {
-                        Logger.Trace($"Marking {schedule.Id} running");
-                        this.EnterRunningStatus(schedule);
+                        Logger.Trace($"Marking {jobSchedule.Id} running");
+                        this.EnterRunningStatus(jobSchedule);
                         transaction.Commit();
                         return JobActivationStatus.Started;
                     }
@@ -114,7 +115,7 @@
                 }
                 catch (Exception ex)
                 {
-                    Logger.Fatal(ex, $"Staring {schedule.Id} failed");
+                    Logger.Fatal(ex, $"Staring {jobSchedule.Id} failed");
                     transaction.Rollback();
                     throw;
                 }
@@ -124,9 +125,9 @@
         /// <summary>
         /// Removes all jobs for a given relativity script.  Used in testing
         /// </summary>
-        /// <param name="relativityScirptId">the artifactId for the relativity script</param>
+        /// <param name="relativityScriptId">the artifactId for the relativity script</param>
         /// <returns>the number of rows removed</returns>
-        public int DeleteAllJobs(int relativityScirptId)
+        public int DeleteAllJobs(int relativityScriptId)
         {
             int result;
             using (var transaction = this.DataContext.BeginTransaction())
@@ -137,14 +138,14 @@
                         @"DELETE jh FROM JobHistory jh 
                             INNER JOIN JobSchedule js ON jh.JobScheduleId = js.JobScheduleId
                             WHERE js.RelativityScriptId = @relativityScriptId",
-                        new DataParameter("relativityScriptId", relativityScirptId));
+                        new DataParameter("relativityScriptId", relativityScriptId));
                     transaction.DataConnection.Execute(
                         @"DELETE jsi FROM JobScriptInput jsi 
                             INNER JOIN JobSchedule js ON jsi.JobScheduleId = js.JobScheduleId
                             WHERE js.RelativityScriptId = @relativityScriptId",
-                    new DataParameter("relativityScriptId", relativityScirptId));
+                    new DataParameter("relativityScriptId", relativityScriptId));
 
-                    result = this.DataContext.JobSchedule.Where(s => s.RelativityScriptId == relativityScirptId).Delete();
+                    result = this.DataContext.JobSchedule.Where(s => s.RelativityScriptId == relativityScriptId).Delete();
                     transaction.Commit();
                 }
                 catch
@@ -217,10 +218,10 @@
                 .OrderByDescending(h => h.StartTime).ToList();
         }
 
-        public List<JobScriptInput> GetJobInputs(JobSchedule jobSchedule)
+        public List<JobScriptInput> GetJobInputs(JobSchedule job)
         {
             return this.DataContext.JobScriptInput
-                .Where(i => i.JobScheduleId == jobSchedule.Id)?
+                .Where(i => i.JobScheduleId == job.Id)?
                 .ToList();
         }
 

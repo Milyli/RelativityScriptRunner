@@ -18,14 +18,14 @@
 
         public const string MemoryTargetName = "milyli-scriptrunner-memotry";
 
-        public static LoggingConfiguration EnsureCongifuration()
+        public static LoggingConfiguration EnsureConfiguration()
         {
             return LogManager.Configuration = LogManager.Configuration ?? new LoggingConfiguration();
         }
 
         public static void ConfigureEventLogTarget(string sourceName)
         {
-            var configuration = EnsureCongifuration();
+            var configuration = EnsureConfiguration();
             var eventLogTarget = new EventLogTarget()
             {
                 Layout = DefaultLayout,
@@ -42,7 +42,7 @@
 
         public static MemoryTarget ConfigureMemoryTarget()
         {
-            var configuration = EnsureCongifuration();
+            var configuration = EnsureConfiguration();
             var memoryTarget = new MemoryTarget()
             {
                 Name = MemoryTargetName,
