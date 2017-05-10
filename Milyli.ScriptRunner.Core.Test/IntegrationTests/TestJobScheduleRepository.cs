@@ -225,7 +225,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
             var status = this.JobScheduleRepository.StartJob(jobSchedule);
             Assert.That(status == JobActivationStatus.Started);
             var activationStatus = this.JobScheduleRepository.ActivateJob(jobSchedule);
-            Assert.That(status == JobActivationStatus.AlreadyRunning);
+            Assert.That(activationStatus == JobActivationStatus.AlreadyRunning);
         }
 
         [Test]
