@@ -226,6 +226,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Models\JobHistoryModel.cs" />
     <Compile Include="Models\JobScheduleModel.cs" />
     <Compile Include="Models\JobScriptInputModel.cs" />
     <Compile Include="Models\RelativityScriptModel.cs" />

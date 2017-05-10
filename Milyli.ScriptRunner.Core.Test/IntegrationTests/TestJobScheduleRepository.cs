@@ -145,11 +145,13 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
             {
                 new JobScriptInput()
                 {
+                    InputId = "scriptInput1",
                     InputName = "scriptInput1",
                     InputValue = "scriptValue1"
                 },
                 new JobScriptInput()
                 {
+                    InputId = "scriptInput2",
                     InputName = "scriptInput2",
                     InputValue = "scriptValue2"
                 },
@@ -158,6 +160,107 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
             var result = this.JobScheduleRepository.SaveJobSchedule(jobSchedule, jobInputs);
             Assert.That(result > 0);
             Assert.That(this.JobScheduleRepository.GetJobInputs(jobSchedule).All(jsi => jsi.JobScheduleId != 0 && jsi.JobScheduleId == jobSchedule.Id));
+        }
+
+        [Test]
+        public void TestActivateJob()
+        {
+            var jobSchedule = new JobSchedule()
+            {
+                RelativityScriptId = TEST_SCRIPT_ID,
+                WorkspaceId = TEST_WORKSPACE_ID,
+                ExecutionSchedule = 0x7F,
+                ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now),
+                JobEnabled = true
+            };
+
+            var jobInputs = new List<JobScriptInput>()
+            {
+                new JobScriptInput()
+                {
+                    InputId = "scriptInput1",
+                    InputName = "scriptInput1",
+                    InputValue = "scriptValue1"
+                },
+                new JobScriptInput()
+                {
+                    InputId = "scriptInput2",
+                    InputName = "scriptInput2",
+                    InputValue = "scriptValue2"
+                },
+            };
+            var result = this.JobScheduleRepository.SaveJobSchedule(jobSchedule, jobInputs);
+            this.JobScheduleRepository.ActivateJob(jobSchedule);
+            Assert.That(jobSchedule.JobStatus == (int)JobStatus.Waiting);
+        }
+
+        [Test]
+        public void TestCannotActivateRunningJob()
+        {
+            var jobSchedule = new JobSchedule()
+            {
+                RelativityScriptId = TEST_SCRIPT_ID,
+                WorkspaceId = TEST_WORKSPACE_ID,
+                ExecutionSchedule = 0x7F,
+                ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now),
+                JobEnabled = true
+            };
+
+            var jobInputs = new List<JobScriptInput>()
+            {
+                new JobScriptInput()
+                {
+                    InputId = "scriptInput1",
+                    InputName = "scriptInput1",
+                    InputValue = "scriptValue1"
+                },
+                new JobScriptInput()
+                {
+                    InputId = "scriptInput2",
+                    InputName = "scriptInput2",
+                    InputValue = "scriptValue2"
+                },
+            };
+            var result = this.JobScheduleRepository.SaveJobSchedule(jobSchedule, jobInputs);
+            var status = this.JobScheduleRepository.StartJob(jobSchedule);
+            Assert.That(status == JobActivationStatus.Started);
+            var activationStatus = this.JobScheduleRepository.ActivateJob(jobSchedule);
+            Assert.That(status == JobActivationStatus.AlreadyRunning);
+        }
+
+        [Test]
+        public void TestJobHistory()
+        {
+            var jobSchedule = new JobSchedule()
+            {
+                RelativityScriptId = TEST_SCRIPT_ID,
+                WorkspaceId = TEST_WORKSPACE_ID,
+                ExecutionSchedule = 0x7F,
+                ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now),
+                JobEnabled = true
+            };
+
+            var jobInputs = new List<JobScriptInput>()
+            {
+                new JobScriptInput()
+                {
+                    InputId = "scriptInput1",
+                    InputName = "scriptInput1",
+                    InputValue = "scriptValue1"
+                },
+                new JobScriptInput()
+                {
+                    InputId = "scriptInput2",
+                    InputName = "scriptInput2",
+                    InputValue = "scriptValue2"
+                },
+            };
+            var result = this.JobScheduleRepository.SaveJobSchedule(jobSchedule, jobInputs);
+            this.JobScheduleRepository.StartJob(jobSchedule);
+            this.JobScheduleRepository.FinishJob(jobSchedule);
+            int count;
+            this.JobScheduleRepository.GetJobHistory(jobSchedule, out count);
+            Assert.That(count == 1);
         }
     }
 }

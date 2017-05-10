@@ -46,10 +46,11 @@
         /// Returns the entire history for a particular job
         /// </summary>
         /// <param name="jobSchedule">the job to get the history for</param>
+        /// <param name="resultCount">outputs the size of the result set</param>
         /// <param name="currentPage">the page currently in view</param>
         /// <param name="pageSize">the number of entries we want to view</param>
         /// <returns>the full set of job history records</returns>
-        List<JobHistory> GetJobHistory(JobSchedule jobSchedule, int currentPage = 0, int pageSize = 10);
+        List<JobHistory> GetJobHistory(JobSchedule jobSchedule, out int resultCount, int currentPage = 0, int pageSize = 10);
 
         /// <summary>
         /// Get the list of script input values used for deferred execution of the given job
@@ -83,6 +84,6 @@
         /// Marks a job as "Waiting for activation"
         /// </summary>
         /// <param name="jobSchedule">the job schedule to mark</param>
-        void ActivateJob(JobSchedule jobSchedule);
+        JobActivationStatus ActivateJob(JobSchedule jobSchedule);
     }
 }

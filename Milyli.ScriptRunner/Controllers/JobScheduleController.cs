@@ -67,8 +67,9 @@
                 this.NotFound($"Could not find job with id ${jobScheduleId}");
             }
 
-            var jobHistory = this.JobScheduleRepository.GetJobHistory(jobSchedule, page, results);
-            return JsonContent(jobHistory);
+            int resultCount;
+            var jobHistory = this.JobScheduleRepository.GetJobHistory(jobSchedule, out resultCount, page, results);
+            return JsonContent(new JobHistoryModel(jobHistory, resultCount, page, results));
         }
 
         /// <summary>

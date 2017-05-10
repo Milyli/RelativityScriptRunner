@@ -15,7 +15,8 @@
         InvalidJob = -1,
         Idle = 0,
         Started = 1,
-        AlreadyRunning = 2
+        AlreadyRunning = 2,
+        Waiting = 3
     }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Dispose method not exposed")]
@@ -52,7 +53,7 @@
             return result;
         }
 
-        public void ActivateJob(JobSchedule jobSchedule)
+        public JobActivationStatus ActivateJob(JobSchedule jobSchedule)
         {
             using (var connection = (DataConnection)this.DataContext)
             using (var transaction = connection.BeginTransaction(System.Data.IsolationLevel.RepeatableRead))
@@ -64,10 +65,12 @@
                     jobSchedule.JobStatus = (int)JobStatus.Waiting;
                     this.Update(jobSchedule);
                     transaction.Commit();
+                    return JobActivationStatus.Waiting;
                 }
                 else
                 {
                     transaction.Rollback();
+                    return JobActivationStatus.AlreadyRunning;
                 }
             }
         }
@@ -208,9 +211,10 @@
         /// <param name="currentPage">the current page</param>
         /// <param name="pageSize">the number of records to retreive at one time</param>
         /// <returns>the history of the job</returns>
-        public List<JobHistory> GetJobHistory(JobSchedule jobSchedule, int currentPage = 0, int pageSize = 10)
+        public List<JobHistory> GetJobHistory(JobSchedule jobSchedule, out int resultCount, int currentPage = 0, int pageSize = 10)
         {
             var offset = currentPage * pageSize;
+            resultCount = this.DataContext.JobHistory.Where(h => h.JobScheduleId == jobSchedule.Id).Count();
             return this.DataContext.JobHistory
                 .Take(pageSize)
                 .Skip(offset)
