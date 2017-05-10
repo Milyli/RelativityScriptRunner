@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Weavers>
+  <Costura CreateTemporyAssemblies="true">
+    <ExcludeAssemblies>
+      kCura.Agent
+      kCura.Config
+      kCura.Crypto
+      kCura.Data.RowDataGateway
+      kCura.EDDS.Agents
+      kCura.EventHandler
+      kCura.Relativity.Client
+      Relativity.API
+      Relativity.Kepler
+      Relativity.Services.Interfaces
+    </ExcludeAssemblies>
+  </Costura>>
+</Weavers>

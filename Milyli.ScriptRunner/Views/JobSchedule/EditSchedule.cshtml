@@ -173,10 +173,10 @@
                 <div class="input-container" data-bind="css: { required : IsRequired(), invalid : IsInvalid() }">
                     <label data-bind="text: InputName">
                     </label>
-                    <div data-bind="ifnot : Options">
+                    <div data-bind="ifnot : HasOptions">
                         <input type="text" data-bind="value: InputValue" />
                     </div>
-                    <div data-bind="if: Options">
+                    <div data-bind="if: HasOptions">
                         <select data-bind="options: Options, optionsText : 'name', optionsValue : 'value', value: InputValue"></select>
                     </div>
                 </div>
@@ -190,6 +190,8 @@
             <iframe id="run-script" src="/Relativity/Case/RelativityScript/Run.aspx?AppID=@Model.RelativityWorkspace.WorkspaceId&ArtifactID=@Model.RelativityScript.RelativityScriptId"></iframe>
         </div>
     </div>
+    @if (!Model.IsNew)
+    {
     <div id="job-schedule-history">
         <h3>Job history</h3>
         <a href="javascript:void window.open('/Relativity/Audit.aspx?AppID=@Model.RelativityWorkspace.WorkspaceId&ArtifactID=@Model.RelativityScript.RelativityScriptId&ArtifactTypeID=@RelativityScript.ScriptArtifactTypeId','audithistory','height=500,width=800,location=no,scrollbars=yes,menubar=no,toolbar=no,status=no,resizable=yes');">Audit (opens in new window)</a>
@@ -236,7 +238,9 @@
             </tbody>
         </table>
     </div>
+    }
 </div>
+@Scripts.Render("~/bundles/JobSchedule")
 @section Scripts
 {
     <script type="text/javascript">
@@ -280,7 +284,7 @@
                                     {
                                         var $element = $(element);
                                         var inputId = $element.find("tr:first").attr("id");
-                                        var options = MakeOptionsArray($element);                                        
+                                        var options = MakeOptionsArray($element);
                                         return {
                                             inputId : inputId,
                                             options : options
@@ -307,7 +311,7 @@
 
         function error (responseData)
         {
-            var message = responseData.responseJSON && responseData.responseJSON.Message ? 
+            var message = responseData.responseJSON && responseData.responseJSON.Message ?
                 responseData.responseJSON.Message
                 :
                 responseData.responseText;
@@ -327,359 +331,29 @@
             return "Unknown";
         }
 
+
+        var viewmodelContainer = new JobScheduleViewModel(
+            @Html.Raw(JsonConvert.SerializeObject(Model)),
+            {
+                Run : "@Url.Action("Run")",
+                Save : "@Url.Action("Save")",
+                Index : "@Url.Action("Index")"
+            });
+
         $("#run-script").on("load", function()
         {
-            var selectableInputValues = getInputValues();
-            var options = {
-                extend: {
-                    "{root}.JobScriptInputs[i]" : function(JobScriptInput)
-                    {
-                        JobScriptInput.Options = selectableInputValues[JobScriptInput.InputId()];
-                        JobScriptInput.SelectedValue = ko.observable();
-
-                        JobScriptInput.IsInvalid = ko.computed(function()
-                        {
-                            var currentValue = JobScriptInput.InputValue();
-                            return JobScriptInput.IsRequired() && !(currentValue && currentValue.trim && currentValue.trim());
-                        });
-                    },
-
-                    "{root}.JobSchedule" : function(JobSchedule)
-                    {
-                        JobSchedule.NextExecutionTimeString = ko.computed(function(){
-                            return toTimeString(JobSchedule.NextExecutionTime());
-                        });
-
-                        JobSchedule.LastExecutionTimeString = ko.computed(function(){
-                            return toTimeString(JobSchedule.LastExecutionTime());
-                        });
-
-                        (function ()
-                        {
-                            var time = JobSchedule.ExecutionTime();
-                            var minutes = Math.floor(time / 60);
-                            var hours = Math.floor(minutes / 60);
-                            var meridian = hours >= 12 ? "PM" : "AM";
-                            hours = hours == 0 ? 12 : hours > 12 ? hours - 12 : hours;
-                            var minuteValue = minutes % 60;
-                        
-                            JobSchedule.ExecutionTimeHours = ko.observable(hours);
-                            JobSchedule.ExecutionTimeMinutes = ko.observable(minuteValue < 10 ? "0"+minuteValue : minuteValue);
-                            JobSchedule.ExecutionTimeMeridian = ko.observable(meridian);
-                        })();
-
-                        var setTime = function(inputHours, inputMinutes, meridian)
-                        {
-                            var hours = parseInt(inputHours);
-                            if(meridian=== "PM" && hours !== 12)
-                            {
-                                hours+=12;
-                            }
-                            if(meridian === "AM" && hours === 12)
-                            {
-                                hours = 0;
-                            }
-                            var minutes = parseInt(inputMinutes);
-                            var timeSeconds = ((hours * 60) + minutes) * 60;
-                            JobSchedule.ExecutionTime(timeSeconds);
-                        }
-
-                        JobSchedule.ExecutionTimeHours.subscribe(function(newValue)
-                        {
-                            setTime(newValue, JobSchedule.ExecutionTimeMinutes(), JobSchedule.ExecutionTimeMeridian());
-                        });
-
-                        JobSchedule.ExecutionTimeMinutes.subscribe(function(newValue)
-                        {
-                            setTime(JobSchedule.ExecutionTimeHours(), newValue, JobSchedule.ExecutionTimeMeridian());
-                        });
-                        JobSchedule.ExecutionTimeMeridian.subscribe(function(newValue)
-                        {
-                            setTime(JobSchedule.ExecutionTimeHours(), JobSchedule.ExecutionTimeMinutes(), newValue);
-                        });
-                    },
-
-                    "{root}" : function(JobScheduleModel)
-                    {
-                        JobScheduleModel.AllowRun = ko.computed(function(){
-                            return JobScheduleModel.JobSchedule.JobEnabled() && !JobScheduleModel.IsNew()
-                        });
-
-                        JobScheduleModel.JobStatusName = ko.computed(function()
-                        {
-                            if (JobScheduleModel.IsNew())
-                            {
-                                return "New";
-                            }
-
-                            if(!JobScheduleModel.JobSchedule.JobEnabled())
-                            {
-                                return "Disabled";
-                            }
-
-                            var status =  JobScheduleModel.JobSchedule.JobStatus();
-                            if (JobStatus[status])
-                            {
-                                return JobStatus[status];
-                            }
-                            return "Unknown";
-                        });
-
-                        JobScheduleModel.InvalidInputs = ko.computed(function()
-                        {
-                            var invalidInputs = JobScheduleModel.JobScriptInputs()
-                            .filter(function (jobScriptInput)
-                            {
-                                return jobScriptInput.IsInvalid();
-                            })
-                            .map(function (jobScriptInput)
-                            {
-                                return jobScriptInput.InputName();
-                            });
-                            return invalidInputs;
-                        })
-
-                        JobScheduleModel.IsInvalid = ko.computed(function()
-                        {
-
-
-                            var isInvalid = JobScheduleModel.InvalidInputs().length > 0;
-                            return isInvalid;
-                        });
-
-                        JobScheduleModel.InvalidText = ko.computed(function()
-                        {
-                            if(JobScheduleModel.IsInvalid())
-                            {
-                                return "Inputs are required by invalid: " + JobScheduleModel.InvalidInputs().join(", ");
-                            }
-                            else
-                            {
-                                return "";
-                            }
-                        });
-
-                        //Initialization
-                        (function(){
-                            var schedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
-                            $.each(days, function (idx, day) {
-                                var dayEnabled = (schedule & (1 << idx)) > 0;
-                                JobScheduleModel[day] = ko.observable(dayEnabled);
-                                JobScheduleModel[day].subscribe(function (newValue) {
-                                    var oldSchedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
-                                    var mask = newValue ? 1 << idx :  ~(1 << idx);
-                                    var newSchedule = newValue ? oldSchedule | mask : oldSchedule & mask;
-                                    JobScheduleModel.JobSchedule.ExecutionSchedule(newSchedule);
-                                });
-                            });
-                        })();
-                    }
-                }
-            };
-            var viewmodel = ko.viewmodel.fromModel(@Html.Raw(JsonConvert.SerializeObject(Model)), options);
-            
-            viewmodel.SaveJobSchedule = function()
-            {
-                mask();
-                $.ajax({
-                    type :'POST',
-                    url: "@Url.Action("Save")",
-                    processData : false,
-                    dataType: 'json',
-                    contentType: "application/json",
-                    data : ko.toJSON(ko.viewmodel.toModel(viewmodel))
-                })
-                .done(function(data)
-                {
-                    if(viewmodel.IsNew())
-                    {
-                        window.location.href("@Url.Action("Index")?jobScheduleId="+data.JobSchedule.Id);
-                    }
-                    else
-                    {
-                        ko.viewmodel.updateFromModel(viewmodel, data);
-                    }
-                })
-                .fail(error)
-                .always(function(data)
-                {
-                    unmask();
-                });
-            };
-
-            viewmodel.DisableJob = function()
-            {
-                viewmodel.JobSchedule.JobEnabled(false);
-                viewmodel.SaveJobSchedule();
-            };
-
-            viewmodel.EnableJob = function()
-            {
-                viewmodel.JobSchedule.JobEnabled(true);
-                viewmodel.SaveJobSchedule();
-            };
-
-
-            viewmodel.RunJob = function(jobScheduleModel)
-            {
-                mask();
-                $.ajax({
-                    type :'POST',
-                    url: "@Url.Action("Run")",
-                    processData : false,
-                    dataType: 'json',
-                    contentType: "application/json",
-                    data : ko.toJSON(jobScheduleModel.JobSchedule)
-                })
-                .done(function(data)
-                {
-                    ko.viewmodel.updateFromModel(viewmodel, data)
-                })
-                .fail(error)
-                .always(function(data)
-                {
-                    unmask();
-                });
-            };
-            ko.applyBindings(viewmodel, $("#edit-schedule")[0]);
+            viewmodelContainer.UpdateOptions(getInputValues());
+            ko.applyBindings(viewmodelContainer.GetViewModel(), $("#edit-schedule")[0]);
         });
 
-        // Job Schedule History //
-        function LoadJobHistory (callback, page, pageSize)
+        if(!viewmodelContainer.IsNew())
         {
-            var query = {};
-            query.jobScheduleId = @Model.JobSchedule.Id;
-            if(page)
+            var jobHistoryBuilder = new JobHistoryLoader("@Url.Action("JobHistory")", @Model.JobSchedule.Id);
+            var jobHistoryViewModel = new JobHistoryViewModel(jobHistoryBuilder, function(historyViewModel)
             {
-                query.page = page;
-            }
-
-            if(pageSize)
-            {
-                query.pageSize = pageSize;
-            }
-
-            $.ajax({
-                type :'GET',
-                url: "@Url.Action("JobHistory")",
-                dataType: 'json',
-                contentType: "application/json",
-                data: query
-            })
-            .done(callback)
-            .fail(error);
-            
+                ko.applyBindings(historyViewModel, $("#job-schedule-history")[0]);
+            });
         }
-        
-        LoadJobHistory(function(jobHistoryModel)
-        {
-            var jobHistoryOptions = {
-                extend : {
-                    "{root}.JobHistory[i]" : function (JobHistory)
-                    {
-                        JobHistory.StartTimeString = ko.computed(function()
-                        {
-                            return toTimeString(JobHistory.StartTime());
-                        });
-                    },
-                    "{root}" : function(JobHistoryModel)
-                    {
-
-                        JobHistoryModel.CurrentStart = ko.computed(function()
-                        {
-                            return JobHistoryModel.PageNumber() * JobHistoryModel.PageSize();
-                        });
-
-                        JobHistoryModel.HasNextPage = ko.computed(function()
-                        {
-                            var startResultNum = JobHistoryModel.CurrentStart();
-                            return (startResultNum + JobHistoryModel.PageSize()) < JobHistoryModel.ResultCount();
-                        });
-
-                        JobHistoryModel.HasPreviousPage = ko.computed(function()
-                        {
-                            return JobHistoryModel.PageNumber() > 0;
-                        });
-
-                        JobHistoryModel.LastPage = ko.computed(function()
-                        {
-                            return Math.floor(JobHistoryModel.ResultCount() / JobHistoryModel.PageSize());
-                        });
-
-                        JobHistoryModel.FirstPage = ko.computed(function()
-                        {
-                            return 0;
-                        });
-
-                        JobHistoryModel.PageNumberText = ko.computed(function()
-                        {
-                            var lastPage = JobHistoryModel.LastPage() + 1;
-                            var currentPage = JobHistoryModel.PageNumber() + 1;
-
-                            if(lastPage == 1)
-                            {
-                                return "Page 1 of 1";
-                            }
-                            else
-                            {
-                                return "Page " + currentPage + " of " + lastPage;
-                            }
-                        });
-                    }
-                }
-            }
-            var jobHistoryViewModel = ko.viewmodel.fromModel(jobHistoryModel, jobHistoryOptions);            
-            jobHistoryViewModel.updating = true;
-
-            jobHistoryViewModel.Go = function(page, precondCallback)
-            {
-                var precond = typeof(precondCallback) === "function" ? precondCallback() : true;
-                if(precond)
-                {
-                    LoadJobHistory(function(jobHistoryModel)
-                    {
-                        jobHistoryViewModel.updating = true;
-                        ko.viewmodel.updateFromModel(jobHistoryViewModel, jobHistoryModel);
-                        jobHistoryViewModel.updating = false;
-                    }, page, jobHistoryViewModel.PageSize());
-                }                
-            };
-
-            jobHistoryViewModel.SelectPageSize = function()
-            {
-                if(!jobHistoryViewModel.updating)
-                {
-                    var newValue = jobHistoryViewModel.PageSize();
-                    var newPage = Math.floor(jobHistoryViewModel.CurrentStart() / newValue);
-                    jobHistoryViewModel.Go(newPage);
-                }
-            };
-
-            jobHistoryViewModel.PageSize.subscribe(jobHistoryViewModel.SelectPageSize);
-
-            jobHistoryViewModel.GoNextPage = function()
-            {
-                jobHistoryViewModel.Go(jobHistoryViewModel.PageNumber() + 1, jobHistoryViewModel.HasNextPage);
-            };
-
-            jobHistoryViewModel.GoPreviousPage = function()
-            {
-                jobHistoryViewModel.Go(jobHistoryViewModel.PageNumber() - 1, jobHistoryViewModel.HasPreviousPage);
-            };
-
-            jobHistoryViewModel.GoFirstPage = function()
-            {
-                jobHistoryViewModel.Go(0);
-            };
-
-            jobHistoryViewModel.GoLastPage = function()
-            {
-                jobHistoryViewModel.Go(jobHistoryViewModel.LastPage());
-            };
-                        
-            ko.applyBindings(jobHistoryViewModel, $("#job-schedule-history")[0]);
-            jobHistoryViewModel.updating = false;
-        });
 
     </script>
 }

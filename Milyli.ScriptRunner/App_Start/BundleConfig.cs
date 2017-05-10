@@ -21,6 +21,11 @@
                 "~/Scripts/knockout-{version}.js",
                 "~/Scripts/knockout.viewmodel.{version}.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/JobSchedule").Include(
+                "~/Scripts/ViewModel/JobHistoryViewModel.js",
+                "~/Scripts/ViewModel/JobScheduleViewModel.js"
+                ));
+
             /*style bundles*/
             bundles.Add(new StyleBundle("~/bundles/css").Include(
                 "~/Content/bootstrap.css",

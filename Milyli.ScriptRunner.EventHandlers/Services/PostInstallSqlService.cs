@@ -1,11 +1,13 @@
 ﻿namespace Milyli.ScriptRunner.EventHandlers.Services
 {
+    using System;
     using Relativity.API;
 
-    public class PostInstallSqlService
+    public class PostInstallSqlService : IDisposable
     {
         private const int DEFAULT_CASE_ID = -1;
         private IDBContext dbContext;
+        private bool disposedValue = false;
 
         public PostInstallSqlService(IDBContext context)
         {
@@ -22,6 +24,26 @@
             this.dbContext.ExecuteNonQuerySQLStatement(SqlScript.JobSchedule_Table);
             this.dbContext.ExecuteNonQuerySQLStatement(SqlScript.JobScriptInput_Table);
             this.dbContext.ExecuteNonQuerySQLStatement(SqlScript.JobHistory_Table);
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposedValue)
+            {
+                if (disposing)
+                {
+                    this.dbContext?.ReleaseConnection();
+                    this.dbContext = null;
+                }
+
+                this.disposedValue = true;
+            }
         }
     }
 }

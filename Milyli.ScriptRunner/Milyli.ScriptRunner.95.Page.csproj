@@ -272,6 +272,8 @@
     <Content Include="Scripts\knockout.viewmodel.2.0.3.js" />
     <Content Include="Scripts\knockout.viewmodel.2.0.3.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\ViewModel\JobHistoryViewModel.js" />
+    <Content Include="Scripts\ViewModel\JobScheduleViewModel.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
