@@ -74,12 +74,46 @@
     {
         color: gray;
     }
+
+    h3
+    {
+        padding:5px;
+        border-radius: 3px 3px;
+        font-weight:normal;
+        font-size:12pt;
+        width:100%;
+        color:white;
+        background-color:#173a71;
+    }
+
+    td {
+        text-align:center;
+        width : 25%;
+    }
+
+    th.pagination {
+        margin:0px;
+        text-align : left;
+        width:100%;
+    }
+
+    .pagination .page-number
+    {
+        width:70%;
+        float : left;
+    }
+
+    .pagination .page-size
+    {
+        width:20%;
+        float : right;
+    }
 </style>
 
-<div id="edit-schedule">
+<div id="job-schedule-edit">
     <div id="mask"></div>
         <h3>Job Schedule Details - @Model.JobSchedule.Name</h3>
-    <div class="schedule">
+    <div id="edit-schedule" class="schedule">
         <div class="schedule-section">
             <div class="job-details">
                 <h4>Job Details</h4>
@@ -157,11 +191,48 @@
         </div>
     </div>
     <div id="job-schedule-history">
-        <h4>Job history</h4>
+        <h3>Job history</h3>
         <a href="javascript:void window.open('/Relativity/Audit.aspx?AppID=@Model.RelativityWorkspace.WorkspaceId&ArtifactID=@Model.RelativityScript.RelativityScriptId&ArtifactTypeID=@RelativityScript.ScriptArtifactTypeId','audithistory','height=500,width=800,location=no,scrollbars=yes,menubar=no,toolbar=no,status=no,resizable=yes');">Audit (opens in new window)</a>
         <table>
+            <thead>
+                <tr>
+                    <th colspan="3" class="pagination">
+                        <div class="page-number">
+                            <a href="javascript;" class="fa fa-fast-backward" data-bind="click : GoFirstPage"></a>
+                            <a href="javascript;" class="fa fa-backward" data-bind="click : GoPreviousPage"></a>
+                            <span data-bind="text : PageNumberText"></span>
+                            <a href="javascript;" class="fa fa-forward" data-bind="click : GoNextPage"></a>
+                            <a href="javascript;" class="fa fa-fast-forward" data-bind="click : GoLastPage"></a>
+                        </div>
+                        <div class="page-size">
+                            <select data-bind="value : PageSize">
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                            </select>
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th>Start Time</th>
+                    <th>Running Time, Seconds</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
             <tbody data-bind="foreach: JobHistory">
-                <tr></tr>
+                <tr>
+                    <td data-bind="text : StartTimeString"></td>
+                    <td data-bind="text : Runtime"></td>
+                    <td>
+                        <span data-bind="if : HasError">
+                            <span data-bind="ResultText"></span>
+                        </span>
+                        <span data-bind="ifnot : HasError">
+                            Success
+                        </span>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -236,7 +307,11 @@
 
         function error (responseData)
         {
-            alert(responseData.Message ? responseData.Message : responseData.toString());
+            var message = responseData.responseJSON && responseData.responseJSON.Message ? 
+                responseData.responseJSON.Message
+                :
+                responseData.responseText;
+            alert(message);
         };
 
         toTimeString = function(timeString)
@@ -416,7 +491,14 @@
                 })
                 .done(function(data)
                 {
-                    ko.viewmodel.updateFromModel(viewmodel, data)
+                    if(viewmodel.IsNew())
+                    {
+                        window.location.href("@Url.Action("Index")?jobScheduleId="+data.JobSchedule.Id);
+                    }
+                    else
+                    {
+                        ko.viewmodel.updateFromModel(viewmodel, data);
+                    }
                 })
                 .fail(error)
                 .always(function(data)
@@ -461,6 +543,144 @@
             };
             ko.applyBindings(viewmodel, $("#edit-schedule")[0]);
         });
+
+        // Job Schedule History //
+        function LoadJobHistory (callback, page, pageSize)
+        {
+            var query = {};
+            query.jobScheduleId = @Model.JobSchedule.Id;
+            if(page)
+            {
+                query.page = page;
+            }
+
+            if(pageSize)
+            {
+                query.pageSize = pageSize;
+            }
+
+            $.ajax({
+                type :'GET',
+                url: "@Url.Action("JobHistory")",
+                dataType: 'json',
+                contentType: "application/json",
+                data: query
+            })
+            .done(callback)
+            .fail(error);
+            
+        }
+        
+        LoadJobHistory(function(jobHistoryModel)
+        {
+            var jobHistoryOptions = {
+                extend : {
+                    "{root}.JobHistory[i]" : function (JobHistory)
+                    {
+                        JobHistory.StartTimeString = ko.computed(function()
+                        {
+                            return toTimeString(JobHistory.StartTime());
+                        });
+                    },
+                    "{root}" : function(JobHistoryModel)
+                    {
+
+                        JobHistoryModel.CurrentStart = ko.computed(function()
+                        {
+                            return JobHistoryModel.PageNumber() * JobHistoryModel.PageSize();
+                        });
+
+                        JobHistoryModel.HasNextPage = ko.computed(function()
+                        {
+                            var startResultNum = JobHistoryModel.CurrentStart();
+                            return (startResultNum + JobHistoryModel.PageSize()) < JobHistoryModel.ResultCount();
+                        });
+
+                        JobHistoryModel.HasPreviousPage = ko.computed(function()
+                        {
+                            return JobHistoryModel.PageNumber() > 0;
+                        });
+
+                        JobHistoryModel.LastPage = ko.computed(function()
+                        {
+                            return Math.floor(JobHistoryModel.ResultCount() / JobHistoryModel.PageSize());
+                        });
+
+                        JobHistoryModel.FirstPage = ko.computed(function()
+                        {
+                            return 0;
+                        });
+
+                        JobHistoryModel.PageNumberText = ko.computed(function()
+                        {
+                            var lastPage = JobHistoryModel.LastPage() + 1;
+                            var currentPage = JobHistoryModel.PageNumber() + 1;
+
+                            if(lastPage == 1)
+                            {
+                                return "Page 1 of 1";
+                            }
+                            else
+                            {
+                                return "Page " + currentPage + " of " + lastPage;
+                            }
+                        });
+                    }
+                }
+            }
+            var jobHistoryViewModel = ko.viewmodel.fromModel(jobHistoryModel, jobHistoryOptions);            
+            jobHistoryViewModel.updating = true;
+
+            jobHistoryViewModel.Go = function(page, precondCallback)
+            {
+                var precond = typeof(precondCallback) === "function" ? precondCallback() : true;
+                if(precond)
+                {
+                    LoadJobHistory(function(jobHistoryModel)
+                    {
+                        jobHistoryViewModel.updating = true;
+                        ko.viewmodel.updateFromModel(jobHistoryViewModel, jobHistoryModel);
+                        jobHistoryViewModel.updating = false;
+                    }, page, jobHistoryViewModel.PageSize());
+                }                
+            };
+
+            jobHistoryViewModel.SelectPageSize = function()
+            {
+                if(!jobHistoryViewModel.updating)
+                {
+                    var newValue = jobHistoryViewModel.PageSize();
+                    var newPage = Math.floor(jobHistoryViewModel.CurrentStart() / newValue);
+                    jobHistoryViewModel.Go(newPage);
+                }
+            };
+
+            jobHistoryViewModel.PageSize.subscribe(jobHistoryViewModel.SelectPageSize);
+
+            jobHistoryViewModel.GoNextPage = function()
+            {
+                jobHistoryViewModel.Go(jobHistoryViewModel.PageNumber() + 1, jobHistoryViewModel.HasNextPage);
+            };
+
+            jobHistoryViewModel.GoPreviousPage = function()
+            {
+                jobHistoryViewModel.Go(jobHistoryViewModel.PageNumber() - 1, jobHistoryViewModel.HasPreviousPage);
+            };
+
+            jobHistoryViewModel.GoFirstPage = function()
+            {
+                jobHistoryViewModel.Go(0);
+            };
+
+            jobHistoryViewModel.GoLastPage = function()
+            {
+                jobHistoryViewModel.Go(jobHistoryViewModel.LastPage());
+            };
+                        
+            ko.applyBindings(jobHistoryViewModel, $("#job-schedule-history")[0]);
+            jobHistoryViewModel.updating = false;
+        });
+
     </script>
 }
 

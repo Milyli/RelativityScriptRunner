@@ -59,7 +59,7 @@
             return JsonContent(this.GetJobScheduleModel(jobSchedule.Id));
         }
 
-        public ActionResult JobHistory(int jobScheduleId, int page = 0, int results = 25)
+        public ActionResult JobHistory(int jobScheduleId, int page = 0, int pageSize = 25)
         {
             var jobSchedule = this.JobScheduleRepository.Read(jobScheduleId);
             if (jobSchedule == null)
@@ -68,8 +68,8 @@
             }
 
             int resultCount;
-            var jobHistory = this.JobScheduleRepository.GetJobHistory(jobSchedule, out resultCount, page, results);
-            return JsonContent(new JobHistoryModel(jobHistory, resultCount, page, results));
+            var jobHistory = this.JobScheduleRepository.GetJobHistory(jobSchedule, out resultCount, page, pageSize);
+            return JsonContent(new JobHistoryModel(jobHistory, resultCount, page, pageSize));
         }
 
         /// <summary>

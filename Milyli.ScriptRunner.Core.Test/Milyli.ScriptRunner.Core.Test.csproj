@@ -121,12 +121,8 @@
       <HintPath>..\Solutions\packages\SimpleConfigSections.1.4.1\lib\net35\SimpleConfigSections.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="StructureMap, Version=4.0.0.315, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\structuremap.4.0.0.315\lib\net40\StructureMap.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="StructureMap.Net4, Version=4.0.0.315, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\structuremap.4.0.0.315\lib\net40\StructureMap.Net4.dll</HintPath>
+    <Reference Include="StructureMap, Version=4.4.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\StructureMap.4.4.5\lib\net45\StructureMap.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

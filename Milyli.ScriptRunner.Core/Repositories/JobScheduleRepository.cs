@@ -216,7 +216,7 @@
             var offset = currentPage * pageSize;
             resultCount = this.DataContext.JobHistory.Where(h => h.JobScheduleId == jobSchedule.Id).Count();
             return this.DataContext.JobHistory
-                .Take(pageSize)
+                .Take(offset + pageSize)
                 .Skip(offset)
                 .Where(h => h.JobScheduleId == jobSchedule.Id)
                 .OrderByDescending(h => h.StartTime).ToList();
