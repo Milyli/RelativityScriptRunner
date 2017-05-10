@@ -11,7 +11,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
     using Models;
     using NUnit.Framework;
 
-    [TestFixture(Category="Integration")]
+    [TestFixture(Category = "Integration")]
     public class TestJobScheduleRepository : IntegrationTestFixture
     {
 #pragma warning disable SA1310 // Field names must not contain underscore
@@ -261,6 +261,87 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
             int count;
             this.JobScheduleRepository.GetJobHistory(jobSchedule, out count);
             Assert.That(count == 1);
+        }
+
+        [Test]
+        public void TestJobHistoryPaging()
+        {
+            var jobSchedule = new JobSchedule()
+            {
+                RelativityScriptId = TEST_SCRIPT_ID,
+                WorkspaceId = TEST_WORKSPACE_ID,
+                ExecutionSchedule = 0x7F,
+                ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now),
+                JobEnabled = true
+            };
+
+            var jobInputs = new List<JobScriptInput>()
+            {
+                new JobScriptInput()
+                {
+                    InputId = "scriptInput1",
+                    InputName = "scriptInput1",
+                    InputValue = "scriptValue1"
+                },
+                new JobScriptInput()
+                {
+                    InputId = "scriptInput2",
+                    InputName = "scriptInput2",
+                    InputValue = "scriptValue2"
+                },
+            };
+            var result = this.JobScheduleRepository.SaveJobSchedule(jobSchedule, jobInputs);
+            for (int x = 0; x < 50; x++)
+            {
+                this.JobScheduleRepository.StartJob(jobSchedule);
+                this.JobScheduleRepository.FinishJob(jobSchedule);
+            }
+
+            int count;
+            var page = this.JobScheduleRepository.GetJobHistory(jobSchedule, out count, 0, 10);
+            Assert.That(count == 50);
+            var nextPage = this.JobScheduleRepository.GetJobHistory(jobSchedule, out count, 1, 10).ToDictionary(jh => jh.Id, jh => true);
+            Assert.That(page.All(p => !nextPage.ContainsKey(p.Id)), "Page should be distinct");
+        }
+
+        [Test]
+        public void TestJobHistoryDoesNotPagePastEnd()
+        {
+            var jobSchedule = new JobSchedule()
+            {
+                RelativityScriptId = TEST_SCRIPT_ID,
+                WorkspaceId = TEST_WORKSPACE_ID,
+                ExecutionSchedule = 0x7F,
+                ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now),
+                JobEnabled = true
+            };
+
+            var jobInputs = new List<JobScriptInput>()
+            {
+                new JobScriptInput()
+                {
+                    InputId = "scriptInput1",
+                    InputName = "scriptInput1",
+                    InputValue = "scriptValue1"
+                },
+                new JobScriptInput()
+                {
+                    InputId = "scriptInput2",
+                    InputName = "scriptInput2",
+                    InputValue = "scriptValue2"
+                },
+            };
+            var result = this.JobScheduleRepository.SaveJobSchedule(jobSchedule, jobInputs);
+            for (int x = 0; x < 50; x++)
+            {
+                this.JobScheduleRepository.StartJob(jobSchedule);
+                this.JobScheduleRepository.FinishJob(jobSchedule);
+            }
+
+            int count;
+            this.JobScheduleRepository.GetJobHistory(jobSchedule, out count, 0, 10);
+            var page = this.JobScheduleRepository.GetJobHistory(jobSchedule, out count, 11, 10);
+            Assert.That(page.Count == 0);
         }
     }
 }
