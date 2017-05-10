@@ -1,5 +1,7 @@
 ﻿namespace Milyli.ScriptRunner.Controllers
 {
+    using System.Net;
+    using System.Web;
     using System.Web.Mvc;
     using Core.Models;
     using Milyli.ScriptRunner.Core.Repositories;
@@ -49,6 +51,37 @@
                 ContentType = "application/json",
                 Content = JsonConvert.SerializeObject(model)
             };
+        }
+
+        protected void NotFound(string message)
+        {
+            this.Response.StatusCode = (int)HttpStatusCode.NotFound;
+            throw new HttpException((int)HttpStatusCode.NotFound, message);
+        }
+
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            filterContext.ExceptionHandled = true;
+            // If we made a json request, return a json object
+            if (this.Request.ContentType.StartsWith("application/json", System.StringComparison.InvariantCultureIgnoreCase))
+            {
+                filterContext.Result = JsonContent(new
+                {
+                    Error = this.Response.Status,
+                    Message = filterContext.Exception.Message,
+                    Stacktrace = filterContext.Exception.StackTrace
+                });
+            }
+            else
+            {
+                var viewResult = new ViewResult()
+                {
+                    ViewName = "~/Views/Error/Index.cshtml",
+                };
+                viewResult.ViewBag.Exception = filterContext.Exception;
+                viewResult.ViewBag.Title = this.Response.Status;
+                filterContext.Result = viewResult;
+            }
         }
 
         protected RelativityWorkspace GetWorkspace(int? workspaceId)

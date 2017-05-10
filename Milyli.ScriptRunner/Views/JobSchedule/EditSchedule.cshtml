@@ -1,4 +1,5 @@
 ﻿@using Newtonsoft.Json
+@using Milyli.ScriptRunner.Core.Models
 @model JobScheduleModel
 @{
     ViewBag.Title = Model.JobSchedule.Name;
@@ -155,6 +156,15 @@
             <iframe id="run-script" src="/Relativity/Case/RelativityScript/Run.aspx?AppID=@Model.RelativityWorkspace.WorkspaceId&ArtifactID=@Model.RelativityScript.RelativityScriptId"></iframe>
         </div>
     </div>
+    <div id="job-schedule-history">
+        <h4>Job history</h4>
+        <a href="javascript:void window.open('/Relativity/Audit.aspx?AppID=@Model.RelativityWorkspace.WorkspaceId&ArtifactID=@Model.RelativityScript.RelativityScriptId&ArtifactTypeID=@RelativityScript.ScriptArtifactTypeId','audithistory','height=500,width=800,location=no,scrollbars=yes,menubar=no,toolbar=no,status=no,resizable=yes');">Audit (opens in new window)</a>
+        <table>
+            <tbody data-bind="foreach: JobHistory">
+                <tr></tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 @section Scripts
 {
@@ -220,8 +230,13 @@
         var JobStatus =
         {
             "0" : "Idle",
-            "1" : "Waiting",
+            "1" : "Waiting for agent",
             "2" : "Running"
+        };
+
+        function error (responseData)
+        {
+            alert(responseData.Message ? responseData.Message : responseData.toString());
         };
 
         toTimeString = function(timeString)
@@ -369,22 +384,20 @@
                             }
                         });
 
-                        $("#edit-schedule").on("jsi:validate", function(event){
-                            JobScheduleModel.Validate();
-                        });
-
-
-                        var schedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
-                        $.each(days, function (idx, day) {
-                            var dayEnabled = (schedule & (1 << idx)) > 0;
-                            JobScheduleModel[day] = ko.observable(dayEnabled);
-                            JobScheduleModel[day].subscribe(function (newValue) {
-                                var oldSchedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
-                                var mask = newValue ? 1 << idx :  ~(1 << idx);
-                                var newSchedule = newValue ? oldSchedule | mask : oldSchedule & mask;
-                                JobScheduleModel.JobSchedule.ExecutionSchedule(newSchedule);
+                        //Initialization
+                        (function(){
+                            var schedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
+                            $.each(days, function (idx, day) {
+                                var dayEnabled = (schedule & (1 << idx)) > 0;
+                                JobScheduleModel[day] = ko.observable(dayEnabled);
+                                JobScheduleModel[day].subscribe(function (newValue) {
+                                    var oldSchedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
+                                    var mask = newValue ? 1 << idx :  ~(1 << idx);
+                                    var newSchedule = newValue ? oldSchedule | mask : oldSchedule & mask;
+                                    JobScheduleModel.JobSchedule.ExecutionSchedule(newSchedule);
+                                });
                             });
-                        });
+                        })();
                     }
                 }
             };
@@ -405,6 +418,7 @@
                 {
                     ko.viewmodel.updateFromModel(viewmodel, data)
                 })
+                .fail(error)
                 .always(function(data)
                 {
                     unmask();
@@ -439,6 +453,7 @@
                 {
                     ko.viewmodel.updateFromModel(viewmodel, data)
                 })
+                .fail(error)
                 .always(function(data)
                 {
                     unmask();

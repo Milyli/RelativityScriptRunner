@@ -5,6 +5,8 @@
 
     public class RelativityScript
     {
+        public const int ScriptArtifactTypeId = 28;
+
         public int RelativityScriptId { get; set; }
 
         public int WorkspaceId { get; set; }

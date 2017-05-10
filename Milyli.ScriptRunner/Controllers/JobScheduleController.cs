@@ -22,7 +22,7 @@
             var jobScheduleModel = this.GetJobScheduleModel(jobScheduleId);
             if (jobScheduleModel == null)
             {
-                return new HttpNotFoundResult($"could not find the job schedule with id {jobScheduleId}");
+                this.NotFound($"could not find the job schedule with id {jobScheduleId}");
             }
 
             return this.View("EditSchedule", jobScheduleModel);
@@ -31,22 +31,18 @@
         public ActionResult NewSchedule(int workspaceId, int relativityScriptId)
         {
             var workspace = this.GetWorkspace(workspaceId);
-            if (workspace != null)
+            if (workspace == null)
             {
-                var script = this.RelativityScriptRepository.GetRelativityScript(workspace, relativityScriptId);
-                if (script != null)
-                {
-                    return this.View("EditSchedule", this.NewJobScheduleModel(script, workspace));
-                }
-                else
-                {
-                    return this.HttpNotFound($"Could not find the script {relativityScriptId}");
-                }
+                this.NotFound($"Could not find the workspace {workspaceId}");
             }
-            else
+
+            var script = this.RelativityScriptRepository.GetRelativityScript(workspace, relativityScriptId);
+            if (script == null)
             {
-                return this.HttpNotFound($"Could not find the workspace {workspaceId}");
+                this.NotFound($"Could not find the script {relativityScriptId}");
             }
+
+            return this.View("EditSchedule", this.NewJobScheduleModel(script, workspace));
         }
 
         public ActionResult Save([ModelBinder(typeof(JsonBinder))]JobScheduleModel jobScheduleModel)
@@ -61,6 +57,18 @@
         {
             this.JobScheduleRepository.ActivateJob(jobSchedule);
             return JsonContent(this.GetJobScheduleModel(jobSchedule.Id));
+        }
+
+        public ActionResult JobHistory(int jobScheduleId, int page = 0, int results = 25)
+        {
+            var jobSchedule = this.JobScheduleRepository.Read(jobScheduleId);
+            if (jobSchedule == null)
+            {
+                this.NotFound($"Could not find job with id ${jobScheduleId}");
+            }
+
+            var jobHistory = this.JobScheduleRepository.GetJobHistory(jobSchedule, page, results);
+            return JsonContent(jobHistory);
         }
 
         /// <summary>

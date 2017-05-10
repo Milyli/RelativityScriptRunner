@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
+    using System.Web;
     using System.Web.Mvc;
     using Milyli.ScriptRunner.Core.Models;
     using Milyli.ScriptRunner.Core.Repositories;
@@ -18,7 +19,7 @@
         // GET: RelativityScript
         public ActionResult Index()
         {
-            return this.List();
+            return this.Redirect(this.Url.Action("List"));
         }
 
         public ActionResult Script(int relativityWorkspaceId, int relativityScriptId)
@@ -26,13 +27,13 @@
             var relativityWorkspace = this.GetWorkspace(relativityWorkspaceId);
             if (relativityWorkspace == null)
             {
-                return new HttpNotFoundResult($"could not find relativity workspace {relativityWorkspaceId}");
+                this.NotFound($"Could not find relativity workspace with id {relativityWorkspaceId}");
             }
 
             var relativityScript = this.RelativityScriptRepository.GetRelativityScript(relativityWorkspace, relativityScriptId);
             if (relativityScript == null)
             {
-                return new HttpNotFoundResult($"could not find relativity workspace {relativityWorkspaceId}");
+                this.NotFound($"Could not find relativity script with id {relativityScriptId}");
             }
 
             var jobSchedules = this.JobScheduleRepository.GetJobSchedules(relativityScript);
@@ -47,7 +48,7 @@
             var relativityWorkspace = this.GetWorkspace(relativityWorkspaceId);
             if (relativityWorkspace == null)
             {
-                return new HttpNotFoundResult($"Cannot find a workspace with id {relativityWorkspaceId ?? default(int)}");
+                this.NotFound($"Cannot find a workspace with id {relativityWorkspaceId ?? default(int)}");
             }
 
             var scriptListModel = new ScriptListModel()

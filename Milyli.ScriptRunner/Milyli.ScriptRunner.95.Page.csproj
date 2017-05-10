@@ -282,12 +282,11 @@
     <Content Include="Views\JobSchedule\EditSchedule.cshtml" />
     <Content Include="Views\RelativityScript\Script.cshtml" />
     <Content Include="Views\RelativityScript\List.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Milyli.ScriptRunner.Core\Milyli.ScriptRunner.Core.csproj">
@@ -300,9 +299,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_Layout.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\JobSchedule\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
