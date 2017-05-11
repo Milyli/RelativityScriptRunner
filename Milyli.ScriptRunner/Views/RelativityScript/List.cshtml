@@ -3,7 +3,10 @@
 @{
     ViewBag.Title = string.Format("Relativity Script List - {0}", Model.RelativityWorkspace.Name);
 }
-
+@section Styles
+{
+    @Styles.Render("~/Content/DataTables/css")
+}
 <style>
     td, th {
         padding-left: 5px;
@@ -15,20 +18,69 @@
             text-align: left;
         }
 
+
+    #script-table {
+        width : 100%;
+    }
     #script-list {
         display: flex;
         flex-direction: row;
+    }
+
+    .workspace-list {
+        flex-basis : 30%;
+    }
+
+    .script-list {
+        flex-basis : 70%;
+    }
+    
+    #script-table tr{
+        font-size:10pt;
+    }
+
+    #script-table td {
+        padding : 4px 2px;
+    }
+
+    input.combobox-input
+    {
+        background-color : transparent;
+        position : relative;
+
+    }
+
+    .combobox-suggest
+    {
+        color : gray;
+        display : block;
+        position : absolute;
+        opacity: 1;
+    }
+
+    .combobox-input-container
+    {
+        min-height : 25px;
     }
 </style>
 <h3>Relativity Script List</h3>
 
 <div id="script-list">
-    <div id="workspace-list section">
+    <div class="workspace-list section">
         <h4>Current Workspace</h4>
-        <select data-bind="options : RelativityWorkspaces, optionsText : 'Name', optionsValue : 'WorkspaceId', value : SelectedWorkspace"></select>
+        <div class="combobox-input-container">
+            <input class="combobox-suggest" data-bind="value: ddlSuggestion" tabindex="-1">
+            <input class="combobox-input" type="text" data-bind="event : {keydown : listenTab, keyup : filterWorkspaces}" />
+            <button class="fa fa-sort-up"></button>         
+        </div>
+        <div class="workspace-ddl" data-bind="style : {display : showWorkspaces() ? 'inherit' : 'none'}">
+            <ul data-bind="foreach : FilteredRelativityWorkspaces">
+                <li><a data-bind="attr : { href : Url }, text : Name"></a></li>
+            </ul>
+        </div>
     </div>
     <div class="script-list section">
-        <table>
+        <table id="script-table">
             <thead>
                 <tr>
                     <th>
@@ -44,30 +96,144 @@
                     </th>
                 </tr>
             </thead>
-            <tbody data-bind="foreach: RelativityScripts">
-                <tr>
-                    <td><a data-bind="attr: {href: ScriptDetailsUrl}, text: RelativityScript.Name"></a></td>
-                    <td data-bind="text: JobScheduleCount"></td>
-                    <td data-bind="text : NextExecutionTime"></td>
-                    <td><a data-bind="click : NewSchedule" href="javascript:;" class="fa fa-plus" title="add new schedule"></a></td>
-                </tr>
-            </tbody>
         </table>
     </div>
 </div>
 
-
 @section Scripts
 {
+    @Scripts.Render("~/bundles/datatables/js");
     <script type="text/javascript">
         var options = {
             extend : {
                 "{root}" : function (ScriptListModel)
                 {
-                    ScriptListModel.SelectedWorkspace = ko.observable(ScriptListModel.RelativityWorkspace.WorkspaceId());
+                    ScriptListModel.SelectedWorkspace = ko.observable();
+                    ScriptListModel.ddlFilter = ko.observable();
+                    
+                    ScriptListModel.showWorkspaces = ko.observable(true);
+                    ScriptListModel.listenTab = function(viewmodel, event)
+                    {
+                        if(event.keyCode == 9)
+                        {
+                            if(viewmodel.ddlFilter())
+                            {
+                                var workspaces = viewmodel.FilteredRelativityWorkspaces();
+                                if(workspaces && workspaces.length)
+                                {
+                                    var firstWorkspace = workspaces[0];
+                                    event.target.value = firstWorkspace.Name();
+                                    viewmodel.SelectedWorkspace(firstWorkspace);
+                                }
+                            }
+                            return false;
+                        }
+                        return true;
+                    };
+
+                    ScriptListModel.filterWorkspaces = function(viewmodel, event)
+                    {
+                        var target = event.currentTarget;
+                        var keycode = event.keyCode;                        
+                        if(keycode == 13)
+                        {
+                            if(viewmodel.SelectedWorkspace())
+                            {
+                                window.location.href = viewmodel.SelectedWorkspace().Url();
+                            }
+                        }
+                        if(keycode != 9)
+                        {
+                            viewmodel.SelectedWorkspace(null);
+                        }
+                        if((target.value || target.value === "") && (target.value.length > 3 || target.value.length == 0))
+                        {
+                            viewmodel.ddlFilter(target.value);
+                        }
+                        else
+                        {
+                            viewmodel.ddlSuggestion("");
+                        }
+                        return true;
+                    };
+
+                    ScriptListModel.ddlSuggestion = ko.observable();
+                    ScriptListModel.FilteredRelativityWorkspaces = ko.computed(
+                    function()
+                    {
+                        var options = {pageSize : 25};
+                        var workspaces = ScriptListModel.RelativityWorkspaces();
+
+                        workspaces.sort(function(a, b)
+                        {
+                            return a.Name > b.Name ? -1 : a.Name < b.Name ? 1 : 0;
+                        });
+
+                        var data = [];
+                        var matches = {
+                            startsWith : [],
+                            contains : []
+                        };
+                        var filter = ScriptListModel.ddlFilter();
+                        if(filter)
+                        {
+                            var search = filter.toLowerCase();
+                            for(i=0; i<workspaces.length; i++)
+                            {
+                                var workspaceName = workspaces[i].Name().toLowerCase();
+                                var startsWith = workspaceName.startsWith(search);
+                                if(startsWith)
+                                {
+                                    matches.startsWith.push([i]);
+                                    if (matches.startsWith.length > options.pageSize)
+                                    {
+                                        break;
+                                    }
+                                }
+                                else if(workspaceName.indexOf(search) >= 0)
+                                {
+                                    matches.contains.push([i]);
+                                }
+                            }
+                            var total = matches
+                                .startsWith.slice(0,options.pageSize)
+                                .concat(matches.contains.slice(0, options.pageSize));
+                            total.sort(function(a,b)
+                            {
+                                return a > b ? 1 : a < b ? -1 : 0;
+                            })
+                            data = total.slice(0, options.pageSize).map(function(idx)
+                            {
+                                return workspaces[idx];
+                            });
+                        }
+                        else
+                        {
+                            data = workspaces.slice(0, options.pageSize);
+                        }
+
+                        if(data && data.length && filter)
+                        {
+                            var suggestedName = data[0].Name();
+                            var val = filter;
+                            var result = filter + suggestedName.substring(filter.length);
+                            ScriptListModel.ddlSuggestion(result);
+                        }
+                        return data;
+                    });
+
+                    
+                },
+                "{root}.RelativityWorkspaces[i]" : function (RelativityWorkspace)
+                {
+                    RelativityWorkspace.Url = function() {return "@Url.Action("List")?relativityWorkspaceId="+RelativityWorkspace.WorkspaceId();};
                 },
                 "{root}.RelativityScripts[i]" : function(RelativityScript)
                 {
+                    RelativityScript.ScriptName = ko.computed(function(){
+                        return RelativityScript.RelativityScript.Name();
+                    });
+
                     RelativityScript.ScriptDetailsUrl = ko.computed(function(){
                         return "@Url.Action("Script", "RelativityScript", new { relativityWorkspaceId = Model.RelativityWorkspace.WorkspaceId})"+
                             "&relativityScriptId="+RelativityScript.RelativityScriptId();
@@ -100,14 +266,91 @@
         };
 
         var viewmodel = ko.viewmodel.fromModel(@Html.Raw(JsonConvert.SerializeObject(Model)), options);
-        viewmodel.SelectedWorkspace.subscribe(function(workspace)
+
+
+        @*viewmodel.SelectedWorkspace.subscribe(function(workspace)
         {
             if(workspace !== viewmodel.RelativityWorkspace.WorkspaceId())
             {
                 window.location.href = "@Url.Action("List")?relativityWorkspaceId="+workspace;
             }
-        });
+        });*@
 
         ko.applyBindings(viewmodel, $("#script-list")[0]);
+        (function()
+        {
+            var $datatable = {};
+            var currentRow = null;
+            var getCell = function($dt, row,col)
+            {
+                if(currentRow === null || (currentRow.row !== row))
+                {
+                    currentRow =
+                        {
+                            row : row,
+                            node : $dt.row(row).node()
+                        };
+                }
+                return currentRow.node && currentRow.node.childNodes && currentRow.node.childNodes.length > col ? currentRow.node.childNodes[col] : undefined;
+            };
+
+            var addElementToCell = function($element, meta)
+            {
+                $(getCell($datatable, meta.row, meta.col)).append($element);
+            };
+
+            var overwriteElementToCell = function ($element, meta)
+            {
+                var $cell = $(getCell($datatable, meta.row, meta.col));
+                $cell.empty();
+                $cell.append($element);
+            };
+
+            $("#script-table").DataTable({
+                autoWidth : false,
+                columns : [{
+                    data : "ScriptName",
+                    render : function(scriptName, type, data, meta)
+                    {
+                        var $link = $("<a></a>");
+                        $link.attr("href", data.ScriptDetailsUrl());
+                        $link.text(scriptName());
+                        overwriteElementToCell($link, meta);
+                        return scriptName;
+                    }
+                },
+                {
+                    data : "JobScheduleCount"
+                },
+                {
+                    data: "NextExecutionTime",
+                    render : function(nextExecutionTime)
+                    {
+                        return toTimeString(nextExecutionTime());
+                    }
+                },
+                {
+                    data : "RelativityScriptId",
+                    orderable: false,
+                    render: function(id, type, data, meta)
+                    {
+                        var $link = $("<a href='javascript:;'></a>");
+                        $link.addClass("fa fa-plus");
+                        $link.on("click", function(event){
+                            event.stopImmediatePropagation();
+                            data.NewSchedule();
+                        });
+                        overwriteElementToCell($link, meta);
+                        return "";
+                    }
+                }],
+                dom : "ftrlip",
+                lengthMenu : [ 25, 50, 100, 200 ]
+            });
+            $datatable = $("#script-table").DataTable();
+            $datatable.rows.add(viewmodel.RelativityScripts());
+            $datatable.rows().invalidate();
+            $datatable.rows().draw();
+        })();
     </script>
 }

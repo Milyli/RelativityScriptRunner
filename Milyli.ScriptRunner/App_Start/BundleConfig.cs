@@ -8,6 +8,9 @@
         public static void RegisterBundles(BundleCollection bundles)
         {
             /*script bundles*/
+            bundles.Add(new ScriptBundle("~/bundles/tools").Include(
+                "~/Scripts/Tools/*.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/libs").Include(
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/bootstrap.js"));
@@ -23,13 +26,21 @@
 
             bundles.Add(new ScriptBundle("~/bundles/JobSchedule").Include(
                 "~/Scripts/ViewModel/JobHistoryViewModel.js",
-                "~/Scripts/ViewModel/JobScheduleViewModel.js"
-                ));
+                "~/Scripts/ViewModel/JobScheduleViewModel.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/datatables/js").Include(
+                        "~/Scripts/DataTables/jquery.dataTables.js",
+                        "~/Scripts/DataTables/jquery.dataTables.js"));
 
             /*style bundles*/
             bundles.Add(new StyleBundle("~/bundles/css").Include(
                 "~/Content/bootstrap.css",
                 "~/Content/font-awesome.css"));
+
+            bundles.Add(new StyleBundle("~/Content/DataTables/css").Include(
+                "~/Content/DataTables/css/common.css",
+                "~/Content/DataTables/css/jquery.dataTables.css",
+                "~/Content/DataTables/css/dataTables.bootstrap.css"));
         }
     }
 }
