@@ -8,6 +8,53 @@
     @Styles.Render("~/Content/DataTables/css")
 }
 <style>
+    .tt-input,
+.tt-hint {
+    width: 15em;
+    height: 30px;
+    padding: 8px 12px;
+    font-size: 12pt;
+    line-height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    outline: none;
+}
+
+.tt-input { /* UPDATE: newer versions use tt-input instead of tt-query */
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.tt-hint {
+    color: #999;
+}
+
+.tt-menu { /* UPDATE: newer versions use tt-menu instead of tt-dropdown-menu */
+    width: 422px;
+    margin-top: 12px;
+    padding: 8px 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.tt-suggestion {
+    padding: 3px 20px;
+    font-size: 18px;
+    line-height: 24px;
+}
+
+.tt-suggestion.tt-is-under-cursor { /* UPDATE: newer versions use .tt-suggestion.tt-cursor */
+    color: #fff;
+    background-color: #0097cf;
+
+}
+
+.tt-suggestion p {
+    margin: 0;
+}
+
     td, th {
         padding-left: 5px;
         padding-right: 5px;
@@ -43,40 +90,14 @@
         padding : 4px 2px;
     }
 
-    input.combobox-input
-    {
-        background-color : transparent;
-        position : relative;
-
-    }
-
-    .combobox-suggest
-    {
-        color : gray;
-        display : block;
-        position : absolute;
-        opacity: 1;
-    }
-
-    .combobox-input-container
-    {
-        min-height : 25px;
-    }
 </style>
 <h3>Relativity Script List</h3>
 
 <div id="script-list">
     <div class="workspace-list section">
         <h4>Current Workspace</h4>
-        <div class="combobox-input-container">
-            <input class="combobox-suggest" data-bind="value: ddlSuggestion" tabindex="-1">
-            <input class="combobox-input" type="text" data-bind="event : {keydown : listenTab, keyup : filterWorkspaces}" />
-            <button class="fa fa-sort-up"></button>         
-        </div>
-        <div class="workspace-ddl" data-bind="style : {display : showWorkspaces() ? 'inherit' : 'none'}">
-            <ul data-bind="foreach : FilteredRelativityWorkspaces">
-                <li><a data-bind="attr : { href : Url }, text : Name"></a></li>
-            </ul>
+        <div class="typeahead-container">
+            <input class="typeahead" type="text" data-provide="typeahead" autocomplete="off" />
         </div>
     </div>
     <div class="script-list section">
@@ -109,121 +130,8 @@
                 "{root}" : function (ScriptListModel)
                 {
                     ScriptListModel.SelectedWorkspace = ko.observable();
-                    ScriptListModel.ddlFilter = ko.observable();
-                    
-                    ScriptListModel.showWorkspaces = ko.observable(true);
-                    ScriptListModel.listenTab = function(viewmodel, event)
-                    {
-                        if(event.keyCode == 9)
-                        {
-                            if(viewmodel.ddlFilter())
-                            {
-                                var workspaces = viewmodel.FilteredRelativityWorkspaces();
-                                if(workspaces && workspaces.length)
-                                {
-                                    var firstWorkspace = workspaces[0];
-                                    event.target.value = firstWorkspace.Name();
-                                    viewmodel.SelectedWorkspace(firstWorkspace);
-                                }
-                            }
-                            return false;
-                        }
-                        return true;
-                    };
-
-                    ScriptListModel.filterWorkspaces = function(viewmodel, event)
-                    {
-                        var target = event.currentTarget;
-                        var keycode = event.keyCode;                        
-                        if(keycode == 13)
-                        {
-                            if(viewmodel.SelectedWorkspace())
-                            {
-                                window.location.href = viewmodel.SelectedWorkspace().Url();
-                            }
-                        }
-                        if(keycode != 9)
-                        {
-                            viewmodel.SelectedWorkspace(null);
-                        }
-                        if((target.value || target.value === "") && (target.value.length > 3 || target.value.length == 0))
-                        {
-                            viewmodel.ddlFilter(target.value);
-                        }
-                        else
-                        {
-                            viewmodel.ddlSuggestion("");
-                        }
-                        return true;
-                    };
-
-                    ScriptListModel.ddlSuggestion = ko.observable();
-                    ScriptListModel.FilteredRelativityWorkspaces = ko.computed(
-                    function()
-                    {
-                        var options = {pageSize : 25};
-                        var workspaces = ScriptListModel.RelativityWorkspaces();
-
-                        workspaces.sort(function(a, b)
-                        {
-                            return a.Name > b.Name ? -1 : a.Name < b.Name ? 1 : 0;
-                        });
-
-                        var data = [];
-                        var matches = {
-                            startsWith : [],
-                            contains : []
-                        };
-                        var filter = ScriptListModel.ddlFilter();
-                        if(filter)
-                        {
-                            var search = filter.toLowerCase();
-                            for(i=0; i<workspaces.length; i++)
-                            {
-                                var workspaceName = workspaces[i].Name().toLowerCase();
-                                var startsWith = workspaceName.startsWith(search);
-                                if(startsWith)
-                                {
-                                    matches.startsWith.push([i]);
-                                    if (matches.startsWith.length > options.pageSize)
-                                    {
-                                        break;
-                                    }
-                                }
-                                else if(workspaceName.indexOf(search) >= 0)
-                                {
-                                    matches.contains.push([i]);
-                                }
-                            }
-                            var total = matches
-                                .startsWith.slice(0,options.pageSize)
-                                .concat(matches.contains.slice(0, options.pageSize));
-                            total.sort(function(a,b)
-                            {
-                                return a > b ? 1 : a < b ? -1 : 0;
-                            })
-                            data = total.slice(0, options.pageSize).map(function(idx)
-                            {
-                                return workspaces[idx];
-                            });
-                        }
-                        else
-                        {
-                            data = workspaces.slice(0, options.pageSize);
-                        }
-
-                        if(data && data.length && filter)
-                        {
-                            var suggestedName = data[0].Name();
-                            var val = filter;
-                            var result = filter + suggestedName.substring(filter.length);
-                            ScriptListModel.ddlSuggestion(result);
-                        }
-                        return data;
-                    });
-
-                    
                 },
+
                 "{root}.RelativityWorkspaces[i]" : function (RelativityWorkspace)
                 {
                     RelativityWorkspace.Url = function() {return "@Url.Action("List")?relativityWorkspaceId="+RelativityWorkspace.WorkspaceId();};
@@ -265,16 +173,39 @@
             }
         };
 
+
         var viewmodel = ko.viewmodel.fromModel(@Html.Raw(JsonConvert.SerializeObject(Model)), options);
+        var typeaheadSource = new Bloodhound({
+            local: viewmodel.RelativityWorkspaces(),
+            identify : function(workspace) { return workspace.WorkspaceId() },
+            datumTokenizer : function(workspace){
+                return Bloodhound.tokenizers.whitespace(workspace.Name())
+            },
+            queryTokenizer : Bloodhound.tokenizers.whitespace            
+        });
 
+        $('.typeahead').attr("placeholder", viewmodel.RelativityWorkspace.Name());
 
-        @*viewmodel.SelectedWorkspace.subscribe(function(workspace)
+        var typeahead = $('.typeahead').typeahead({
+            hint: true,
+            hightlight: true,
+            minLength: 1
+        },
         {
-            if(workspace !== viewmodel.RelativityWorkspace.WorkspaceId())
+            name : 'RelativityWorkspaces',
+            displayKey : function(workspace){
+                return workspace.Name();
+            },
+            source : typeaheadSource
+        });
+        
+        typeahead.on('typeahead:select typeahead:autocomplete', function(event, workspace)
+        {
+            if(workspace.WorkspaceId() != viewmodel.RelativityWorkspace.WorkspaceId())
             {
-                window.location.href = "@Url.Action("List")?relativityWorkspaceId="+workspace;
+                window.location.href = workspace.Url();
             }
-        });*@
+        });
 
         ko.applyBindings(viewmodel, $("#script-list")[0]);
         (function()

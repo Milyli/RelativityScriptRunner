@@ -392,8 +392,6 @@
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
-    <Content Include="Content\knockout.combobox-1.0.80.0.css" />
-    <Content Include="Content\knockout.combobox-1.0.80.0.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -415,6 +413,8 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="Scripts\bloodhound.js" />
+    <Content Include="Scripts\bloodhound.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
@@ -500,11 +500,14 @@
     <Content Include="Scripts\knockout-3.4.2.debug.js" />
     <Content Include="Scripts\knockout-3.4.2.js" />
     <Content Include="Scripts\knockout.combobox-1.0.80.0.js" />
-    <Content Include="Scripts\knockout.combobox-1.0.80.0.min.js" />
     <Content Include="Scripts\knockout.viewmodel.2.0.3.js" />
     <Content Include="Scripts\knockout.viewmodel.2.0.3.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Tools\DisplayFunctions.js" />
+    <Content Include="Scripts\typeahead.bundle.js" />
+    <Content Include="Scripts\typeahead.bundle.min.js" />
+    <Content Include="Scripts\typeahead.jquery.js" />
+    <Content Include="Scripts\typeahead.jquery.min.js" />
     <Content Include="Scripts\ViewModel\JobHistoryViewModel.js" />
     <Content Include="Scripts\ViewModel\JobScheduleViewModel.js" />
     <Content Include="Web.config" />
