@@ -28,9 +28,7 @@
 
 
 <div id="relativity-script">
-    <h2>@ViewBag.Title</h2>
-    <h4>Script Scheduling Information</h4>
-    <h4><a href="@Url.Action("List", new { relativityWorkspaceId = Model.RelativityWorkspace.WorkspaceId })">@Model.RelativityWorkspace.Name</a></h4>
+    <h3>@ViewBag.Title - Script Scheduling Information (<a href="@Url.Action("List", new { relativityWorkspaceId = Model.RelativityWorkspace.WorkspaceId })">@Model.RelativityWorkspace.Name</a>)</h3>    
     <div class="schedule-container" data-bind="foreach : JobSchedules">
         <div class="job-schedule">
             <h4><a data-bind="text : Name, attr : { href : JobScheduleUrl }"></a></h4>

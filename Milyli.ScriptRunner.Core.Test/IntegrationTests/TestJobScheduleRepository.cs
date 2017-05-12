@@ -81,6 +81,15 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
                 NextExecutionTime = DateTime.Now
             };
 
+            var okAsWell = new JobSchedule()
+            {
+                RelativityScriptId = TEST_SCRIPT_ID,
+                WorkspaceId = TEST_WORKSPACE_ID,
+                ExecutionSchedule = 0x7F,
+                ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now.AddMinutes(-3)),
+                NextExecutionTime = DateTime.Now.AddHours(-4)
+            };
+
             var tooEarly = new JobSchedule()
             {
                 RelativityScriptId = TEST_SCRIPT_ID,

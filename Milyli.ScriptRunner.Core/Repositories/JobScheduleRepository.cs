@@ -47,7 +47,7 @@
             var result = this.DataContext.JobSchedule
                 .Where(s =>
                     ((start <= s.NextExecutionTime && s.NextExecutionTime <= end)
-                    && (s.LastExecutionTime <= start || s.LastExecutionTime == null))
+                    && s.JobEnabled && s.JobStatus == (int)JobStatus.Idle)
                     || s.JobStatus == (int)JobStatus.Waiting)
                 .ToList();
             return result;
