@@ -141,20 +141,18 @@
                     </span>
                 </div>
             </div>
-            <div>
-                <h4>Execution Time</h4>
-            </div>
             <div class="day-picker">
                 <h4>Runs On</h4>
-                <ul>
+                <div class="btn-group" data-toggle="buttons">
                     @foreach (var day in days)
                     {
-                        <li>
-                            <input type="checkbox" data-bind="checked: @day" />
-                            <label>@day</label>
-                        </li>
+
+                        <label class="btn btn-default" data-bind="css : { active : @string.Format("{0}()", day) }">
+                            <input type="checkbox" data-bind="event : {change : function(){toggle('@day')}}" />
+                            @day
+                        </label>
                     }
-                </ul>
+                </div>
             </div>
         </div>
         <div class="schedule-section">
@@ -234,6 +232,7 @@
 @section Scripts
 {
     @Scripts.Render("~/bundles/JobSchedule")
+
     <script type="text/javascript">
         //Used by the RunScript iframe.  Yes this is janky.
         function ResetTimeout()

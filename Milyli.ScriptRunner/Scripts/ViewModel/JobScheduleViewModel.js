@@ -114,6 +114,11 @@
                         }
                     });
 
+                    JobScheduleModel.toggle = function (day) {
+                        var currentValue = JobScheduleModel[day]();
+                        JobScheduleModel[day](!currentValue);
+                    };
+
                     //Initialization
                     (function () {
                         var schedule = JobScheduleModel.JobSchedule.ExecutionSchedule();

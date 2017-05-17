@@ -93,14 +93,14 @@
 </style>
 <h3>Relativity Script List</h3>
 
-<div id="script-list">
-    <div class="workspace-list section">
+<div id="script-list" class="row">
+    <div class="workspace-list col-md-2 col-lg-2 col-lg-offset-1 col-sm-1">
         <h4>Current Workspace</h4>
         <div class="typeahead-container">
             <input class="typeahead" type="text" data-provide="typeahead" autocomplete="off" />
         </div>
     </div>
-    <div class="script-list section">
+    <div class="col-md-10 col-lg-8 col-sm-11 col-lg-pull-1">
         <table id="script-table">
             <thead>
                 <tr>
@@ -163,10 +163,10 @@
                         return 0;
                     });
 
-                    NewSchedule = function(data, event)
+                    RelativityScript.NewSchedule = function()
                     {
                         var baseUrl = "@Url.Action("NewSchedule", "JobSchedule", new { workspaceId = Model.RelativityWorkspace.WorkspaceId })";
-                        var id = data.RelativityScript.RelativityScriptId();
+                        var id = RelativityScript.RelativityScriptId();
                         window.location.href=baseUrl + "&relativityScriptId="+id;
                     };
                 }
