@@ -1,4 +1,4 @@
-﻿namespace Milyli.ScriptRunner.Controllers
+﻿namespace Milyli.ScriptRunner.Web.Controllers
 {
     using System.Net;
     using System.Web;

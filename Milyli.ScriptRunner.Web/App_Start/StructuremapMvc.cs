@@ -14,22 +14,18 @@
 // limitations under the License.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-using Milyli.ScriptRunner.App_Start;
-
+using Milyli.ScriptRunner.Web.App_Start;
 using WebActivatorEx;
 
 [assembly: PreApplicationStartMethod(typeof(StructuremapMvc), "Start")]
 [assembly: ApplicationShutdownMethod(typeof(StructuremapMvc), "End")]
 
-namespace Milyli.ScriptRunner.App_Start
+namespace Milyli.ScriptRunner.Web.App_Start
 {
 	using System.Web.Mvc;
-
-    using Microsoft.Web.Infrastructure.DynamicModuleHelper;
-
-	using Milyli.ScriptRunner.DependencyResolution;
-
-    using StructureMap;
+	using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+	using Milyli.ScriptRunner.Web.DependencyResolution;
+	using StructureMap;
 
 	public static class StructuremapMvc
     {

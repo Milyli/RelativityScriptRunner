@@ -14,7 +14,7 @@
 // limitations under the License.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-namespace Milyli.ScriptRunner.DependencyResolution
+namespace Milyli.ScriptRunner.Web.DependencyResolution
 {
     using System;
     using System.Web.Mvc;

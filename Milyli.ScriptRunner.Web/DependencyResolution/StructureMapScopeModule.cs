@@ -1,8 +1,8 @@
-namespace Milyli.ScriptRunner.DependencyResolution
+namespace Milyli.ScriptRunner.Web.DependencyResolution
 {
     using System.Web;
 
-    using Milyli.ScriptRunner.App_Start;
+    using Milyli.ScriptRunner.Web.App_Start;
 
     using StructureMap.Web.Pipeline;
 

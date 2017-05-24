@@ -1,4 +1,4 @@
-﻿namespace Milyli.ScriptRunner.Controllers
+﻿namespace Milyli.ScriptRunner.Web.Controllers
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -7,7 +7,7 @@
     using System.Web.Mvc;
     using Milyli.ScriptRunner.Core.Models;
     using Milyli.ScriptRunner.Core.Repositories;
-    using Milyli.ScriptRunner.Models;
+    using Milyli.ScriptRunner.Web.Models;
 
     public class RelativityScriptController : ScriptRunnerController
     {

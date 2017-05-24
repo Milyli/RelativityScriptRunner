@@ -1,4 +1,4 @@
-﻿namespace Milyli.ScriptRunner
+﻿namespace Milyli.ScriptRunner.Web
 {
     using System;
     using System.Collections.Generic;

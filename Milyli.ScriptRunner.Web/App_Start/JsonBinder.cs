@@ -1,4 +1,4 @@
-﻿namespace Milyli.ScriptRunner.App_Start
+﻿namespace Milyli.ScriptRunner.Web.App_Start
 {
     using System;
     using System.IO;

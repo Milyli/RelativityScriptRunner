@@ -1,4 +1,4 @@
-﻿namespace Milyli.ScriptRunner.Models
+﻿namespace Milyli.ScriptRunner.Web.Models
 {
     using System.Collections.Generic;
     using System.Linq;

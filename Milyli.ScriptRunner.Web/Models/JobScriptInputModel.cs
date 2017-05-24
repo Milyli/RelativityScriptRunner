@@ -1,4 +1,4 @@
-﻿namespace Milyli.ScriptRunner.Models
+﻿namespace Milyli.ScriptRunner.Web.Models
 {
     using Milyli.ScriptRunner.Core.Models;
 

@@ -1,4 +1,4 @@
-﻿namespace Milyli.ScriptRunner
+﻿namespace Milyli.ScriptRunner.Web
 {
     using System.Web.Optimization;
 
