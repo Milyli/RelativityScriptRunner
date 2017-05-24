@@ -1,7 +1,7 @@
 ﻿namespace Milyli.ScriptRunner.Core.DependencyResolution
 {
     using System;
-    using Framework.Relativity.Interfaces;
+    using Milyli.Framework.Relativity.Interfaces;
     using global::Relativity.API;
     using kCura.Relativity.Client;
     using Milyli.ScriptRunner.Core.Relativity.Client;

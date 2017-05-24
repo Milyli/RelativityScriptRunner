@@ -37,6 +37,7 @@
     <CodeAnalysisRuleSet>ProjectSettings.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>
     </DocumentationFile>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
@@ -47,6 +48,22 @@
       <HintPath>..\Solutions\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="kCura.Config, Version=8.2.523.2, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\Solutions\packages\Relativity.Core.8.2.0\lib\kCura.Config.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="kCura.Crypto, Version=8.2.523.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.Core.8.2.0\lib\kCura.Crypto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="kCura.Data.RowDataGateway, Version=8.2.523.2, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\Solutions\packages\Relativity.Core.8.2.0\lib\kCura.Data.RowDataGateway.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="kCura.EventHandler, Version=8.2.523.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.EventHandler.8.2.0\lib\kCura.EventHandler.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="kCura.Relativity.Client, Version=9.5.41.87, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\Relativity.RSAPI.9.5.41.87\lib\kCura.Relativity.Client.dll</HintPath>
       <Private>True</Private>
@@ -55,8 +72,9 @@
       <HintPath>..\Solutions\packages\linq2db.1.7.6\lib\net45\linq2db.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Milyli.Framework.Relativity">
-      <HintPath>..\Milyli.ScriptRunner.Data.Test\bin\Debug\Milyli.Framework.Relativity.dll</HintPath>
+    <Reference Include="Milyli.Framework.Relativity, Version=1.0.5.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\Solutions\packages\Milyli.Framework.Relativity.1.0.5\lib\Milyli.Framework.Relativity.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Milyli.Framework.Repositories, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\Milyli.Framework.Repositories.1.0.3\lib\Milyli.Framework.Repositories.dll</HintPath>
