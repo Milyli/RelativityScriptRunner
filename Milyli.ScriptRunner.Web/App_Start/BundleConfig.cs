@@ -31,17 +31,16 @@
 
             bundles.Add(new ScriptBundle("~/bundles/datatables/js").Include(
                         "~/Scripts/DataTables/jquery.dataTables.js",
-                        "~/Scripts/DataTables/jquery.dataTables.js"));
+                        "~/Scripts/DataTables/dataTables.bootstrap.js"));
 
             /*style bundles*/
             bundles.Add(new StyleBundle("~/bundles/css").Include(
                 "~/Content/bootstrap.css",
                 "~/Content/font-awesome.css"));
 
-            bundles.Add(new StyleBundle("~/Content/DataTables/css").Include(
+            bundles.Add(new StyleBundle("~/Content/DataTables/styles/css").Include(
                 "~/Content/DataTables/css/common.css",
-                "~/Content/DataTables/css/jquery.dataTables.css",
-                "~/Content/DataTables/css/dataTables.bootstrap.css"));
+                "~/Content/DataTables/css/*.bootstrap.css"));
         }
     }
 }
