@@ -110,6 +110,9 @@
                     <th>
                         Schedule Count
                     </th>
+					<th>
+						Last Execution Time
+					</th>
                     <th>
                         Next Execution Time
                     </th>
@@ -146,11 +149,33 @@
                         return "@Url.Action("Script", "RelativityScript", new { relativityWorkspaceId = Model.RelativityWorkspace.WorkspaceId})"+
                             "&relativityScriptId="+RelativityScript.RelativityScriptId();
                     });
+                	
+                	RelativityScript.LastExecutionTime = ko.computed(function(){
+                		if(RelativityScript.JobSchedules && RelativityScript.JobSchedules().length)
+                		{
+                			var times = RelativityScript.JobSchedules().map(function(schedule){
+                				return schedule.LastExecutionTime();
+                			});
+                			times.sort(function(a,b)
+                			{
+                				return a > b ? -1 : a < b ? 1 : 0;
+                			});
+                			return times[0];
+                		}
+                		return "";
+                	});
 
                     RelativityScript.NextExecutionTime = ko.computed(function(){
                         if(RelativityScript.JobSchedules && RelativityScript.JobSchedules().length)
                         {
-                            return RelativityScript.JobSchedules()[0].NextExecutionTime();
+                        	var times = RelativityScript.JobSchedules().map(function(schedule){
+                        		return schedule.NextExecutionTime();
+                        	});
+                        	times.sort(function(a,b)
+                        	{
+                        		return a > b ? 1 : a < b ? -1 : 0;
+                        	});
+                        	return times[0];
                         }
                         return "";
                     });
@@ -253,6 +278,13 @@
                 {
                     data : "JobScheduleCount"
                 },
+				{
+				    data: "LastExecutionTime",
+				    render : function(lastExecutionTime)
+				    {
+				        return toTimeString(lastExecutionTime());
+				    }
+				},
                 {
                     data: "NextExecutionTime",
                     render : function(nextExecutionTime)
