@@ -210,6 +210,7 @@
     <Compile Include="Controllers\JobScheduleController.cs" />
     <Compile Include="Controllers\RelativityScriptController.cs" />
     <Compile Include="Controllers\ScriptRunnerController.cs" />
+    <Compile Include="DependencyResolution\ContainerFilterProvider.cs" />
     <Compile Include="DependencyResolution\ControllerConvention.cs" />
     <Compile Include="DependencyResolution\DefaultRegistry.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
@@ -225,6 +226,7 @@
     <Compile Include="Models\RelativityScriptModel.cs" />
     <Compile Include="Models\ScriptListModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestFilters\AuthorizationRequestFilter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />

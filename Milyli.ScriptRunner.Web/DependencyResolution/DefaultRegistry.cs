@@ -16,21 +16,23 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace Milyli.ScriptRunner.Web.DependencyResolution
 {
-    using System;
-    using Core.DependencyResolution;
-    using Core.Relativity.Client;
-    using Core.Repositories;
-    using Framework.Relativity;
-    using Framework.Relativity.Factories;
-    using Framework.Relativity.Interfaces;
-    using Framework.Repositories.Interfaces;
-    using kCura.Relativity.Client;
-    using Relativity.API;
-    using Relativity.CustomPages;
-    using StructureMap;
-    using StructureMap.Web;
+	using System;
+	using Core.DependencyResolution;
+	using Core.Relativity.Client;
+	using Core.Repositories;
+	using Framework.Relativity;
+	using Framework.Relativity.Factories;
+	using Framework.Relativity.Interfaces;
+	using Framework.Repositories.Interfaces;
+	using kCura.Relativity.Client;
+	using Milyli.ScriptRunner.Web.RequestFilters;
+	using Relativity.API;
+	using Relativity.CustomPages;
+	using StructureMap;
+	using StructureMap.Web;
+	using System.Web.Mvc;
 
-    public class DefaultRegistry : Registry
+	public class DefaultRegistry : Registry
     {
         public DefaultRegistry()
         {
@@ -46,6 +48,8 @@ namespace Milyli.ScriptRunner.Web.DependencyResolution
             this.For<IRelativityClientFactory>().HttpContextScoped().Use<RsapiClientFactory>();
             this.For<IRelativityContext>().Use(new RelativityContext(-1));
             this.For<IInstanceConnectionFactory>().Use<RelativityInstanceConnectionFactory>();
+			this.For<IActionFilter>().Use<AuthorizationRequestFilter>();
+			this.For<IFilterProvider>().Use<ContainerFilterProvider>();
             this.IncludeRegistry(new ScriptRunnerRegistry());
         }
     }

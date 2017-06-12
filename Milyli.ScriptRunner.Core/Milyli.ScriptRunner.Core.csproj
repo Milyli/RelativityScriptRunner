@@ -127,8 +127,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContexts\InstanceDataContext.cs" />
+    <Compile Include="DependencyResolution\BaseServicesFactory.cs" />
+    <Compile Include="DependencyResolution\IServiceManagerFactory.cs" />
     <Compile Include="DependencyResolution\RsapiClientFactory.cs" />
     <Compile Include="DependencyResolution\ScriptRunnerRegistry.cs" />
+    <Compile Include="DependencyResolution\ServiceManagerFactory.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Logging\LoggingBootstrapper.cs" />
     <Compile Include="Models\JobHistory.cs" />
@@ -147,7 +150,9 @@
     <Compile Include="Relativity\Client\IRelativityClientFactory.cs" />
     <Compile Include="Repositories\IJobScheduleRepository.cs" />
     <Compile Include="Repositories\JobScheduleRepository.cs" />
+    <Compile Include="Services\IPermissionsService.cs" />
     <Compile Include="Services\IRelativityScriptRunner.cs" />
+    <Compile Include="Services\PermissionsService.cs" />
     <Compile Include="Services\RelativityScriptRunner.cs" />
     <Compile Include="Tools\BitmaskHelper.cs" />
     <Compile Include="Tools\RelativityHelper.cs" />

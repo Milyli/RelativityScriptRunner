@@ -7,33 +7,30 @@
     using Milyli.ScriptRunner.Core.Relativity.Client;
 
 #pragma warning disable CA1704
-    public class RsapiClientFactory : IRelativityClientFactory
+    public class RsapiClientFactory : BaseServicesFactory, IRelativityClientFactory
     {
         private readonly IRelativityContext context;
-        private readonly IHelper helper;
-        private ExecutionIdentity defaultExecutionIdentity;
 
         public RsapiClientFactory(IHelper helper, IRelativityContext context)
+			: base(helper)
         {
-            this.helper = helper;
             this.context = context;
-            this.defaultExecutionIdentity = ExecutionIdentity.CurrentUser;
         }
 
         public RsapiClientFactory(IHelper helper, IRelativityContext context, ExecutionIdentity defaultExecutionIdentity)
-            : this(helper, context)
+            : base(helper, defaultExecutionIdentity)
         {
-            this.defaultExecutionIdentity = defaultExecutionIdentity;
+			this.context = context;
         }
 
         public IRSAPIClient GetRelativityClient()
         {
-            return this.GetRelativityClient(this.defaultExecutionIdentity);
+            return this.GetRelativityClient(this.DefaultExecutionIdentity);
         }
 
         public IRSAPIClient GetRelativityClient(ExecutionIdentity executionIdentity)
         {
-            var servicesManager = this.helper.GetServicesManager();
+            var servicesManager = this.Helper.GetServicesManager();
             var rsapiClient = servicesManager.CreateProxy<IRSAPIClient>(executionIdentity);
             rsapiClient.APIOptions.StrictMode = true;
             rsapiClient.APIOptions.WorkspaceID = this.context.WorkspaceId;
