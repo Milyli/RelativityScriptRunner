@@ -1,13 +1,14 @@
 ﻿namespace Milyli.ScriptRunner.Core.DependencyResolution
 {
-    using kCura.Relativity.Client;
-    using Milyli.Framework.Repositories;
-    using Milyli.ScriptRunner.Core.DataContexts;
-    using Relativity.Client;
-    using Repositories;
-    using StructureMap;
+	using kCura.Relativity.Client;
+	using Milyli.Framework.Repositories;
+	using Milyli.ScriptRunner.Core.DataContexts;
+	using Relativity.Client;
+	using Repositories;
+	using Services;
+	using StructureMap;
 
-    public class ScriptRunnerRegistry : Registry
+	public class ScriptRunnerRegistry : Registry
     {
         public ScriptRunnerRegistry()
         {
@@ -17,7 +18,8 @@
             {
                 s.AssemblyContainingType<IJobScheduleRepository>();
                 s.IncludeNamespaceContainingType<IJobScheduleRepository>();
-                s.WithDefaultConventions();
+				s.IncludeNamespaceContainingType<IPermissionsService>();
+				s.WithDefaultConventions();
             });
         }
     }

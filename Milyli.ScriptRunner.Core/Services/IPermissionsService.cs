@@ -1,6 +1,8 @@
 ﻿namespace Milyli.ScriptRunner.Core.Services
 {
-	public interface IPermissionsService
+	using System;
+
+	public interface IPermissionsService : IDisposable
 	{
 		bool CanEdit(int workspaceId, int artifactTypeId);
 	}

@@ -8,7 +8,7 @@
 	using global::Relativity.Services.Permission;
 	using Milyli.ScriptRunner.Core.DependencyResolution;
 
-	public class PermissionsService : IDisposable
+	public class PermissionsService : IPermissionsService
 	{
 		private IPermissionManager permissionManager;
 		private bool disposedValue = false;

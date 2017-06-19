@@ -31,6 +31,7 @@ namespace Milyli.ScriptRunner.Web.DependencyResolution
 	using StructureMap;
 	using StructureMap.Web;
 	using System.Web.Mvc;
+	using StructureMap.Pipeline;
 
 	public class DefaultRegistry : Registry
     {
@@ -46,9 +47,10 @@ namespace Milyli.ScriptRunner.Web.DependencyResolution
 
             this.For<IHelper>().HttpContextScoped().Use(c => ConnectionHelper.Helper());
             this.For<IRelativityClientFactory>().HttpContextScoped().Use<RsapiClientFactory>();
-            this.For<IRelativityContext>().Use(new RelativityContext(-1));
+			this.For<IServiceManagerFactory>().HttpContextScoped().Use<ServiceManagerFactory>();
+			this.For<IRelativityContext>().Use(new RelativityContext(-1));
             this.For<IInstanceConnectionFactory>().Use<RelativityInstanceConnectionFactory>();
-			this.For<IActionFilter>().Use<AuthorizationRequestFilter>();
+			this.For<IActionFilter>().Use<AuthorizationRequestFilter>().LifecycleIs<UniquePerRequestLifecycle>();
 			this.For<IFilterProvider>().Use<ContainerFilterProvider>();
             this.IncludeRegistry(new ScriptRunnerRegistry());
         }

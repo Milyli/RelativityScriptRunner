@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Relativity.API;
-
-namespace Milyli.ScriptRunner.Core.DependencyResolution
+﻿namespace Milyli.ScriptRunner.Core.DependencyResolution
 {
-	public class ServiceManagerFactory : BaseServicesFactory
+	using System;
+	using global::Relativity.API;
+
+	public class ServiceManagerFactory : BaseServicesFactory, IServiceManagerFactory
 	{
 		public ServiceManagerFactory(IHelper helper)
 			: base(helper)
@@ -17,10 +13,10 @@ namespace Milyli.ScriptRunner.Core.DependencyResolution
 		public T GetServiceProxy<T>()
 			where T : IDisposable
 		{
-			return this.GetServicesProxy<T>(this.DefaultExecutionIdentity);
+			return this.GetServiceProxy<T>(this.DefaultExecutionIdentity);
 		}
 
-		public T GetServicesProxy<T>(ExecutionIdentity executionIdentity)
+		public T GetServiceProxy<T>(ExecutionIdentity executionIdentity)
 			where T : IDisposable
 		{
 			return this.Helper.GetServicesManager().CreateProxy<T>(executionIdentity);

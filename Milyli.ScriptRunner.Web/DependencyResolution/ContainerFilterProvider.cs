@@ -3,21 +3,23 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Web.Mvc;
+	using App_Start;
 	using StructureMap;
 
 	public class ContainerFilterProvider : IFilterProvider
 	{
-		private readonly IEnumerable<Filter> filters;
+		private readonly IContainer container;
 
 		public ContainerFilterProvider (IContainer container)
 		{
-			this.filters = container.GetAllInstances<IActionFilter>()
-				.Select(f => new Filter(f, FilterScope.Action, null));
+			this.container = container;
 		}
 
 		public IEnumerable<Filter> GetFilters(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
 		{
-			return this.filters;
+			return StructuremapMvc.StructureMapDependencyScope.CurrentNestedContainer
+				.GetAllInstances<IActionFilter>()
+				.Select(f => new Filter(f, FilterScope.Action, null));
 		}
 	}
 }
