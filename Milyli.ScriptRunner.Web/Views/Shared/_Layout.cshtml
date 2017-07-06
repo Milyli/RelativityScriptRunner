@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width">
     <title>@ViewBag.Title</title>
     @Styles.Render("~/bundles/css")
+    @Styles.Render("~/Content/Site.css")
     @RenderSection("styles", required: false)
     @Scripts.Render("~/bundles/modernizr")
     <style>
@@ -37,7 +38,7 @@
         @RenderBody()
         <footer class="footer">
             <div class="footerContainer container">
-                <p class="text-muted">© 2017, Milyli Inc. All Rights Reserved</p>
+                <p class="text-muted">© @DateTime.Now.Year, Milyli Inc. All Rights Reserved</p>
             </div>
         </footer>
     </div>

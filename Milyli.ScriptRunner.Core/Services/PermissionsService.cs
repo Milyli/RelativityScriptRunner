@@ -10,10 +10,12 @@
 
 	public class PermissionsService : IPermissionsService
 	{
-		private IPermissionManager permissionManager;
 		private bool disposedValue = false;
+        private IPermissionManager permissionManager;
 
-		public PermissionsService(IServiceManagerFactory serviceManagerFactory)
+        public IPermissionManager PermissionManager { get => this.permissionManager; }
+
+        public PermissionsService(IServiceManagerFactory serviceManagerFactory)
 		{
 			this.permissionManager = serviceManagerFactory.GetServiceProxy<IPermissionManager>(ExecutionIdentity.CurrentUser);
 		}
@@ -33,8 +35,9 @@
 			}
 			else
 			{
-				//TODO log errors
+				// TODO log errors
 			}
+
 			return false;
 		}
 

@@ -5,17 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-
-    .job-schedule h4 {
-        font-size: 12pt;
-        font-weight: bold;
-    }
-
-</style>
-
-
 <h3>@ViewBag.Title - Script Scheduling Information (<a href="@Url.Action("List", new { relativityWorkspaceId = Model.RelativityWorkspace.WorkspaceId })">@Model.RelativityWorkspace.Name</a>)</h3>    
+@*<div data-bind="visible: !HasJobs"><h2>No Scheduled Jobs</h2></div>*@
 <div class="schedule-container row" id="relativity-script" data-bind="foreach : JobSchedules">
     <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
 		<div class="panel panel-default">
@@ -27,7 +18,7 @@
 				<p>
 					Executes At <span data-bind="text : TimeOfDay"></span> On
 					<ul class="list-inline list-group" data-bind="foreach : DaysExecuted">
-						<li class="label label-default" data-bind="text : $data"></li>
+                        <li class="label label-default" data-bind="text : $data"></li>
 					</ul>
 				</p>
 			</div>
@@ -61,7 +52,7 @@
                         return this.JobStatus() == 0 ? "Idle" : "Running";
                     }
                 }).bind(JobSchedule));
-
+                
                 JobSchedule.LastExecution = ko.computed(function(){
                 	return toTimeString(JobSchedule.LastExecutionTime());
                 });
@@ -70,7 +61,7 @@
                 JobSchedule.NextExecution = ko.computed(function(){
                 	if (!JobSchedule.JobEnabled())
                 	{
-                		return "Never";
+                		return "Disabled";
                 	}
                 	else
                 	{
@@ -100,7 +91,8 @@
 
     
     var viewmodel = ko.viewmodel.fromModel(@Html.Raw(JsonConvert.SerializeObject(Model)), options);
-
+    viewmodel.HasJobs = viewmodel.JobSchedules().length > 0;
+    debugger;
     ko.applyBindings(viewmodel, $("#relativity-script")[0]);
 </script>
 }

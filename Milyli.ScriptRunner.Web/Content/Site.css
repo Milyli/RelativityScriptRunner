@@ -1,18 +1,196 @@
-﻿body {
+﻿/*body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
 
-/* Set padding to keep content from hitting the edges */
+/* Set padding to keep content from hitting the edges 
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
+/* Set width on the form input elements since they're 100% wide by default 
 input,
 select,
 textarea {
     max-width: 280px;
+}*/
+
+
+.job-schedule h4 {
+    font-size: 12pt;
+    font-weight: bold;
 }
 
+.required label::after {
+    content: " (required)";
+}
+
+.invalid label {
+    font-style: italic;
+    color: #af4c4c;
+}
+
+#mask {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    background: rgba(0,0,0,0.3);
+    display: none;
+}
+
+.day-picker ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+
+.schedule {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.schedule-section {
+    flex-grow: 1;
+}
+
+.schedule-footer {
+    flex-basis: 100%;
+    padding-top:10px;
+}
+
+.schedule h4 {
+    font-weight: bold;
+}
+
+#JobName {
+    width: 80%;
+}
+
+.job-details label {
+    min-width: 15em;
+}
+
+    .job-details label::after {
+        content: ":";
+    }
+
+.run-script-container {
+    display: none;
+}
+
+button:disabled {
+    color: gray;
+}
+
+
+td {
+    text-align: center;
+    width: 25%;
+}
+
+th.pagination {
+    margin: 0px;
+    text-align: left;
+    width: 100%;
+}
+
+.footer {
+    text-align: center;
+    padding-top: 10px;
+}
+.pagination .page-number {
+    width: 70%;
+    float: left;
+}
+
+.pagination .page-size {
+    width: 20%;
+    float: right;
+}
+
+.tt-input,
+.tt-hint {
+    width: 15em;
+    height: 30px;
+    padding: 8px 12px;
+    font-size: 12pt;
+    line-height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    outline: none;
+}
+
+.tt-input { /* UPDATE: newer versions use tt-input instead of tt-query */
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.tt-hint {
+    color: #999;
+}
+
+.tt-menu { /* UPDATE: newer versions use tt-menu instead of tt-dropdown-menu */
+    width: 422px;
+    margin-top: 12px;
+    padding: 8px 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.tt-suggestion {
+    padding: 3px 20px;
+    font-size: 18px;
+    line-height: 24px;
+}
+
+    .tt-suggestion.tt-is-under-cursor { /* UPDATE: newer versions use .tt-suggestion.tt-cursor */
+        color: #fff;
+        background-color: #0097cf;
+    }
+
+    .tt-suggestion p {
+        margin: 0;
+    }
+
+td, th {
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: center;
+}
+
+    td:first-child {
+        text-align: left;
+    }
+
+
+#script-table {
+    width: 100%;
+}
+
+#script-list {
+    display: flex;
+    flex-direction: row;
+}
+
+.workspace-list {
+    flex-basis: 30%;
+}
+
+.script-list {
+    flex-basis: 70%;
+}
+
+#script-table tr {
+    font-size: 10pt;
+}
+
+#script-table td {
+    padding: 4px 2px;
+}

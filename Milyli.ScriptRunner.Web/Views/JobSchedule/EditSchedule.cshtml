@@ -6,98 +6,7 @@
     var days = new List<string>() { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 }
 <style>
-    .required label::after{
-        content : " (required)";
-    }
-
-    .invalid label{
-        font-style : italic;
-        color: #af4c4c;
-    }
-
-    #mask {
-        position:fixed;
-        height:100%;
-        width:100%;
-        top:0px;
-        left:0px;
-        background: rgba(0,0,0,0.3);
-        display : none;
-    }
-
-    .day-picker ul {
-        list-style-type: none;
-        margin: 0px;
-        padding: 0px;
-    }
-
-    
-    .schedule
-    {
-        display : flex;
-        flex-direction : row;
-        flex-wrap: wrap;
-    }
-
-    .schedule-section
-    {
-        flex-grow : 1;
-    }
-
-    .schedule-footer
-    {
-        flex-basis : 100%;
-    }
-    .schedule h4
-    {
-        font-weight : bold;
-    }
-    #JobName
-    {
-        width:80%;
-    }
-    .job-details label
-    {
-        min-width: 15em;        
-    }
-    .job-details label::after
-    {
-        content : ":";        
-    }
-
-    .run-script-container
-    {
-        display:none;
-    }
-
-    button:disabled
-    {
-        color: gray;
-    }
-
-
-    td {
-        text-align:center;
-        width : 25%;
-    }
-
-    th.pagination {
-        margin:0px;
-        text-align : left;
-        width:100%;
-    }
-
-    .pagination .page-number
-    {
-        width:70%;
-        float : left;
-    }
-
-    .pagination .page-size
-    {
-        width:20%;
-        float : right;
-    }
+  
 </style>
 
 <div id="job-schedule-edit">
@@ -172,7 +81,7 @@
         </div>
         <div class="schedule-footer">
             <div data-bind="css : { 'error-notification' : IsInvalid() }, text : InvalidText"></div>
-            <button id="save-job-schedule" data-bind="click: SaveJobSchedule, disable: IsInvalid, attr {title : InvalidText}">Save</button>
+            <button class="btn btn-primary" id="save-job-schedule" data-bind="click: SaveJobSchedule, disable: IsInvalid, attr {title : InvalidText}">Save</button>
         </div>
         <div class="run-script-container">
             <iframe id="run-script" src="/Relativity/Case/RelativityScript/Run.aspx?AppID=@Model.RelativityWorkspace.WorkspaceId&ArtifactID=@Model.RelativityScript.RelativityScriptId"></iframe>
@@ -210,6 +119,11 @@
                     <th>Result</th>
                 </tr>
             </thead>
+            <tboody data-bind="if: JobHistory().length == 0">
+                <tr>
+                    <td>No Previous Jobs</td>
+                </tr>
+            </tboody>
             <tbody data-bind="foreach: JobHistory">
                 <tr>
                     <td data-bind="text : StartTimeString"></td>

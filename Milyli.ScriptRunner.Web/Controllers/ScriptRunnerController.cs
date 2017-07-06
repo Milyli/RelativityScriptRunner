@@ -5,6 +5,7 @@
     using System.Web.Mvc;
     using Core.Models;
     using Milyli.ScriptRunner.Core.Repositories;
+    using Milyli.ScriptRunner.Core.Services;
     using Newtonsoft.Json;
 
     public abstract class ScriptRunnerController : Controller
