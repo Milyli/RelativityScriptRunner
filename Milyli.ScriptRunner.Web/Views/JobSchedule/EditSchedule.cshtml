@@ -17,7 +17,7 @@
             <div class="job-details">
                 <h4>Job Details</h4>
                 <div data-bind="with: JobSchedule">
-                    <label>Job Name</label><input id="JobName" type="text" data-bind="value : Name"  maxlength="255" /><br />
+                    <label>Job Name</label><input id="JobName" type="text" data-bind="value : Name"  maxlength="255" minlength="1"/><br />
                     <label>Last Execution Time</label><span data-bind="text : LastExecutionTimeString"></span><br />
                     <label>Next Execution Time</label> <span data-bind="text : NextExecutionTimeString"></span><br />
                     <label>Exectues At</label> 
@@ -148,10 +148,9 @@
     @Scripts.Render("~/bundles/JobSchedule")
 
     <script type="text/javascript">
-        //Used by the RunScript iframe.  Yes this is janky.
+        //Used by the RunScript iframe.
         function ResetTimeout()
         {
-
         };
 
         function unmask()
@@ -178,7 +177,7 @@
                 .toArray();
         }
 
-        //Yes we're finding script input DDLs by scraping. Yes this is janky. I have tried looking for a better way to grab input values in a better manner
+        //Yes we're finding script input DDLs by scraping. I have tried looking for a better way to grab input values in a better manner
         //but none of the RSAPI mechanisms for Relativity Scripts seems geared toward populating input lists.
         function getInputValues()
         {
