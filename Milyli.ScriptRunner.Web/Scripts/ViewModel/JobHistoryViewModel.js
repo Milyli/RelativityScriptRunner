@@ -56,7 +56,7 @@
                         JobHistoryModel.HasNextPage = ko.computed(function()
                         {
                             var startResultNum = JobHistoryModel.CurrentStart();
-                            return (startResultNum + JobHistoryModel.PageSize()) < JobHistoryModel.ResultCount();
+                            return (startResultNum + parseInt(JobHistoryModel.PageSize())) < JobHistoryModel.ResultCount();
                         });
 
                         JobHistoryModel.HasPreviousPage = ko.computed(function()
@@ -123,12 +123,12 @@
 
             jobHistoryViewModel.GoNextPage = function()
             {
-                jobHistoryViewModel.Go(jobHistoryViewModel.PageNumber() + 1, jobHistoryViewModel.HasNextPage());
+                jobHistoryViewModel.Go(jobHistoryViewModel.PageNumber() + 1, jobHistoryViewModel.HasNextPage);
             };
 
             jobHistoryViewModel.GoPreviousPage = function()
             {
-                jobHistoryViewModel.Go(jobHistoryViewModel.PageNumber() - 1, jobHistoryViewModel.HasPreviousPage());
+                jobHistoryViewModel.Go(jobHistoryViewModel.PageNumber() - 1, jobHistoryViewModel.HasPreviousPage);
             };
 
             jobHistoryViewModel.GoFirstPage = function()
