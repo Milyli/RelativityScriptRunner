@@ -202,6 +202,10 @@
 
         self.GetViewModel = function()
         {
+            viewmodel.HasName = ko.computed(function () {
+                return viewmodel.JobSchedule.Name().length > 0;
+            })
+
             return viewmodel;
         };
     }

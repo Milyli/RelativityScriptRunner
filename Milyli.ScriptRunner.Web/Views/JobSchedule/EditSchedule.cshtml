@@ -17,7 +17,7 @@
             <div class="job-details">
                 <h4>Job Details</h4>
                 <div data-bind="with: JobSchedule">
-                    <label>Job Name</label><input id="JobName" type="text" data-bind="value : Name"  maxlength="255" minlength="1"/><br />
+                    <label>Job Name</label><input id="JobName" class="form-control" type="text" data-bind="value : Name, style: { borderColor: Name().length < 1 ? 'red' : 'black'}" maxlength="255" /><br />
                     <label>Last Execution Time</label><span data-bind="text : LastExecutionTimeString"></span><br />
                     <label>Next Execution Time</label> <span data-bind="text : NextExecutionTimeString"></span><br />
                     <label>Exectues At</label> 
@@ -81,7 +81,7 @@
         </div>
         <div class="schedule-footer">
             <div data-bind="css : { 'error-notification' : IsInvalid() }, text : InvalidText"></div>
-            <button class="btn btn-primary" id="save-job-schedule" data-bind="click: SaveJobSchedule, disable: IsInvalid, attr {title : InvalidText}">Save</button>
+            <button class="btn btn-primary" id="save-job-schedule" data-bind="click: SaveJobSchedule, disable: (!HasName() || IsInvalid), attr {title : InvalidText}">Save</button>
         </div>
         <div class="run-script-container">
             <iframe id="run-script" src="/Relativity/Case/RelativityScript/Run.aspx?AppID=@Model.RelativityWorkspace.WorkspaceId&ArtifactID=@Model.RelativityScript.RelativityScriptId"></iframe>
@@ -119,11 +119,11 @@
                     <th>Result</th>
                 </tr>
             </thead>
-            <tboody data-bind="if: JobHistory().length == 0">
+            <tbody data-bind="if: JobHistory().length == 0">
                 <tr>
                     <td>No Previous Jobs</td>
                 </tr>
-            </tboody>
+            </tbody>
             <tbody data-bind="foreach: JobHistory">
                 <tr>
                     <td data-bind="text : StartTimeString"></td>
@@ -176,7 +176,7 @@
                 })
                 .toArray();
         }
-
+       
         //Yes we're finding script input DDLs by scraping. I have tried looking for a better way to grab input values in a better manner
         //but none of the RSAPI mechanisms for Relativity Scripts seems geared toward populating input lists.
         function getInputValues()
