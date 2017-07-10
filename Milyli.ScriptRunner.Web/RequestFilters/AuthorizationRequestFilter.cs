@@ -1,23 +1,20 @@
-﻿
-
-namespace Milyli.ScriptRunner.Web.RequestFilters
+﻿namespace Milyli.ScriptRunner.Web.RequestFilters
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web;
     using System.Web.Mvc;
+    using Milyli.ScriptRunner.Core.Repositories;
     using Milyli.ScriptRunner.Core.Services;
     using Relativity.Services.Group;
 
     public class AuthorizationRequestFilter : ActionFilterAttribute
     {
         private const int RelativityScriptArtifactType = 28;
-        private readonly IPermissionsService permissionsService;
+        private readonly IPermissionRepository permissionRepository;
+        private readonly IPermissionsService permissionService;
 
-        public AuthorizationRequestFilter(IPermissionsService permissionsService)
+        public AuthorizationRequestFilter(IPermissionRepository permissionsService, IPermissionsService permissionService)
         {
-            this.permissionsService = permissionsService;
+            this.permissionRepository = permissionsService;
+            this.permissionService = permissionService;
         }
 
         public void OnActionExecuted(ActionExecutedContext filterContext)
@@ -27,19 +24,8 @@ namespace Milyli.ScriptRunner.Web.RequestFilters
 
         public void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var mgr = this.permissionsService.PermissionManager;
-            foreach (var perm in mgr.GetAdminGroupSelectorAsync().Result.EnabledGroups)
-            {
-                var users = mgr.GetAdminGroupUsersAsync(new GroupRef(perm.ArtifactID)).Result;
-            }
 
-            //if (true)
-            //{
-            //    filterContext.Result = new RedirectResult("~/Views/Error/NotAuthorized");
-            //    base.OnActionExecuting(filterContext);
-            //}
-
-            if (!this.permissionsService.CanEdit(-1, RelativityScriptArtifactType))
+            if (!this.permissionService.CanEdit(-1, RelativityScriptArtifactType))
             {
                 var redirectResult = new RedirectResult("NotAuthorized");
                 filterContext.Result = redirectResult;

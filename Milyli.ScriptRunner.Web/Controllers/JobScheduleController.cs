@@ -12,8 +12,8 @@
 
     public class JobScheduleController : ScriptRunnerController
     {
-        public JobScheduleController(IJobScheduleRepository jobScheduleRepository, IRelativityScriptRepository scriptRepository, IRelativityWorkspaceRepository workspaceRepository)
-            : base(jobScheduleRepository, scriptRepository, workspaceRepository)
+        public JobScheduleController(IJobScheduleRepository jobScheduleRepository, IRelativityScriptRepository scriptRepository, IRelativityWorkspaceRepository workspaceRepository, IPermissionRepository permissionRepository)
+            : base(jobScheduleRepository, scriptRepository, workspaceRepository, permissionRepository)
         {
         }
 

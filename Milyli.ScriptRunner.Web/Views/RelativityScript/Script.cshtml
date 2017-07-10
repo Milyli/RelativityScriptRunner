@@ -6,7 +6,12 @@
 }
 
 <h3>@ViewBag.Title - Script Scheduling Information (<a href="@Url.Action("List", new { relativityWorkspaceId = Model.RelativityWorkspace.WorkspaceId })">@Model.RelativityWorkspace.Name</a>)</h3>    
-<div data-bind="visible: !HasJobs"><h2>No Scheduled Jobs</h2></div>
+@{ 
+    if(Model.JobSchedules.Count < 1)
+    {
+        <h4>No Scheduled Jobs</h4>
+    }
+}
 <div class="schedule-container row" id="relativity-script" data-bind="foreach : JobSchedules">
     <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
 		<div class="panel panel-default">
@@ -91,9 +96,9 @@
 
     
     var viewmodel = ko.viewmodel.fromModel(@Html.Raw(JsonConvert.SerializeObject(Model)), options);
-    viewmodel.HasJobs = ko.computed(function () {
-        return viewmodel.JobSchedules.length > 0;
-    })
+    //viewmodel.HasJobs = ko.computed(function () {
+    //    return viewmodel.JobSchedules.length > 0;
+    //})
     ko.applyBindings(viewmodel, $("#relativity-script")[0]);
 </script>
 }

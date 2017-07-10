@@ -13,12 +13,14 @@
         private IJobScheduleRepository jobScheduleRepository;
         private IRelativityScriptRepository relativityScriptRepository;
         private IRelativityWorkspaceRepository workspaceRepository;
+        private IPermissionRepository permissionRepository;
 
-        protected ScriptRunnerController(IJobScheduleRepository jobScheduleRepository, IRelativityScriptRepository scriptRepository, IRelativityWorkspaceRepository workspaceRepository)
+        protected ScriptRunnerController(IJobScheduleRepository jobScheduleRepository, IRelativityScriptRepository scriptRepository, IRelativityWorkspaceRepository workspaceRepository, IPermissionRepository permissionRepository)
         {
             this.jobScheduleRepository = jobScheduleRepository;
             this.relativityScriptRepository = scriptRepository;
             this.workspaceRepository = workspaceRepository;
+            this.permissionRepository = permissionRepository;
         }
 
         protected IJobScheduleRepository JobScheduleRepository
@@ -42,6 +44,14 @@
             get
             {
                 return this.workspaceRepository;
+            }
+        }
+
+        protected IPermissionRepository PermissionRepository
+        {
+            get
+            {
+                return this.permissionRepository;
             }
         }
 

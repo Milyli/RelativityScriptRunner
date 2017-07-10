@@ -112,8 +112,10 @@
     <Compile Include="Models\RelativityScript.cs" />
     <Compile Include="Models\ScriptInput.cs" />
     <Compile Include="Models\RelativityWorkspace.cs" />
+    <Compile Include="Repositories\IPermissionRepository.cs" />
     <Compile Include="Repositories\IRelativityScriptRepository.cs" />
     <Compile Include="Repositories\IRelativityWorkspaceRepository.cs" />
+    <Compile Include="Repositories\PermissionRepository.cs" />
     <Compile Include="Repositories\RelativityClientRepository.cs" />
     <Compile Include="Repositories\RelativityScriptRepository.cs" />
     <Compile Include="Repositories\RelativityWorkspaceRepository.cs" />

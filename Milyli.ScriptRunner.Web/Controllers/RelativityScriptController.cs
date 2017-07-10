@@ -10,18 +10,24 @@
     using Milyli.ScriptRunner.Web.Models;
     using Milyli.ScriptRunner.Web.RequestFilters;
 
-  
     public class RelativityScriptController : ScriptRunnerController
     {
-        public RelativityScriptController(IJobScheduleRepository jobScheduleRepository, IRelativityScriptRepository scriptRepository, IRelativityWorkspaceRepository workspaceRepository, Core.Services.IPermissionsService permissionsService)
-            : base(jobScheduleRepository, scriptRepository, workspaceRepository)
+        public RelativityScriptController(IJobScheduleRepository jobScheduleRepository, IRelativityScriptRepository scriptRepository, IRelativityWorkspaceRepository workspaceRepository, IPermissionRepository permissionRepository)
+            : base(jobScheduleRepository, scriptRepository, workspaceRepository, permissionRepository)
         {
         }
 
         // GET: RelativityScript
         public ActionResult Index()
         {
-            return this.Redirect(this.Url.Action("List"));
+            if (this.PermissionRepository.IsUserAdmin(Relativity.CustomPages.ConnectionHelper.Helper().GetAuthenticationManager().UserInfo.ArtifactID))
+            {
+                return this.Redirect(this.Url.Action("List"));
+            }
+            else
+            {
+                return this.NotAuthorized();
+            }
         }
 
         public ViewResult NotAuthorized()
@@ -29,7 +35,7 @@
 
             var viewResult = new ViewResult()
             {
-                ViewName = "~/Views/Error/Index.cshtml",
+                ViewName = "~/Views/Error/NotAuthorized.cshtml",
             };
 
             return viewResult;
