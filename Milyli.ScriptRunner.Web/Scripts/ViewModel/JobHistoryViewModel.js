@@ -56,7 +56,7 @@
                         JobHistoryModel.HasNextPage = ko.computed(function()
                         {
                             var startResultNum = JobHistoryModel.CurrentStart();
-                            return (startResultNum + JobHistoryModel.PageSize()) < JobHistoryModel.ResultCount();
+                            return (startResultNum + parseInt(JobHistoryModel.PageSize())) < JobHistoryModel.ResultCount();
                         });
 
                         JobHistoryModel.HasPreviousPage = ko.computed(function()
