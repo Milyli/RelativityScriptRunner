@@ -96,9 +96,7 @@
 
     
     var viewmodel = ko.viewmodel.fromModel(@Html.Raw(JsonConvert.SerializeObject(Model)), options);
-    //viewmodel.HasJobs = ko.computed(function () {
-    //    return viewmodel.JobSchedules.length > 0;
-    //})
+
     ko.applyBindings(viewmodel, $("#relativity-script")[0]);
 </script>
 }

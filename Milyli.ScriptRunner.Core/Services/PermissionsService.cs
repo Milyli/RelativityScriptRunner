@@ -59,5 +59,5 @@
 				this.disposedValue = true;
 			}
 		}
-	}
+    }
 }
