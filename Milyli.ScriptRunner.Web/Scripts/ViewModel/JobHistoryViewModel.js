@@ -123,12 +123,12 @@
 
             jobHistoryViewModel.GoNextPage = function()
             {
-                jobHistoryViewModel.Go(jobHistoryViewModel.PageNumber() + 1, jobHistoryViewModel.HasNextPage);
+                jobHistoryViewModel.Go(jobHistoryViewModel.PageNumber() + 1, jobHistoryViewModel.HasNextPage());
             };
 
             jobHistoryViewModel.GoPreviousPage = function()
             {
-                jobHistoryViewModel.Go(jobHistoryViewModel.PageNumber() - 1, jobHistoryViewModel.HasPreviousPage);
+                jobHistoryViewModel.Go(jobHistoryViewModel.PageNumber() - 1, jobHistoryViewModel.HasPreviousPage());
             };
 
             jobHistoryViewModel.GoFirstPage = function()
