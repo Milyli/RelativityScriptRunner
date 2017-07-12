@@ -2,15 +2,14 @@
 // Copyright © 2016 Milyli
 // </copyright>
 
-using Milyli.ScriptRunner.MilyliDependencies.Framework.Relativity;
+
 
 namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
 {
-    using global::Relativity.API;
-    using kCura.Relativity.Client;
-    using Milyli.Framework.Relativity.TestTools;
-    using Milyli.Framework.Relativity.TestTools.Extensions;
     using DependencyResolution;
+    using MilyliDependencies;
+    using MilyliDependencies.Framework.Relativity;
+    using MilyliDependencies.Framework.Relativity.Interfaces;
     using Relativity.Client;
     using StructureMap;
 
