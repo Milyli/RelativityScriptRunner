@@ -1,10 +1,12 @@
-﻿namespace Milyli.ScriptRunner.Core.DependencyResolution
+﻿
+namespace Milyli.ScriptRunner.Core.DependencyResolution
 {
-    using Milyli.Framework.Repositories;
-    using Milyli.ScriptRunner.Core.DataContexts;
+
+    using DataContexts;
     using Repositories;
     using Services;
     using StructureMap;
+    using MilyliDependencies.Framework.Repositories;
 
     public class ScriptRunnerRegistry : Registry
     {

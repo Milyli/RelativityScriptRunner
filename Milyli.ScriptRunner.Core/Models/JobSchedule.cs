@@ -1,9 +1,10 @@
-﻿namespace Milyli.ScriptRunner.Core.Models
+﻿
+namespace Milyli.ScriptRunner.Core.Models
 {
     using System;
     using LinqToDB.Mapping;
-    using Milyli.Framework.Repositories.Interfaces;
-    using Milyli.ScriptRunner.Core.Tools;
+    using MilyliDependencies.Framework.Repositories.Interfaces;
+    using Tools;
 
     public enum JobStatus
     {

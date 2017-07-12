@@ -71,14 +71,6 @@
       <HintPath>..\Solutions\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Milyli.Framework.Relativity, Version=1.0.5.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\Dependencies\Milyli.Framework.Relativity.1.0.5\lib\Milyli.Framework.Relativity.dll</HintPath>
-    </Reference>
-    <Reference Include="Milyli.Framework.Repositories, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\Dependencies\Milyli.Framework.Repositories.1.0.3\lib\Milyli.Framework.Repositories.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -483,6 +475,10 @@
     <ProjectReference Include="..\Milyli.ScriptRunner.Core\Milyli.ScriptRunner.Core.csproj">
       <Project>{eaf9c518-b0b8-4445-898c-db68a3ff1057}</Project>
       <Name>Milyli.ScriptRunner.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Solutions\Milyli.ScriptRunner.MilyliDependencies\Milyli.ScriptRunner.MilyliDependencies.csproj">
+      <Project>{0183cc66-b353-4352-8f84-82d3818037a7}</Project>
+      <Name>Milyli.ScriptRunner.MilyliDependencies</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

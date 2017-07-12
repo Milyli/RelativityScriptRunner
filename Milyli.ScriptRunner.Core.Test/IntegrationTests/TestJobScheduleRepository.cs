@@ -7,7 +7,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Milyli.ScriptRunner.Core.Repositories;
+    using Repositories;
     using Models;
     using NUnit.Framework;
 

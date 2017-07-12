@@ -1,9 +1,10 @@
-﻿namespace Milyli.ScriptRunner.Core.Repositories
+﻿
+namespace Milyli.ScriptRunner.Core.Repositories
 {
     using System;
     using System.Collections.Generic;
-    using Milyli.Framework.Repositories.Interfaces;
-    using Milyli.ScriptRunner.Core.Models;
+    using Models;
+    using MilyliDependencies.Framework.Repositories.Interfaces;
 
     public interface IJobScheduleRepository : IReadWriteRepository<JobSchedule, int>
     {

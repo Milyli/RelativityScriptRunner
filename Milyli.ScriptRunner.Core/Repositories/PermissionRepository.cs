@@ -1,6 +1,6 @@
 ﻿namespace Milyli.ScriptRunner.Core.Repositories
 {
-    using MRepositories = Milyli.Framework.Repositories;
+    using MRepositories = MilyliDependencies.Framework.Repositories;
 
     public class PermissionRepository : IPermissionRepository
     {

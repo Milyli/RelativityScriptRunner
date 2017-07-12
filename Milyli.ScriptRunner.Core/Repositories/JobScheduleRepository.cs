@@ -6,10 +6,9 @@
     using System.Linq;
     using LinqToDB;
     using LinqToDB.Data;
-    using Milyli.Framework.Repositories;
     using Milyli.ScriptRunner.Core.DataContexts;
     using Milyli.ScriptRunner.Core.Models;
-
+    using MilyliDependencies.Framework.Repositories;
     public enum JobActivationStatus
     {
         InvalidJob = -1,
