@@ -1,0 +1,24 @@
+﻿<Application>
+  <Name>Milyli.ScriptRunner</Name>
+  <!-- This is the relative path from the root of the repository pointing to where the RAP should be put. -->
+  <Destination>Deployment\ScriptRunner.rap</Destination>
+  <!-- This is the relative path from the root of the repository pointing to the current location of the application.xml -->
+  <ApplicationSchema>Deployment\application.xml</ApplicationSchema>
+  <Assemblies>
+    <!-- Each of these entries should be the relative path pointing to an assembly to add to the RAP. -->
+    <!-- Ensure that the application.xml contains the rows for each of these items as the builder will not modify the application.xml besides for the Version. -->
+	<Assembly>Milyli.ScriptRunner.EventHandlers\bin\Release\Milyli.ScriptRunner.EventHandlers.dll</Assembly>
+	<Assembly>Milyli.ScriptRunner.Agent\bin\Release\Milyli.ScriptRunner.Agent.dll</Assembly>
+  </Assemblies>
+  <ResourceFiles>
+    <!-- Each of these entries should be the relative path pointing to a resource file to add to the RAP.-->
+    <!-- currently no resource files -->
+  </ResourceFiles>
+  <CustomPages>
+    <!-- This should contain the custom page guid and the path to the Published Custom Page. The RAP builder will zip this folder and add it to the RAP. -->
+    <CustomPage>
+      <Guid>A5B83E42-D9F0-4DF8-B1CB-D2BA361F1B25</Guid>
+      <Location>Deployment\CustomPage</Location>
+    </CustomPage>
+  </CustomPages>
+</Application>

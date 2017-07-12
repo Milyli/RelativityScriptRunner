@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Application xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ArtifactViewFields />
+	<Assemblies>
+		<Assembly>
+			<ArtifactId>1016826</ArtifactId>
+			<Keywords />
+			<Name>Milyli.ScriptRunner.Agent.dll</Name>
+			<Notes />
+		</Assembly>
+		<Assembly>
+			<ArtifactId>1016828</ArtifactId>
+			<Keywords />
+			<Name>Milyli.ScriptRunner.EventHandlers.dll</Name>
+			<Notes />
+		</Assembly>
+	</Assemblies>
+	<ResourceFiles />
+	<ExternalTabs />
+	<ExtractionDate>2017-07-10T19:35:33.6128931Z</ExtractionDate>
+	<Guid>cd91b601-127e-41e7-8c8b-7afeeca1515f</Guid>
+	<Name>Milyli.ScriptRunner</Name>
+	<Objects />
+	<ParentTabs />
+	<RelativityVersion>9.5.162.111</RelativityVersion>
+	<Version>1.0.0.17</Version>
+	<TabDisplay>false</TabDisplay>
+	<OriginSignature>74b125fa-a2a7-476b-bd18-b29a55bb27a7</OriginSignature>
+	<MasterScripts />
+	<ApplicationScripts />
+	<CustomPages>
+		<CustomPage>
+			<ArtifactID>1040695</ArtifactID>
+			<Guid>a5b83e42-d9f0-4df8-b1cb-d2ba361f1b25</Guid>
+			<ApplicationVersion>1.0.0.17</ApplicationVersion>
+			<Name>Milyli.ScriptRunner</Name>
+			<FileName>Milyli.ScriptRunner.Web.zip</FileName>
+			<Size>5790411</Size>
+			<Keywords />
+			<Notes />
+			<Hash />
+		</CustomPage>
+	</CustomPages>
+	<AgentTypes>
+		<AgentType>
+			<ArtifactId>1040694</ArtifactId>
+			<Guid>a3e50474-a27d-486b-b46b-c0fb6b40d3c5</Guid>
+			<ApplicationVersion>1.0.0.17</ApplicationVersion>
+			<AgentTypeName>Milyli ScriptRunner Agent</AgentTypeName>
+			<FullNameSpace>Milyli.ScriptRunner.Agent.ScriptRunnerAgent</FullNameSpace>
+			<DefaultInterval>5</DefaultInterval>
+			<DefaultLogging>1</DefaultLogging>
+			<MinInstanceEnvironment>0</MinInstanceEnvironment>
+			<MaxInstanceEnvironment>0</MaxInstanceEnvironment>
+			<MinInstanceServer>0</MinInstanceServer>
+			<MaxInstanceServer>0</MaxInstanceServer>
+			<MinInstanceResourcePool>0</MinInstanceResourcePool>
+			<MaxInstanceResourcePool>0</MaxInstanceResourcePool>
+			<AssemblyArtifactID>0</AssemblyArtifactID>
+			<AgentDll>Milyli.ScriptRunner.Agent.dll</AgentDll>
+			<Keywords />
+			<Notes />
+			<Description />
+		</AgentType>
+	</AgentTypes>
+	<IsRelativityApplication>true</IsRelativityApplication>
+	<InstallEventHandlers>
+		<InstallEventHandler>
+			<ArtifactId>1040693</ArtifactId>
+			<AssemblyArtifactId>1016828</AssemblyArtifactId>
+			<Name>Milyli.ScriptRunner.EventHandlers.PostInstall.ScriptRunnerSetupSchema</Name>
+			<Guid>67c92cea-c099-4770-9b8c-4feb34910595</Guid>
+			<Guids>18d10239-0fb8-4962-8841-fe4382d50563</Guids>
+			<ExecutionType>8</ExecutionType>
+			<Order>10</Order>
+			<AssemblyName>Milyli.ScriptRunner.EventHandlers.dll</AssemblyName>
+			<ApplicationVersion>1.0.0.17</ApplicationVersion>
+			<RunTarget>0</RunTarget>
+		</InstallEventHandler>
+	</InstallEventHandlers>
+	<SavedSearches />
+	<SearchContainers />
+	<SearchProviders />
+	<EnvironmentVariables>
+		<SearchAsConditionCriteriaID>1000471</SearchAsConditionCriteriaID>
+		<FullTextAll>1000182</FullTextAll>
+	</EnvironmentVariables>
+	<GlobalApplication>false</GlobalApplication>
+	<UserFriendlyUrl>ScriptRunner</UserFriendlyUrl>
+	<RelativityScriptIds />
+	<ViewIds />
+	<DashboardIds />
+	<LayoutIds />
+	<FieldIds />
+	<ChoiceIds />
+	<ObjectTypeIds />
+	<TabIds />
+	<CustomPageIds>
+		<Id>1040695</Id>
+	</CustomPageIds>
+	<Locked>true</Locked>
+</Application>
