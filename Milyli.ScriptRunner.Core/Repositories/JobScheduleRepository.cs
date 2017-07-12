@@ -22,8 +22,6 @@
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Dispose method not exposed")]
     public class JobScheduleRepository : BaseReadWriteRepository<InstanceDataContext, JobSchedule, int>, IJobScheduleRepository
     {
-        // One day, in seconds
-        private const int DEFAULT_MAX_OFFSET = 86400;
 
         public JobScheduleRepository(InstanceDataContext dataContext)
             : base(dataContext)
@@ -38,15 +36,14 @@
             }
         }
 
-        // Returns a list of Jobs to run, filtered by NextExecution constrained to NextExecutionTimes between maxOffset seconds before runtime and runtime
-        public List<JobSchedule> GetJobSchedules(DateTime runtime, int maxOffset)
+        // Returns a list of Jobs to run
+        // This will pull any jobs in the queue prior to the current date
+        public List<JobSchedule> GetJobSchedules(DateTime runtime)
         {
             var end = runtime;
-            var offset = maxOffset < int.MaxValue ? maxOffset : int.MaxValue - 1;
-            var start = runtime.AddSeconds(-1 * offset);
             var result = this.DataContext.JobSchedule
                 .Where(s =>
-                    ((start <= s.NextExecutionTime && s.NextExecutionTime <= end)
+                    ((s.NextExecutionTime <= end)
                     && s.JobEnabled && s.JobStatus == (int)JobStatus.Idle)
                     || s.JobStatus == (int)JobStatus.Waiting)
                 .ToList();
@@ -73,11 +70,6 @@
                     return JobActivationStatus.AlreadyRunning;
                 }
             }
-        }
-
-        public List<JobSchedule> GetJobSchedules(DateTime runtime)
-        {
-            return this.GetJobSchedules(runtime, DEFAULT_MAX_OFFSET);
         }
 
         public List<JobSchedule> GetJobSchedules(RelativityWorkspace relativityWorkspace)
@@ -235,6 +227,11 @@
             {
                 if (jobSchedule.Id > 0)
                 {
+                  if (!jobSchedule.JobEnabled)
+                  {
+                    jobSchedule.NextExecutionTime = null;
+                  }
+
                     LockJobSchedule(jobSchedule, transaction);
                     this.Update(jobSchedule);
                 }

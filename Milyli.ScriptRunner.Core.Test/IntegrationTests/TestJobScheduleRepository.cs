@@ -115,7 +115,8 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
             var ids = jobList.Select(j => j.Id).ToList();
 
             Assert.That(ids.Contains(jobSchedule.Id), string.Format("There should be one job (id {0}) in the result", jobSchedule.Id));
-            Assert.That(!ids.Contains(tooEarly.Id) && !ids.Contains(tooLate.Id), string.Format("Did not expect jobs of ids {0} and {1}, but found those jobs", tooEarly.Id, tooLate.Id));
+            Assert.That(ids.Contains(tooEarly.Id), string.Format("Job id {0} expected but not found (fail on checking for old jobs", tooEarly.Id));
+            Assert.That(!ids.Contains(tooLate.Id), string.Format("Did not expect jobs of ids {0}, but found those jobs (too late)", tooLate.Id));
         }
 
         [Test]
