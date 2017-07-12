@@ -1,10 +1,10 @@
 ﻿// Copyright © 2017 Milyli
 
-namespace Milyli.ScriptRunner.MilyliDependencies
+namespace Milyli.ScriptRunner.MilyliDependencies.Framework.Relativity
 {
     using System;
     using System.Linq;
-    using Framework.Relativity.Interfaces;
+    using Interfaces;
 
     public static class RelativityConstantsExtensions
     {
