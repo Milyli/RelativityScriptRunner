@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milyli.ScriptRunner.Agent",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milyli.ScriptRunner.EventHandlers", "..\Milyli.ScriptRunner.EventHandlers\Milyli.ScriptRunner.EventHandlers.csproj", "{67C92CEA-C099-4770-9B8C-4FEB34910595}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milyli.ScriptRunner.MilyliDependencies", "Milyli.ScriptRunner.MilyliDependencies\Milyli.ScriptRunner.MilyliDependencies.csproj", "{0183CC66-B353-4352-8F84-82D3818037A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milyli.ScriptRunner.MilyliDependencies", "..\Milyli.ScriptRunner.MilyliDependencies\Milyli.ScriptRunner.MilyliDependencies.csproj", "{0183CC66-B353-4352-8F84-82D3818037A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

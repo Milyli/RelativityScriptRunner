@@ -136,7 +136,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Solutions\Milyli.ScriptRunner.MilyliDependencies\Milyli.ScriptRunner.MilyliDependencies.csproj">
+    <ProjectReference Include="..\Milyli.ScriptRunner.MilyliDependencies\Milyli.ScriptRunner.MilyliDependencies.csproj">
       <Project>{0183cc66-b353-4352-8f84-82d3818037a7}</Project>
       <Name>Milyli.ScriptRunner.MilyliDependencies</Name>
     </ProjectReference>

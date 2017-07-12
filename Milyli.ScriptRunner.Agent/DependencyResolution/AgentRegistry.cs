@@ -2,7 +2,6 @@
 // Copyright © 2016 Milyli
 // </copyright>
 
-
 namespace Milyli.ScriptRunner.Agent.DependencyResolution
 {
     using Core.DependencyResolution;

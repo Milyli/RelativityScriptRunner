@@ -115,7 +115,7 @@
     <Compile Include="Framework.Repositories\RelativityConnectionFactoryBase.cs" />
     <Compile Include="Framework.Repositories\RelativityInstanceConnectionFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RelativityConstantsExtensions.cs" />
+    <Compile Include="Framework.Relativity\RelativityConstantsExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
