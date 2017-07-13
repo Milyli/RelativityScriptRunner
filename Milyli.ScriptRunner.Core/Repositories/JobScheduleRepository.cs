@@ -75,7 +75,7 @@
         public List<JobSchedule> GetJobSchedules(RelativityWorkspace relativityWorkspace)
         {
             return this.DataContext.JobSchedule
-                .Where(s => s.WorkspaceId == relativityWorkspace.WorkspaceId && s.JobEnabled)
+                .Where(s => s.WorkspaceId == relativityWorkspace.WorkspaceId)
                 .ToList();
         }
 

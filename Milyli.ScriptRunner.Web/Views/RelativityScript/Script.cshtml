@@ -20,12 +20,14 @@
 				<span data-bind="text : StatusDescription"></span>
 				<p>Last Ran <span data-bind="text: LastExecution"></span></p>
 				<p>Runs Next at <span data-bind="text: NextExecution"></span></p>
-				<p>
-					Executes At <span data-bind="text : TimeOfDay"></span> On
-					<ul class="list-inline list-group" data-bind="foreach : DaysExecuted">
-                        <li class="label label-default" data-bind="text : $data"></li>
-					</ul>
-				</p>
+				<div data-bind="if: HasExecution()">
+					<p>
+						Executes At <span data-bind="text : TimeOfDay"></span> On
+						<ul class="list-inline list-group" data-bind="foreach : DaysExecuted">
+							<li class="label label-default" data-bind="text : $data"></li>
+						</ul>
+					</p>
+				</div>
 			</div>
 		</div>
     </div>
@@ -62,6 +64,10 @@
                 	return toTimeString(JobSchedule.LastExecutionTime());
                 });
 
+	            JobSchedule.HasExecution = ko.pureComputed(function() {
+		            if (JobSchedule.DaysExecuted.length === 0 || !JobSchedule.JobEnabled()) return false;
+		            else return true;
+	            });
 
                 JobSchedule.NextExecution = ko.computed(function(){
                 	if (!JobSchedule.JobEnabled())
