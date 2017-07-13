@@ -1,12 +1,12 @@
-﻿namespace Milyli.ScriptRunner.Core.Repositories
-{
-    using MRepositories = MilyliDependencies.Framework.Repositories;
+﻿using Milyli.ScriptRunner.Core.Repositories.Interfaces;
 
+namespace Milyli.ScriptRunner.Core.Repositories
+{
     public class PermissionRepository : IPermissionRepository
     {
-        private MRepositories.DataContext dataContext;
+        private DataContext dataContext;
 
-        public PermissionRepository(MRepositories.DataContext dataContext)
+        public PermissionRepository(DataContext dataContext)
         {
             this.dataContext = dataContext;
         }

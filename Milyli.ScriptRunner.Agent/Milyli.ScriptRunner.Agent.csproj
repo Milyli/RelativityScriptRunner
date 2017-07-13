@@ -112,10 +112,6 @@
       <Project>{eaf9c518-b0b8-4445-898c-db68a3ff1057}</Project>
       <Name>Milyli.ScriptRunner.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Milyli.ScriptRunner.MilyliDependencies\Milyli.ScriptRunner.MilyliDependencies.csproj">
-      <Project>{0183cc66-b353-4352-8f84-82d3818037a7}</Project>
-      <Name>Milyli.ScriptRunner.MilyliDependencies</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

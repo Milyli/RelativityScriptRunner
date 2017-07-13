@@ -3,13 +3,14 @@
 // </copyright>
 
 
+using Milyli.ScriptRunner.Core.Relativity;
+using Milyli.ScriptRunner.Core.Relativity.Interfaces;
 
 namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
 {
     using DependencyResolution;
     using MilyliDependencies;
     using MilyliDependencies.Framework.Relativity;
-    using MilyliDependencies.Framework.Relativity.Interfaces;
     using Relativity.Client;
     using StructureMap;
 

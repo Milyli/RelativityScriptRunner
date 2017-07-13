@@ -14,16 +14,18 @@
 // limitations under the License.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
+using Milyli.ScriptRunner.Core.Relativity.Interfaces;
+using Milyli.ScriptRunner.Core.Repositories;
+using Milyli.ScriptRunner.Core.Repositories.Interfaces;
+
 namespace Milyli.ScriptRunner.Web.DependencyResolution
 {
     using System.Web.Mvc;
     using Core.DependencyResolution;
     using Core.Relativity.Client;
     using Milyli.ScriptRunner.MilyliDependencies.Framework.Relativity;
-    using Milyli.ScriptRunner.MilyliDependencies.Framework.Repositories;
     using Milyli.ScriptRunner.Web.RequestFilters;
-    using MilyliDependencies.Framework.Relativity.Interfaces;
-    using MilyliDependencies.Framework.Repositories.Interfaces;
     using Relativity.API;
     using Relativity.CustomPages;
     using StructureMap;

@@ -1,12 +1,12 @@
 ﻿
+using Milyli.ScriptRunner.Core.Repositories.Interfaces;
+
 namespace Milyli.ScriptRunner.Core.DataContexts
 {
     using LinqToDB;
     using Models;
-    using MilyliDependencies.Framework.Repositories.Interfaces;
-    using MRepositories = MilyliDependencies.Framework.Repositories;
 
-    public class InstanceDataContext : MRepositories.DataContext
+    public class InstanceDataContext : Repositories.DataContext
     {
         public InstanceDataContext(IInstanceConnectionFactory factory)
             : base(factory)

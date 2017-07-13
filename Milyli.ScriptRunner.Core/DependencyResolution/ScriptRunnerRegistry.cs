@@ -1,4 +1,6 @@
 ﻿
+using Milyli.ScriptRunner.Core.Repositories.Interfaces;
+
 namespace Milyli.ScriptRunner.Core.DependencyResolution
 {
 
@@ -6,7 +8,6 @@ namespace Milyli.ScriptRunner.Core.DependencyResolution
     using Repositories;
     using Services;
     using StructureMap;
-    using MilyliDependencies.Framework.Repositories;
 
     public class ScriptRunnerRegistry : Registry
     {

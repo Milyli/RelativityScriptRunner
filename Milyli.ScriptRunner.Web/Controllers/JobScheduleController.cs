@@ -1,4 +1,6 @@
-﻿namespace Milyli.ScriptRunner.Web.Controllers
+﻿using Milyli.ScriptRunner.Core.Repositories.Interfaces;
+
+namespace Milyli.ScriptRunner.Web.Controllers
 {
     using System;
     using System.Collections.Generic;

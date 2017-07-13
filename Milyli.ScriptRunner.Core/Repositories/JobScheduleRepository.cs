@@ -1,4 +1,6 @@
-﻿namespace Milyli.ScriptRunner.Core.Repositories
+﻿using Milyli.ScriptRunner.Core.Repositories.Interfaces;
+
+namespace Milyli.ScriptRunner.Core.Repositories
 {
     using System;
     using System.Collections.Generic;
@@ -8,7 +10,7 @@
     using LinqToDB.Data;
     using Milyli.ScriptRunner.Core.DataContexts;
     using Milyli.ScriptRunner.Core.Models;
-    using MilyliDependencies.Framework.Repositories;
+
     public enum JobActivationStatus
     {
         InvalidJob = -1,

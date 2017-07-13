@@ -2,6 +2,8 @@
 // Copyright © 2016 Milyli
 // </copyright>
 
+using Milyli.ScriptRunner.Core.Repositories.Interfaces;
+
 namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
 {
     using System;

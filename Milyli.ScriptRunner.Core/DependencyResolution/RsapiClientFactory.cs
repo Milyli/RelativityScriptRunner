@@ -1,10 +1,11 @@
 ﻿
+using Milyli.ScriptRunner.Core.Relativity.Interfaces;
+
 namespace Milyli.ScriptRunner.Core.DependencyResolution
 {
     using global::Relativity.API;
     using kCura.Relativity.Client;
     using Relativity.Client;
-    using MilyliDependencies.Framework.Relativity.Interfaces;
 
 #pragma warning disable CA1704
     public class RsapiClientFactory : BaseServicesFactory, IRelativityClientFactory

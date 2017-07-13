@@ -1,4 +1,6 @@
-﻿namespace Milyli.ScriptRunner.Web.RequestFilters
+﻿using Milyli.ScriptRunner.Core.Repositories.Interfaces;
+
+namespace Milyli.ScriptRunner.Web.RequestFilters
 {
     using System.Web.Mvc;
     using Milyli.ScriptRunner.Core.Repositories;
