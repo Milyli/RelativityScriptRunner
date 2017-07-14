@@ -58,7 +58,8 @@
         }
 
       public ActionResult Run([ModelBinder(typeof(JsonBinder))]JobSchedule jobSchedule)
-        {
+      {
+						jobSchedule = jobSchedule.ConvertLocalToUtc();
             this.JobScheduleRepository.ActivateJob(jobSchedule);
             return JsonContent(this.GetJobScheduleModel(jobSchedule.Id));
         }
