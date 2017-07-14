@@ -8,7 +8,7 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
     using Milyli.ScriptRunner.Core.Models;
     using NUnit.Framework;
 
-    [TestFixture]
+    [TestFixture(Category="Unit")]
     public class TestJobSchedule
     {
         [Test]
