@@ -15,14 +15,14 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
         public void TestBadSchedule()
         {
             var jobSchedule = new JobSchedule();
-            var nextExecutionTime = jobSchedule.GetNextExecution(DateTime.Now);
+            var nextExecutionTime = jobSchedule.GetNextExecution(DateTime.UtcNow);
             Assert.That(!nextExecutionTime.HasValue, "Empty schedule entry should have no next execution time");
         }
 
         [Test]
         public void TestNextWeekExecution()
         {
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
             var timeOfDaySeconds = JobSchedule.TimeSeconds(now);
             var execNow = now.Date.Add(JobSchedule.TimeOfDay(timeOfDaySeconds));
 
@@ -40,7 +40,7 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
         [Test]
         public void TestEverydayExecution()
         {
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
             var timeOfDaySeconds = JobSchedule.TimeSeconds(now);
             var execNow = now.Date.Add(JobSchedule.TimeOfDay(timeOfDaySeconds));
 
@@ -60,7 +60,7 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
         [Test]
         public void TestSunday()
         {
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
             var timeOfDaySeconds = JobSchedule.TimeSeconds(now);
             var execNow = now.Date.AddDays(6 - (int)now.DayOfWeek).Add(JobSchedule.TimeOfDay(timeOfDaySeconds));
 

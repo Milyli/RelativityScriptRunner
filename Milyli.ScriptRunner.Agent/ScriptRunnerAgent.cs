@@ -27,7 +27,7 @@ namespace Milyli.ScriptRunner.Agent
         protected override void Execute(IContainer container)
         {
             var scriptRunner = container.GetInstance<IRelativityScriptRunner>();
-            scriptRunner.ExecuteAllJobs(DateTime.Now);
+          scriptRunner.ExecuteAllJobs(DateTime.UtcNow);
         }
     }
 }
