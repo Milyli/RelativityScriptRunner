@@ -138,11 +138,8 @@ namespace Milyli.ScriptRunner.Web.Controllers
                 JobSchedule = jobSchedule
             };
 
-            if (jobSchedule != null)
-            {
-                this.PopulateJobScheduleModel(jobScheduleModel, jobSchedule.WorkspaceId, jobSchedule.RelativityScriptId);
-                this.MergeScriptInputs(jobScheduleModel);
-            }
+            this.PopulateJobScheduleModel(jobScheduleModel, jobSchedule.WorkspaceId, jobSchedule.RelativityScriptId);
+            this.MergeScriptInputs(jobScheduleModel);
 
             return jobScheduleModel;
         }

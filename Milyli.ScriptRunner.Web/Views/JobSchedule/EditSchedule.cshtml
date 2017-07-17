@@ -177,8 +177,7 @@
                 .toArray();
         }
        
-        //Yes we're finding script input DDLs by scraping. I have tried looking for a better way to grab input values in a better manner
-        //but none of the RSAPI mechanisms for Relativity Scripts seems geared toward populating input lists.
+        // We have to scrape the page because the RSAPI mechanisms for Relatvitiy scripts do not readily support populating input lists
         function getInputValues()
         {
             return $("#run-script").contents()

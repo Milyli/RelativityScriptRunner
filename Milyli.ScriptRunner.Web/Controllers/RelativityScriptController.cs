@@ -1,15 +1,12 @@
-﻿using Milyli.ScriptRunner.Core.Repositories.Interfaces;
-
-namespace Milyli.ScriptRunner.Web.Controllers
+﻿namespace Milyli.ScriptRunner.Web.Controllers
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Net;
-    using System.Web;
     using System.Web.Mvc;
-    using Milyli.ScriptRunner.Core.Models;
-    using Milyli.ScriptRunner.Core.Repositories;
-    using Milyli.ScriptRunner.Web.Models;
+    using Core.Models;
+    using Core.Repositories.Interfaces;
+    using Models;
+
     public class RelativityScriptController : ScriptRunnerController
     {
         public RelativityScriptController(IJobScheduleRepository jobScheduleRepository, IRelativityScriptRepository scriptRepository, IRelativityWorkspaceRepository workspaceRepository, IPermissionRepository permissionRepository)
@@ -24,10 +21,8 @@ namespace Milyli.ScriptRunner.Web.Controllers
             {
                 return this.Redirect(this.Url.Action("List"));
             }
-            else
-            {
-                return this.NotAuthorized();
-            }
+
+            return this.NotAuthorized();
         }
 
         public ViewResult NotAuthorized()

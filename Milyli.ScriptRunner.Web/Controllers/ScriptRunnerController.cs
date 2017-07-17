@@ -1,61 +1,29 @@
-﻿using Milyli.ScriptRunner.Core.Repositories.Interfaces;
-
-namespace Milyli.ScriptRunner.Web.Controllers
+﻿namespace Milyli.ScriptRunner.Web.Controllers
 {
     using System.Net;
     using System.Web;
     using System.Web.Mvc;
     using Core.Models;
-    using Milyli.ScriptRunner.Core.Repositories;
-    using Milyli.ScriptRunner.Core.Services;
+    using Core.Repositories.Interfaces;
     using Newtonsoft.Json;
 
     public abstract class ScriptRunnerController : Controller
     {
-        private IJobScheduleRepository jobScheduleRepository;
-        private IRelativityScriptRepository relativityScriptRepository;
-        private IRelativityWorkspaceRepository workspaceRepository;
-        private IPermissionRepository permissionRepository;
-
         protected ScriptRunnerController(IJobScheduleRepository jobScheduleRepository, IRelativityScriptRepository scriptRepository, IRelativityWorkspaceRepository workspaceRepository, IPermissionRepository permissionRepository)
         {
-            this.jobScheduleRepository = jobScheduleRepository;
-            this.relativityScriptRepository = scriptRepository;
-            this.workspaceRepository = workspaceRepository;
-            this.permissionRepository = permissionRepository;
+            this.JobScheduleRepository = jobScheduleRepository;
+            this.RelativityScriptRepository = scriptRepository;
+            this.WorkspaceRepository = workspaceRepository;
+            this.PermissionRepository = permissionRepository;
         }
 
-        protected IJobScheduleRepository JobScheduleRepository
-        {
-            get
-            {
-                return this.jobScheduleRepository;
-            }
-        }
+        protected IJobScheduleRepository JobScheduleRepository { get; }
 
-        protected IRelativityScriptRepository RelativityScriptRepository
-        {
-            get
-            {
-                return this.relativityScriptRepository;
-            }
-        }
+        protected IRelativityScriptRepository RelativityScriptRepository { get; }
 
-        protected IRelativityWorkspaceRepository WorkspaceRepository
-        {
-            get
-            {
-                return this.workspaceRepository;
-            }
-        }
+        protected IRelativityWorkspaceRepository WorkspaceRepository { get; }
 
-        protected IPermissionRepository PermissionRepository
-        {
-            get
-            {
-                return this.permissionRepository;
-            }
-        }
+        protected IPermissionRepository PermissionRepository { get; }
 
         protected static ContentResult JsonContent(object model)
         {
