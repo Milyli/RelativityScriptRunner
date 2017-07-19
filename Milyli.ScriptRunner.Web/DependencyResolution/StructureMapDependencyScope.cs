@@ -34,7 +34,12 @@ namespace Milyli.ScriptRunner.Web.DependencyResolution
 
         public StructureMapDependencyScope(IContainer container)
         {
-            this.Container = container ?? throw new ArgumentNullException("container");
+            if (container == null)
+            {
+                throw new ArgumentNullException("container");
+            }
+
+            this.Container = container;
         }
 
         public IContainer Container { get; set; }
