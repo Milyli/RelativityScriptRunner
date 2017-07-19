@@ -50,8 +50,16 @@
       <HintPath>..\Solutions\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="kCura.Crypto, Version=8.2.523.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.Core.8.2.0\lib\kCura.Crypto.dll</HintPath>
+    <Reference Include="kCura.Config, Version=9.5.41.87, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.Core.9.5.41.87\lib\kCura.Config.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="kCura.Crypto, Version=9.5.41.87, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.Core.9.5.41.87\lib\kCura.Crypto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="kCura.Data.RowDataGateway, Version=9.5.41.87, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.Core.9.5.41.87\lib\kCura.Data.RowDataGateway.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="kCura.EventHandler, Version=8.2.523.2, Culture=neutral, processorArchitecture=MSIL">
@@ -74,12 +82,20 @@
       <HintPath>..\Solutions\packages\Relativity.RSAPI.9.5.41.87\lib\Relativity.API.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Relativity.Kepler, Version=1.0.1.261, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.RSAPI.9.5.41.87\lib\Relativity.Kepler.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Relativity.Services.DataContracts, Version=9.5.41.87, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\Relativity.RSAPI.9.5.41.87\lib\Relativity.Services.DataContracts.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Relativity.Services.Interfaces, Version=9.5.41.87, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\Relativity.RSAPI.9.5.41.87\lib\Relativity.Services.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Relativity.Services.ServiceProxy, Version=1.0.1.261, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.RSAPI.9.5.41.87\lib\Relativity.Services.ServiceProxy.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SimpleConfigSections, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -195,6 +211,9 @@
     <AdditionalFiles Include="..\Solutions\packages\Milyli.CodeAnalysis.2.0.1\tools\stylecop.json">
       <Link>stylecop.json</Link>
     </AdditionalFiles>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
