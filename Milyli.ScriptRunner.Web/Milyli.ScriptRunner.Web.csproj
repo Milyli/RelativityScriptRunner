@@ -377,7 +377,6 @@
     <None Include="Properties\PublishProfiles\AG-MilyliScriptRunner.pubxml" />
     <None Include="Properties\PublishProfiles\AH-CustomPage.pubxml" />
     <None Include="Properties\PublishProfiles\BuildProfile.pubxml" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\RelativityCustomPage.pubxml">
       <SubType>Designer</SubType>
     </None>
