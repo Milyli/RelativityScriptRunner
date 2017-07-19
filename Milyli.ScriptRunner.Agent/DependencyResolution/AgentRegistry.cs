@@ -1,17 +1,12 @@
-﻿// <copyright file="AgentRegistry.cs" company="Milyli">
-// Copyright © 2016 Milyli
-// </copyright>
-
-using Milyli.ScriptRunner.Core.Relativity.Interfaces;
-using Milyli.ScriptRunner.Core.Repositories;
-using Milyli.ScriptRunner.Core.Repositories.Interfaces;
-
-namespace Milyli.ScriptRunner.Agent.DependencyResolution
+﻿namespace Milyli.ScriptRunner.Agent.DependencyResolution
 {
     using Core.DependencyResolution;
     using Core.Relativity.Client;
     using Core.Services;
-    using MilyliDependencies.Framework.Relativity;
+    using Milyli.ScriptRunner.Core.Relativity;
+    using Milyli.ScriptRunner.Core.Relativity.Interfaces;
+    using Milyli.ScriptRunner.Core.Repositories;
+    using Milyli.ScriptRunner.Core.Repositories.Interfaces;
     using Relativity.API;
     using StructureMap;
 

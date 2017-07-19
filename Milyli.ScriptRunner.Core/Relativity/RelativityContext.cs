@@ -1,9 +1,6 @@
-﻿// Copyright © 2017 Milyli
-
-using Milyli.ScriptRunner.Core.Relativity.Interfaces;
-
-namespace Milyli.ScriptRunner.MilyliDependencies.Framework.Relativity
+﻿namespace Milyli.ScriptRunner.Core.Relativity
 {
+    using Milyli.ScriptRunner.Core.Relativity.Interfaces;
     /// <summary>
     /// Information about the current Relativity context.
     /// </summary>

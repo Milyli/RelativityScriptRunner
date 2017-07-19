@@ -6,7 +6,6 @@
     using Interfaces;
     using Repositories;
     using Repositories.Interfaces;
-    using MilyliDependencies.Framework.Relativity;
     using global::Relativity.API;
     using StructureMap;
     public class RelativityDependencyRegistry : Registry
