@@ -44,7 +44,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
                 ExecutionSchedule = 0x7F,
-                ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now)
+                ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow)
             };
             jobSchedule.Id = this.JobScheduleRepository.Create(jobSchedule);
             var status = this.JobScheduleRepository.StartJob(jobSchedule);
@@ -62,12 +62,12 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
                 ExecutionSchedule = 0x7F,
-                ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now.AddMinutes(-3)),
-                NextExecutionTime = DateTime.Now
-            };
+                ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow.AddMinutes(-3)),
+                NextExecutionTime = DateTime.UtcNow
+						};
 
             jobSchedule.Id = this.JobScheduleRepository.Create(jobSchedule);
-            var jobList = this.JobScheduleRepository.GetJobSchedules(DateTime.Now);
+            var jobList = this.JobScheduleRepository.GetJobSchedules(DateTime.UtcNow);
             Assert.That(jobList.Where(j => j.Id == jobSchedule.Id).Any(), "Expected at least one active job schedule");
         }
 
@@ -79,17 +79,17 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
                 ExecutionSchedule = 0x7F,
-                ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now.AddMinutes(-3)),
-                NextExecutionTime = DateTime.Now
-            };
+                ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow.AddMinutes(-3)),
+                NextExecutionTime = DateTime.UtcNow
+						};
 
             var okAsWell = new JobSchedule()
             {
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
                 ExecutionSchedule = 0x7F,
-                ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now.AddMinutes(-3)),
-                NextExecutionTime = DateTime.Now.AddHours(-4)
+                ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow.AddMinutes(-3)),
+                NextExecutionTime = DateTime.UtcNow.AddHours(-4)
             };
 
             var tooEarly = new JobSchedule()
@@ -97,8 +97,8 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
                 ExecutionSchedule = 0x7F,
-                ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now.AddMinutes(-3)),
-                NextExecutionTime = DateTime.Now.AddDays(-3)
+                ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow.AddMinutes(-3)),
+                NextExecutionTime = DateTime.UtcNow.AddDays(-3)
             };
 
             var tooLate = new JobSchedule()
@@ -106,18 +106,19 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
                 ExecutionSchedule = 0x7F,
-                ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now.AddMinutes(3)),
-                NextExecutionTime = DateTime.Now.AddDays(3)
+                ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow.AddMinutes(3)),
+                NextExecutionTime = DateTime.UtcNow.AddDays(3)
             };
 
             jobSchedule.Id = this.JobScheduleRepository.Create(jobSchedule);
             tooLate.Id = this.JobScheduleRepository.Create(tooLate);
             tooEarly.Id = this.JobScheduleRepository.Create(tooEarly);
-            var jobList = this.JobScheduleRepository.GetJobSchedules(DateTime.Now);
+            var jobList = this.JobScheduleRepository.GetJobSchedules(DateTime.UtcNow);
             var ids = jobList.Select(j => j.Id).ToList();
 
             Assert.That(ids.Contains(jobSchedule.Id), string.Format("There should be one job (id {0}) in the result", jobSchedule.Id));
-            Assert.That(!ids.Contains(tooEarly.Id) && !ids.Contains(tooLate.Id), string.Format("Did not expect jobs of ids {0} and {1}, but found those jobs", tooEarly.Id, tooLate.Id));
+            Assert.That(ids.Contains(tooEarly.Id), string.Format("Job id {0} expected but not found (fail on checking for old jobs", tooEarly.Id));
+            Assert.That(!ids.Contains(tooLate.Id), string.Format("Did not expect jobs of ids {0}, but found those jobs (too late)", tooLate.Id));
         }
 
         [Test]
@@ -128,9 +129,9 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
                 ExecutionSchedule = 0x7F,
-                ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now),
-                NextExecutionTime = DateTime.Now
-            };
+                ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow),
+                NextExecutionTime = DateTime.UtcNow
+						};
             jobSchedule.Id = this.JobScheduleRepository.Create(jobSchedule);
             this.JobScheduleRepository.StartJob(jobSchedule);
             jobSchedule.CurrentJobHistory.StartTime = jobSchedule.CurrentJobHistory.StartTime.AddSeconds(-3);
@@ -148,7 +149,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
                 ExecutionSchedule = 0x7F,
-                ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now),
+                ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow),
                 JobEnabled = true
             };
 
@@ -181,7 +182,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
                 ExecutionSchedule = 0x7F,
-                ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now),
+                ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow),
                 JobEnabled = true
             };
 
@@ -213,7 +214,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
                 ExecutionSchedule = 0x7F,
-                ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now),
+                ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow),
                 JobEnabled = true
             };
 
@@ -247,7 +248,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
                 ExecutionSchedule = 0x7F,
-                ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now),
+                ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow),
                 JobEnabled = true
             };
 
@@ -282,7 +283,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
                 ExecutionSchedule = 0x7F,
-                ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now),
+                ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow),
                 JobEnabled = true
             };
 
@@ -323,7 +324,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
                 ExecutionSchedule = 0x7F,
-                ExecutionTime = JobSchedule.TimeSeconds(DateTime.Now),
+                ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow),
                 JobEnabled = true
             };
 

@@ -23,8 +23,6 @@ namespace Milyli.ScriptRunner.Core.Repositories
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Dispose method not exposed")]
     public class JobScheduleRepository : BaseReadWriteRepository<InstanceDataContext, JobSchedule, int>, IJobScheduleRepository
     {
-        // One day, in seconds
-        private const int DEFAULT_MAX_OFFSET = 86400;
 
         public JobScheduleRepository(InstanceDataContext dataContext)
             : base(dataContext)
@@ -39,15 +37,14 @@ namespace Milyli.ScriptRunner.Core.Repositories
             }
         }
 
-        // Returns a list of Jobs to run, filtered by NextExecution constrained to NextExecutionTimes between maxOffset seconds before runtime and runtime
-        public List<JobSchedule> GetJobSchedules(DateTime runtime, int maxOffset)
+        // Returns a list of Jobs to run
+        // This will pull any jobs in the queue prior to the current date
+        public List<JobSchedule> GetJobSchedules(DateTime runtime)
         {
             var end = runtime;
-            var offset = maxOffset < int.MaxValue ? maxOffset : int.MaxValue - 1;
-            var start = runtime.AddSeconds(-1 * offset);
             var result = this.DataContext.JobSchedule
                 .Where(s =>
-                    ((start <= s.NextExecutionTime && s.NextExecutionTime <= end)
+                    ((s.NextExecutionTime <= end)
                     && s.JobEnabled && s.JobStatus == (int)JobStatus.Idle)
                     || s.JobStatus == (int)JobStatus.Waiting)
                 .ToList();
@@ -74,11 +71,6 @@ namespace Milyli.ScriptRunner.Core.Repositories
                     return JobActivationStatus.AlreadyRunning;
                 }
             }
-        }
-
-        public List<JobSchedule> GetJobSchedules(DateTime runtime)
-        {
-            return this.GetJobSchedules(runtime, DEFAULT_MAX_OFFSET);
         }
 
         public List<JobSchedule> GetJobSchedules(RelativityWorkspace relativityWorkspace)
@@ -217,10 +209,11 @@ namespace Milyli.ScriptRunner.Core.Repositories
             var offset = currentPage * pageSize;
             resultCount = this.DataContext.JobHistory.Where(h => h.JobScheduleId == jobSchedule.Id).Count();
             return this.DataContext.JobHistory
-                .Take(offset + pageSize)
+								.OrderByDescending(h => h.StartTime)
+								.Where(h => h.JobScheduleId == jobSchedule.Id)
+								.Take(offset + pageSize)
                 .Skip(offset)
-                .Where(h => h.JobScheduleId == jobSchedule.Id)
-                .OrderByDescending(h => h.StartTime).ToList();
+                .ToList();
         }
 
         public List<JobScriptInput> GetJobInputs(JobSchedule job)
@@ -236,6 +229,11 @@ namespace Milyli.ScriptRunner.Core.Repositories
             {
                 if (jobSchedule.Id > 0)
                 {
+                  if (!jobSchedule.JobEnabled)
+                  {
+                    jobSchedule.NextExecutionTime = null;
+                  }
+
                     LockJobSchedule(jobSchedule, transaction);
                     this.Update(jobSchedule);
                 }

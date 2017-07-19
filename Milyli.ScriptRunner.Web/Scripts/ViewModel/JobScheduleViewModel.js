@@ -30,7 +30,7 @@
                         return toTimeString(JobSchedule.LastExecutionTime());
                     });
 
-                    (function () {
+                	(function () {
                         var time = JobSchedule.ExecutionTime();
                         var minutes = Math.floor(time / 60);
                         var hours = Math.floor(minutes / 60);
@@ -51,7 +51,7 @@
                         if (meridian === "AM" && hours === 12) {
                             hours = 0;
                         }
-                        var minutes = parseInt(inputMinutes);
+	                    var minutes = parseInt(inputMinutes);
                         var timeSeconds = ((hours * 60) + minutes) * 60;
                         JobSchedule.ExecutionTime(timeSeconds);
                     }
@@ -123,7 +123,7 @@
                     (function () {
                         var schedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
                         $.each(days, function (idx, day) {
-                            var dayEnabled = (schedule & (1 << idx)) > 0;
+                        	var dayEnabled = (schedule & (1 << idx)) > 0;
                             JobScheduleModel[day] = ko.observable(dayEnabled);
                             JobScheduleModel[day].subscribe(function (newValue) {
                                 var oldSchedule = JobScheduleModel.JobSchedule.ExecutionSchedule();
@@ -139,8 +139,8 @@
         var viewmodel = ko.viewmodel.fromModel(model, options);
         
         viewmodel.SaveJobSchedule = function () {
-            mask();
-            $.ajax({
+        	mask();
+        	$.ajax({
                 type: 'POST',
                 url: actions.Save,
                 processData: false,

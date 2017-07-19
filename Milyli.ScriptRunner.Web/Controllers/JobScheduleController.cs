@@ -2,17 +2,17 @@
 
 namespace Milyli.ScriptRunner.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web.Mvc;
-    using App_Start;
-    using Milyli.ScriptRunner.Core.Models;
-    using Milyli.ScriptRunner.Core.Repositories;
-    using Milyli.ScriptRunner.Web.Models;
-    using Milyli.ScriptRunner.Web.RequestFilters;
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Web.Mvc;
+	using App_Start;
+	using Milyli.ScriptRunner.Core.Models;
+	using Milyli.ScriptRunner.Core.Repositories;
+	using Milyli.ScriptRunner.Core.Tools;
+	using Milyli.ScriptRunner.Web.Models;
 
-    public class JobScheduleController : ScriptRunnerController
+	public class JobScheduleController : ScriptRunnerController
     {
         public JobScheduleController(IJobScheduleRepository jobScheduleRepository, IRelativityScriptRepository scriptRepository, IRelativityWorkspaceRepository workspaceRepository, IPermissionRepository permissionRepository)
             : base(jobScheduleRepository, scriptRepository, workspaceRepository, permissionRepository)
@@ -51,13 +51,17 @@ namespace Milyli.ScriptRunner.Web.Controllers
         public ActionResult Save([ModelBinder(typeof(JsonBinder))]JobScheduleModel jobScheduleModel)
         {
             var jobSchedule = jobScheduleModel.JobSchedule;
-            jobSchedule.NextExecutionTime = jobSchedule.GetNextExecution(DateTime.Now);
+
+						// Convert local schedule to UTC before saving
+				    jobSchedule = jobSchedule.ConvertLocalToUtc();
+            jobSchedule.NextExecutionTime = jobSchedule.GetNextExecution(DateTime.UtcNow);
             var id = this.JobScheduleRepository.SaveJobSchedule(jobSchedule, jobScheduleModel.ToJobScriptInputs());
             return JsonContent(this.GetJobScheduleModel(id));
         }
 
-        public ActionResult Run([ModelBinder(typeof(JsonBinder))]JobSchedule jobSchedule)
-        {
+      public ActionResult Run([ModelBinder(typeof(JsonBinder))]JobSchedule jobSchedule)
+      {
+						jobSchedule = jobSchedule.ConvertLocalToUtc();
             this.JobScheduleRepository.ActivateJob(jobSchedule);
             return JsonContent(this.GetJobScheduleModel(jobSchedule.Id));
         }
@@ -138,6 +142,7 @@ namespace Milyli.ScriptRunner.Web.Controllers
                 JobSchedule = jobSchedule
             };
 
+	            jobScheduleModel.JobSchedule = jobScheduleModel.JobSchedule.ConvertUtcToLocal();
             this.PopulateJobScheduleModel(jobScheduleModel, jobSchedule.WorkspaceId, jobSchedule.RelativityScriptId);
             this.MergeScriptInputs(jobScheduleModel);
 
@@ -168,5 +173,5 @@ namespace Milyli.ScriptRunner.Web.Controllers
             };
             return jobScheduleModel;
         }
-    }
+  }
 }

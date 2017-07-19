@@ -7,7 +7,7 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
     using Milyli.ScriptRunner.Core.Tools;
     using NUnit.Framework;
 
-    [TestFixture]
+    [TestFixture(Category="Unit")]
     public class TestBitmaskHelper
     {
         [TestCase(3, 4)]

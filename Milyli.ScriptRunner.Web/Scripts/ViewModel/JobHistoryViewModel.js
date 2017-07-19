@@ -78,7 +78,7 @@
                             var lastPage = JobHistoryModel.LastPage() + 1;
                             var currentPage = JobHistoryModel.PageNumber() + 1;
 
-                            if(lastPage == 1)
+                            if(lastPage === 1)
                             {
                                 return "Page 1 of 1";
                             }

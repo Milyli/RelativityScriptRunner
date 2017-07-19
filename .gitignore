@@ -9,6 +9,7 @@
 /Milyli.ScriptRunner*/obj
 /Solutions/packages
 /Solutions/.vs
+/Deployment/CustomPage
 *.user
 
 /Milyli.ScriptRunner.Web/Properties/PublishProfiles/AH-CustomPage.pubxml
@@ -171,6 +172,9 @@ publish/
 # but database connection strings (with potential passwords) will be unencrypted
 *.pubxml
 *.publishproj
+
+## Explicitly include the publish to folder profile
+!BuildProfile.pubxml
 
 # Microsoft Azure Web App publish settings. Comment the next line if you want to
 # checkin your Azure Web App publish settings, but sensitive information contained

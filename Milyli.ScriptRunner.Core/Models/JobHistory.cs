@@ -18,7 +18,7 @@ namespace Milyli.ScriptRunner.Core.Models
         public int JobScheduleId { get; set; }
 
         [Column("StartTime")]
-        public DateTime StartTime { get; set; } = DateTime.Now;
+        public DateTime StartTime { get; set; } = DateTime.UtcNow;
 
         [Column("Runtime")]
         public int? Runtime { get; set; }
@@ -31,7 +31,7 @@ namespace Milyli.ScriptRunner.Core.Models
 
         internal void UpdateRuntime()
         {
-            this.Runtime = DateTime.Now.Subtract(this.StartTime).Seconds;
+            this.Runtime = DateTime.UtcNow.Subtract(this.StartTime).Seconds;
         }
     }
 }

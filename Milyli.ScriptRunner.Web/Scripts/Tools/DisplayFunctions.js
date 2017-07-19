@@ -8,8 +8,10 @@
     };
 
     function toTimeString (timeString) {
-        if (timeString) {
-            var date = new Date(timeString.replace('T', ' '));
+    	if (timeString) {
+				// it's really UTC
+		    timeString = timeString + 'Z';
+        	var date = new Date(timeString);
             if (!isNaN(date.getDay())) {
                 return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
             }

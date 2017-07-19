@@ -41,7 +41,7 @@
                         <button data-bind="click: RunJob">Run</button>
                     </span>
                     <span data-bind="ifnot : IsNew">
-                        <span data-bind="if: JobSchedule.JobEnabled">
+                        <span data-bind="if: JobSchedule.JobEnabled()">
                             <button data-bind="click: DisableJob">Disable</button>
                         </span>
                         <span data-bind="ifnot: JobSchedule.JobEnabled()">
@@ -56,8 +56,7 @@
                     @foreach (var day in days)
                     {
 
-                        <label class="btn btn-default" data-bind="css : { active : @string.Format("{0}()", day) }">
-                            <input type="checkbox" data-bind="event : {change : function(){toggle('@day')}}" />
+                        <label class="btn btn-default" data-bind="css : { active : @string.Format("{0}()", day) }, click : function(){ toggle('@day') }">
                             @day
                         </label>
                     }
@@ -130,7 +129,7 @@
                     <td data-bind="text : Runtime"></td>
                     <td>
                         <span data-bind="if : HasError">
-                            <span data-bind="ResultText"></span>
+                            <span data-bind="text: ResultText"></span>
                         </span>
                         <span data-bind="ifnot : HasError">
                             Success
