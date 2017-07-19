@@ -1,4 +1,6 @@
-﻿namespace Milyli.ScriptRunner.Core.Services
+﻿using Milyli.ScriptRunner.Core.Repositories.Interfaces;
+
+namespace Milyli.ScriptRunner.Core.Services
 {
     using System;
     using System.Linq;

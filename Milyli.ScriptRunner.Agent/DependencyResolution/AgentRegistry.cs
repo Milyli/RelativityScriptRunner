@@ -2,15 +2,16 @@
 // Copyright © 2016 Milyli
 // </copyright>
 
+using Milyli.ScriptRunner.Core.Relativity.Interfaces;
+using Milyli.ScriptRunner.Core.Repositories;
+using Milyli.ScriptRunner.Core.Repositories.Interfaces;
+
 namespace Milyli.ScriptRunner.Agent.DependencyResolution
 {
+    using Core.DependencyResolution;
+    using Core.Relativity.Client;
     using Core.Services;
-    using Milyli.Framework.Relativity;
-    using Milyli.Framework.Relativity.Factories;
-    using Milyli.Framework.Relativity.Interfaces;
-    using Milyli.Framework.Repositories.Interfaces;
-    using Milyli.ScriptRunner.Core.DependencyResolution;
-    using Milyli.ScriptRunner.Core.Relativity.Client;
+    using MilyliDependencies.Framework.Relativity;
     using Relativity.API;
     using StructureMap;
 

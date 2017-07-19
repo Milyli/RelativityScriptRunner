@@ -13,12 +13,12 @@
             this.PageSize = pageSize;
         }
 
-        public List<JobHistory> JobHistory { get; private set; }
+        public List<JobHistory> JobHistory { get; }
 
-        public int PageNumber { get; private set; }
+        public int PageNumber { get; }
 
-        public int PageSize { get; private set; }
+        public int PageSize { get; }
 
-        public int ResultCount { get; private set; }
+        public int ResultCount { get; }
     }
 }

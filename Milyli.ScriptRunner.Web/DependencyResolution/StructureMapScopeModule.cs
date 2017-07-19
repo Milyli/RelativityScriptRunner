@@ -1,9 +1,7 @@
 namespace Milyli.ScriptRunner.Web.DependencyResolution
 {
     using System.Web;
-
     using Milyli.ScriptRunner.Web.App_Start;
-
     using StructureMap.Web.Pipeline;
 
     public class StructureMapScopeModule : IHttpModule

@@ -22,12 +22,12 @@ using WebActivatorEx;
 
 namespace Milyli.ScriptRunner.Web.App_Start
 {
-	using System.Web.Mvc;
-	using Microsoft.Web.Infrastructure.DynamicModuleHelper;
-	using Milyli.ScriptRunner.Web.DependencyResolution;
-	using StructureMap;
+    using System.Web.Mvc;
+    using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+    using Milyli.ScriptRunner.Web.DependencyResolution;
+    using StructureMap;
 
-	public static class StructuremapMvc
+    public static class StructuremapMvc
     {
         public static StructureMapDependencyScope StructureMapDependencyScope { get; set; }
 

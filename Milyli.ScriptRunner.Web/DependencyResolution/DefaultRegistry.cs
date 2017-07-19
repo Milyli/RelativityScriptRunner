@@ -14,26 +14,25 @@
 // limitations under the License.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
+using Milyli.ScriptRunner.Core.Relativity.Interfaces;
+using Milyli.ScriptRunner.Core.Repositories;
+using Milyli.ScriptRunner.Core.Repositories.Interfaces;
+
 namespace Milyli.ScriptRunner.Web.DependencyResolution
 {
-	using System;
-	using Core.DependencyResolution;
-	using Core.Relativity.Client;
-	using Core.Repositories;
-	using Framework.Relativity;
-	using Framework.Relativity.Factories;
-	using Framework.Relativity.Interfaces;
-	using Framework.Repositories.Interfaces;
-	using kCura.Relativity.Client;
-	using Milyli.ScriptRunner.Web.RequestFilters;
-	using Relativity.API;
-	using Relativity.CustomPages;
-	using StructureMap;
-	using StructureMap.Web;
-	using System.Web.Mvc;
-	using StructureMap.Pipeline;
+    using System.Web.Mvc;
+    using Core.DependencyResolution;
+    using Core.Relativity.Client;
+    using Milyli.ScriptRunner.MilyliDependencies.Framework.Relativity;
+    using Milyli.ScriptRunner.Web.RequestFilters;
+    using Relativity.API;
+    using Relativity.CustomPages;
+    using StructureMap;
+    using StructureMap.Pipeline;
+    using StructureMap.Web;
 
-	public class DefaultRegistry : Registry
+    public class DefaultRegistry : Registry
     {
         public DefaultRegistry()
         {
@@ -47,11 +46,11 @@ namespace Milyli.ScriptRunner.Web.DependencyResolution
 
             this.For<IHelper>().HttpContextScoped().Use(c => ConnectionHelper.Helper());
             this.For<IRelativityClientFactory>().HttpContextScoped().Use<RsapiClientFactory>();
-			this.For<IServiceManagerFactory>().HttpContextScoped().Use<ServiceManagerFactory>();
-			this.For<IRelativityContext>().Use(new RelativityContext(-1));
+            this.For<IServiceManagerFactory>().HttpContextScoped().Use<ServiceManagerFactory>();
+            this.For<IRelativityContext>().Use(new RelativityContext(-1));
             this.For<IInstanceConnectionFactory>().Use<RelativityInstanceConnectionFactory>();
-			this.For<IActionFilter>().Use<AuthorizationRequestFilter>().LifecycleIs<UniquePerRequestLifecycle>();
-			this.For<IFilterProvider>().Use<ContainerFilterProvider>();
+            this.For<IActionFilter>().Use<AuthorizationRequestFilter>().LifecycleIs<UniquePerRequestLifecycle>();
+            this.For<IFilterProvider>().Use<ContainerFilterProvider>();
             this.IncludeRegistry(new ScriptRunnerRegistry());
         }
     }
