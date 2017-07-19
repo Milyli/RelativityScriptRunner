@@ -171,6 +171,7 @@
     <Compile Include="Services\RelativityScriptRunner.cs" />
     <Compile Include="Tools\BitmaskHelper.cs" />
     <Compile Include="Tools\RelativityHelper.cs" />
+    <Compile Include="Tools\ScheduleConversionHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
