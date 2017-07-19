@@ -6,12 +6,12 @@
     using global::Relativity.API;
     using global::Relativity.Services;
     using global::Relativity.Services.Permission;
-    using Milyli.ScriptRunner.Core.DependencyResolution;
+    using DependencyResolution;
 
     public class PermissionsService : IPermissionsService
     {
-        private bool disposedValue = false;
-        private IPermissionManager permissionManager;
+        private bool disposedValue;
+        private readonly IPermissionManager permissionManager;
 
         public IPermissionManager PermissionManager { get { return this.permissionManager; } }
 
@@ -32,10 +32,6 @@
                 var permission = permissions.Results.FirstOrDefault().Artifact;
                 var result = this.permissionManager.GetPermissionSelectedAsync(workspaceId, new List<PermissionRef>() { permission }).Result;
                 return result.FirstOrDefault()?.Selected ?? false;
-            }
-            else
-            {
-                // TODO log errors
             }
 
             return false;

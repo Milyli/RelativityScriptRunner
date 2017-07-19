@@ -1,7 +1,7 @@
 ﻿namespace Milyli.ScriptRunner.Web.Models
 {
     using System.Collections.Generic;
-    using Milyli.ScriptRunner.Core.Models;
+    using Core.Models;
 
     public class ScriptListModel
     {

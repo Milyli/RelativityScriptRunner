@@ -1,4 +1,6 @@
-﻿namespace Milyli.ScriptRunner.Web.Controllers
+﻿using Milyli.ScriptRunner.Core.Repositories.Interfaces;
+
+namespace Milyli.ScriptRunner.Web.Controllers
 {
 	using System;
 	using System.Collections.Generic;
@@ -140,12 +142,9 @@
                 JobSchedule = jobSchedule
             };
 
-            if (jobSchedule != null)
-            {
 	            jobScheduleModel.JobSchedule = jobScheduleModel.JobSchedule.ConvertUtcToLocal();
-                this.PopulateJobScheduleModel(jobScheduleModel, jobSchedule.WorkspaceId, jobSchedule.RelativityScriptId);
-                this.MergeScriptInputs(jobScheduleModel);
-            }
+            this.PopulateJobScheduleModel(jobScheduleModel, jobSchedule.WorkspaceId, jobSchedule.RelativityScriptId);
+            this.MergeScriptInputs(jobScheduleModel);
 
             return jobScheduleModel;
         }

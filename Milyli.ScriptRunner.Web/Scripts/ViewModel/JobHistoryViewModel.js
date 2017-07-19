@@ -32,7 +32,6 @@
     
     JobHistoryViewModel = function(jobHistoryLoader, loadedCallback)
     {
-        var self = this;
         var jobHistoryViewModel = {};
         jobHistoryLoader.LoadJobHistory(function(jobHistoryModel)
         {

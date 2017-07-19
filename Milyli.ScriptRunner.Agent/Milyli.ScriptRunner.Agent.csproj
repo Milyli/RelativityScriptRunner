@@ -68,14 +68,6 @@
       <HintPath>..\Solutions\packages\linq2db.1.7.6\lib\net45\linq2db.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Milyli.Framework.Relativity, Version=1.0.5.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\Dependencies\Milyli.Framework.Relativity.1.0.5\lib\Milyli.Framework.Relativity.dll</HintPath>
-    </Reference>
-    <Reference Include="Milyli.Framework.Repositories, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solutions\Dependencies\Milyli.Framework.Repositories.1.0.3\lib\Milyli.Framework.Repositories.dll</HintPath>
-    </Reference>
     <Reference Include="Relativity.API, Version=9.5.41.87, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\Relativity.RSAPI.9.5.41.87\lib\Relativity.API.dll</HintPath>
       <Private>True</Private>
