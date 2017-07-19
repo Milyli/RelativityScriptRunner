@@ -2,12 +2,14 @@
 // Copyright © 2016 Milyli
 // </copyright>
 
+using Milyli.ScriptRunner.Core.Repositories.Interfaces;
+
 namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Milyli.ScriptRunner.Core.Repositories;
+    using Repositories;
     using Models;
     using NUnit.Framework;
 

@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Milyli.ScriptRunner.Core.Models;
+    using Core.Models;
 
     public class JobScheduleModel
     {

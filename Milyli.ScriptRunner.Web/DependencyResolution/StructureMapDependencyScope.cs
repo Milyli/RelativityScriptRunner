@@ -91,7 +91,7 @@ namespace Milyli.ScriptRunner.Web.DependencyResolution
             if (this.CurrentNestedContainer != null)
             {
                 this.CurrentNestedContainer.Dispose();
-				this.CurrentNestedContainer = null;
+                this.CurrentNestedContainer = null;
             }
         }
 

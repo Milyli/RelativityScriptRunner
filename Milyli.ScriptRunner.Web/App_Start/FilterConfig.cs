@@ -1,6 +1,5 @@
 ﻿namespace Milyli.ScriptRunner.Web
 {
-    using System.Web;
     using System.Web.Mvc;
 
     public static class FilterConfig

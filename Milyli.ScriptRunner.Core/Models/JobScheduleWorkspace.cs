@@ -1,7 +1,8 @@
-﻿namespace Milyli.ScriptRunner.Core.Models
-{
-    using Milyli.Framework.Repositories.Interfaces;
+﻿
+using Milyli.ScriptRunner.Core.Repositories.Interfaces;
 
+namespace Milyli.ScriptRunner.Core.Models
+{
     public class JobScheduleWorkspace : IModel<int>
     {
         public int Id { get; set; }

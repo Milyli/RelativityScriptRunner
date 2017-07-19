@@ -1,4 +1,5 @@
-﻿namespace Milyli.ScriptRunner.Core.Repositories
+﻿
+namespace Milyli.ScriptRunner.Core.Repositories
 {
     using System;
     using System.Collections.Generic;
@@ -6,9 +7,9 @@
     using System.Linq;
     using LinqToDB;
     using LinqToDB.Data;
-    using Milyli.Framework.Repositories;
-    using Milyli.ScriptRunner.Core.DataContexts;
-    using Milyli.ScriptRunner.Core.Models;
+    using Interfaces;
+    using DataContexts;
+    using Models;
 
     public enum JobActivationStatus
     {
@@ -208,10 +209,11 @@
             var offset = currentPage * pageSize;
             resultCount = this.DataContext.JobHistory.Where(h => h.JobScheduleId == jobSchedule.Id).Count();
             return this.DataContext.JobHistory
-                .Take(offset + pageSize)
+								.OrderByDescending(h => h.StartTime)
+								.Where(h => h.JobScheduleId == jobSchedule.Id)
+								.Take(offset + pageSize)
                 .Skip(offset)
-                .Where(h => h.JobScheduleId == jobSchedule.Id)
-                .OrderByDescending(h => h.StartTime).ToList();
+                .ToList();
         }
 
         public List<JobScriptInput> GetJobInputs(JobSchedule job)

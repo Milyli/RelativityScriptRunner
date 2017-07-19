@@ -1,7 +1,9 @@
-﻿namespace Milyli.ScriptRunner.Core.Models
+﻿
+using Milyli.ScriptRunner.Core.Repositories.Interfaces;
+
+namespace Milyli.ScriptRunner.Core.Models
 {
     using System;
-    using Framework.Repositories.Interfaces;
     using LinqToDB.Mapping;
 
     [Table("JobHistory")]

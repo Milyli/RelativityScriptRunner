@@ -1,14 +1,13 @@
 ﻿namespace Milyli.ScriptRunner.Web.Controllers
 {
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Web.Mvc;
-	using Milyli.ScriptRunner.Core.Models;
-	using Milyli.ScriptRunner.Core.Repositories;
-	using Milyli.ScriptRunner.Core.Tools;
-	using Milyli.ScriptRunner.Web.Models;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Mvc;
+    using Core.Models;
+    using Core.Repositories.Interfaces;
+    using Models;
 
-	public class RelativityScriptController : ScriptRunnerController
+    public class RelativityScriptController : ScriptRunnerController
     {
         public RelativityScriptController(IJobScheduleRepository jobScheduleRepository, IRelativityScriptRepository scriptRepository, IRelativityWorkspaceRepository workspaceRepository, IPermissionRepository permissionRepository)
             : base(jobScheduleRepository, scriptRepository, workspaceRepository, permissionRepository)
@@ -22,10 +21,8 @@
             {
                 return this.Redirect(this.Url.Action("List"));
             }
-            else
-            {
-                return this.NotAuthorized();
-            }
+
+            return this.NotAuthorized();
         }
 
         public ViewResult NotAuthorized()
@@ -53,7 +50,7 @@
                 this.NotFound($"Could not find relativity script with id {relativityScriptId}");
             }
 
-            var jobSchedules = this.JobScheduleRepository.GetJobSchedules(relativityScript).Select(schedule => schedule.ConvertUtcToLocal());
+            var jobSchedules = this.JobScheduleRepository.GetJobSchedules(relativityScript);
 
             var relativityScriptModel = new RelativityScriptModel(relativityScript, relativityWorkspace, jobSchedules);
 
