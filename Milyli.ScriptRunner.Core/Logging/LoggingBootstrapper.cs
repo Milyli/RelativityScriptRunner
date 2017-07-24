@@ -34,8 +34,7 @@
                 Log = EventLogDefaultTarget,
                 Name = EventLogTargetName
             };
-            configuration.AddTarget(eventLogTarget);
-            FlushCurrentRules(EventLogTargetName);
+            configuration.AddTarget(EventLogTargetName, eventLogTarget);
             configuration.AddRule(LogLevel.Info, LogLevel.Fatal, EventLogTargetName);
             LogManager.ReconfigExistingLoggers();
         }
@@ -49,20 +48,10 @@
                 Layout = DefaultLayout
             };
             configuration.AddTarget(memoryTarget);
-            FlushCurrentRules(MemoryTargetName);
             configuration.AddRule(LogLevel.Info, LogLevel.Fatal, MemoryTargetName);
             LogManager.ReconfigExistingLoggers();
 
             return memoryTarget;
-        }
-
-        private static void FlushCurrentRules(string targetName)
-        {
-            var existingRules = LogManager.Configuration.LoggingRules.FirstOrDefault(r => r.Targets.Any(t => t.Name.Equals(targetName)));
-            if (existingRules != null)
-            {
-                LogManager.Configuration.LoggingRules.Remove(existingRules);
-            }
         }
     }
 }
