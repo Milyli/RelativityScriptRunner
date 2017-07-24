@@ -2,6 +2,8 @@
 // Copyright © 2016 Milyli
 // </copyright>
 
+using kCura.Vendor.Castle.Core.Logging;
+
 namespace Milyli.ScriptRunner.Agent
 {
     using System;
