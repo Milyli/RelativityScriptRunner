@@ -18,7 +18,8 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
     {
         public IntegrationTestFixture()
         {
-            this.RelativityEnvironment = SimpleConfigSections.Configuration.Get<IRelativityConstants>().GetFirstEnvironmentForExecutingMachine();
+						var constants = SimpleConfigSections.Configuration.Get<IRelativityConstants>();
+						this.RelativityEnvironment = constants.GetFirstEnvironmentForExecutingMachine();
             this.Container = new Container(c =>
             {
                 c.AddRegistry(new RelativityDependencyRegistry(new TestIHelper(), -1));
