@@ -1,16 +1,15 @@
-﻿using Milyli.ScriptRunner.Core.Repositories.Interfaces;
-
-namespace Milyli.ScriptRunner.Core.Repositories
+﻿namespace Milyli.ScriptRunner.Core.Repositories
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using global::Relativity.API;
-    using kCura.Relativity.Client;
-    using Models;
-    using Relativity.Client;
-    using Tools;
-    using DTOs = kCura.Relativity.Client.DTOs;
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using global::Relativity.API;
+	using kCura.Relativity.Client;
+	using Milyli.ScriptRunner.Core.Repositories.Interfaces;
+	using Models;
+	using Relativity.Client;
+	using Tools;
+	using DTOs = kCura.Relativity.Client.DTOs;
 
     public class RelativityScriptRepository : RelativityClientRepository, IRelativityScriptRepository
     {
@@ -49,7 +48,22 @@ namespace Milyli.ScriptRunner.Core.Repositories
                 this.GetScript(scriptArtifactId, ws), workspace);
         }
 
-        private T InWorkspace<T>(Func<IRSAPIClient, RelativityWorkspace, T> action, RelativityWorkspace workspace)
+		public RelativityScriptResult ExecuteRelativityScript(DTOs.RelativityScript script, List<RelativityScriptInput> inputs)
+		{
+			if (script == null)
+			{
+				throw new ArgumentNullException("script");
+			}
+
+			if (script.ArtifactID == 0)
+			{
+				throw new ArgumentNullException("script.ArtfactID");
+			}
+
+			return this.RelativityClient.ExecuteRelativityScript(this.RelativityClient.APIOptions, script.ArtifactID, inputs);
+		}
+
+		private T InWorkspace<T>(Func<IRSAPIClient, RelativityWorkspace, T> action, RelativityWorkspace workspace)
         {
             return RelativityHelper.InWorkspace(action, workspace, this.RelativityClient);
         }

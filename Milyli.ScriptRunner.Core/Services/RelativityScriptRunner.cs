@@ -1,13 +1,12 @@
-﻿using System.Threading.Tasks;
-using Milyli.ScriptRunner.Core.Repositories.Interfaces;
-
-namespace Milyli.ScriptRunner.Core.Services
+﻿namespace Milyli.ScriptRunner.Core.Services
 {
 	using System;
 	using System.Linq;
+	using System.Threading.Tasks;
 	using kCura.Relativity.Client;
 	using Milyli.ScriptRunner.Core.Models;
 	using Milyli.ScriptRunner.Core.Repositories;
+	using Milyli.ScriptRunner.Core.Repositories.Interfaces;
 	using Milyli.ScriptRunner.Core.Tools;
 	using Relativity.Client;
 
@@ -15,11 +14,13 @@ namespace Milyli.ScriptRunner.Core.Services
 	{
 		private IJobScheduleRepository jobScheduleRepository;
 		private IRelativityClientFactory relativityClient;
+		private IRelativityScriptRepository relativityScriptRepository;
 
-		public RelativityScriptRunner(IJobScheduleRepository jobScheduleRepository, IRelativityClientFactory relativityClient)
+		public RelativityScriptRunner(IJobScheduleRepository jobScheduleRepository, IRelativityClientFactory relativityClient, IRelativityScriptRepository relativityScriptRepository)
 		{
 			this.jobScheduleRepository = jobScheduleRepository;
 			this.relativityClient = relativityClient;
+			this.relativityScriptRepository = relativityScriptRepository;
 		}
 
 		private static NLog.Logger Logger
@@ -93,7 +94,7 @@ namespace Milyli.ScriptRunner.Core.Services
 				{
 					var script = new kCura.Relativity.Client.DTOs.RelativityScript(job.RelativityScriptId);
 					var scriptInputs = inputs.Select(i => new RelativityScriptInput(i.InputName, i.InputValue)).ToList();
-					scriptResult = client.Repositories.RelativityScript.ExecuteRelativityScript(script, scriptInputs);
+					scriptResult = this.relativityScriptRepository.ExecuteRelativityScript(script, scriptInputs);
 				}
 				catch (Exception ex)
 				{

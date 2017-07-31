@@ -1,5 +1,4 @@
-﻿
-namespace Milyli.ScriptRunner.Core.Repositories
+﻿namespace Milyli.ScriptRunner.Core.Repositories
 {
     using System;
     using System.Collections.Generic;

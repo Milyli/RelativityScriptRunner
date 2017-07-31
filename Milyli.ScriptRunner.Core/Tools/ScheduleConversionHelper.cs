@@ -10,7 +10,12 @@
 	public static class ScheduleConversionHelper
 	{
 		private static readonly int SecondsInDay = (int)TimeSpan.FromDays(1).TotalSeconds;
-		private static readonly int LocalOffset = (int)DateTimeOffset.Now.Offset.TotalSeconds;
+		public static int LocalOffset
+		{
+			get { return (int)DateTimeOffset.Now.Offset.TotalSeconds; }
+			private set { }
+		}
+
 		private static readonly List<int> DayBits = new List<int> { 1, 2, 4, 8, 16, 32, 64 };
 		private static readonly int NumDays = 7;
 		private static readonly int AllDays = 127;
@@ -23,6 +28,8 @@
 		public static JobSchedule ConvertLocalToUtc(this JobSchedule jobSchedule)
 		{
 			int utcExecutionTime = jobSchedule.ExecutionTime - ScheduleConversionHelper.LocalOffset;
+			jobSchedule.LastExecutionTime = jobSchedule.LastExecutionTime?.ToUniversalTime();
+			jobSchedule.NextExecutionTime = jobSchedule.NextExecutionTime?.ToUniversalTime();
 			return ShiftSchedule(jobSchedule, utcExecutionTime);
 		}
 
@@ -34,7 +41,8 @@
 		public static JobSchedule ConvertUtcToLocal(this JobSchedule jobSchedule)
 		{
 			int utcExecutionTime = jobSchedule.ExecutionTime + ScheduleConversionHelper.LocalOffset;
-
+			jobSchedule.LastExecutionTime = jobSchedule.LastExecutionTime?.ToLocalTime();
+			jobSchedule.NextExecutionTime = jobSchedule.NextExecutionTime?.ToLocalTime();
 			return ShiftSchedule(jobSchedule, utcExecutionTime);
 		}
 
@@ -46,17 +54,33 @@
 		/// <returns>the UTC Jobschedule</returns>
 		public static JobSchedule ShiftSchedule(JobSchedule jobSchedule, int utcExecutionTime)
 		{
-		// we need to shift all the days "back"
+
+			// we need to shift all the days "back"
 			if (utcExecutionTime < 0)
 			{
 				jobSchedule.ExecutionTime = utcExecutionTime + ScheduleConversionHelper.SecondsInDay;
 				jobSchedule.ExecutionSchedule = ShiftDaysLeft(jobSchedule.ExecutionSchedule);
 			}
-			else if (utcExecutionTime > SecondsInDay)
+			else if (utcExecutionTime >= SecondsInDay)
 			{
 				// need to shift all days "forward"
 				jobSchedule.ExecutionTime = utcExecutionTime - ScheduleConversionHelper.SecondsInDay;
 				jobSchedule.ExecutionSchedule = ShiftDaysRight(jobSchedule.ExecutionSchedule);
+			}
+			else if (utcExecutionTime == 0)
+			{
+				// ambiguous case: if the TZ is ahead the days should not be shifted, if it is behind they should
+				if (ScheduleConversionHelper.LocalOffset < 0)
+				{
+					// behind: add a day
+					jobSchedule.ExecutionTime = utcExecutionTime;
+					jobSchedule.ExecutionSchedule = ShiftDaysRight(jobSchedule.ExecutionSchedule);
+				}
+				else
+				{
+					// ahead: 3 am ahead -> 12am utc is the same schedule
+					jobSchedule.ExecutionTime = utcExecutionTime;
+				}
 			}
 			else
 			{
@@ -110,7 +134,7 @@
 			}
 			else
 			{
-				for (int i = 1; i < ScheduleConversionHelper.NumDays ; ++i)
+				for (int i = 1; i < ScheduleConversionHelper.NumDays; ++i)
 				{
 					if ((executionSchedule & DayBits[i]) == DayBits[i])
 					{

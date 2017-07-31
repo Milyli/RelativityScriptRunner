@@ -1,7 +1,9 @@
 ﻿namespace Milyli.ScriptRunner.Core.Repositories.Interfaces
 {
-    using System.Collections.Generic;
-    using Models;
+	using System.Collections.Generic;
+	using kCura.Relativity.Client;
+	using Models;
+
     public interface IRelativityScriptRepository
     {
         /// <summary>
@@ -26,5 +28,15 @@
         /// <param name="scriptArtifactId">the artifact id for the script in the given workspace</param>
         /// <returns>a relativity script</returns>
         RelativityScript GetRelativityScript(RelativityWorkspace workspace, int scriptArtifactId);
+
+	    /// <summary>
+	    /// Executes an individual script with a given list of inputs
+	    /// </summary>
+	    /// <param name="script">The <see cref="RelativityScript"/> to run</param>
+	    /// <param name="inputs">The <see cref="List{RelativityScriptInput}"/> inputs to the script</param>
+	    /// <returns>a <see cref="RelativityScriptResult"/></returns>
+	    RelativityScriptResult ExecuteRelativityScript(
+	    	kCura.Relativity.Client.DTOs.RelativityScript script,
+		    List<RelativityScriptInput> inputs);
     }
 }
