@@ -48,7 +48,7 @@
                 this.GetScript(scriptArtifactId, ws), workspace);
         }
 
-		public RelativityScriptResult ExecuteRelativityScript(DTOs.RelativityScript script, List<RelativityScriptInput> inputs)
+		public RelativityScriptResult ExecuteRelativityScript(DTOs.RelativityScript script, List<RelativityScriptInput> inputs, RelativityWorkspace workspace)
 		{
 			if (script == null)
 			{
@@ -60,7 +60,8 @@
 				throw new ArgumentNullException("script.ArtfactID");
 			}
 
-			return this.RelativityClient.ExecuteRelativityScript(this.RelativityClient.APIOptions, script.ArtifactID, inputs);
+			return this.InWorkspace(
+				(client, ws) => client.Repositories.RelativityScript.ExecuteRelativityScript(script, inputs), workspace);
 		}
 
 		private T InWorkspace<T>(Func<IRSAPIClient, RelativityWorkspace, T> action, RelativityWorkspace workspace)

@@ -29,14 +29,15 @@
         /// <returns>a relativity script</returns>
         RelativityScript GetRelativityScript(RelativityWorkspace workspace, int scriptArtifactId);
 
-	    /// <summary>
-	    /// Executes an individual script with a given list of inputs
-	    /// </summary>
-	    /// <param name="script">The <see cref="RelativityScript"/> to run</param>
-	    /// <param name="inputs">The <see cref="List{RelativityScriptInput}"/> inputs to the script</param>
-	    /// <returns>a <see cref="RelativityScriptResult"/></returns>
-	    RelativityScriptResult ExecuteRelativityScript(
+		/// <summary>
+		/// Executes an individual script with a given list of inputs
+		/// </summary>
+		/// <param name="script">The <see cref="RelativityScript"/> to run</param>
+		/// <param name="inputs">The <see cref="List{RelativityScriptInput}"/> inputs to the script</param>
+		/// <param name="workspace">the relativity workspace</param>
+		/// <returns>a <see cref="RelativityScriptResult"/></returns>
+		RelativityScriptResult ExecuteRelativityScript(
 	    	kCura.Relativity.Client.DTOs.RelativityScript script,
-		    List<RelativityScriptInput> inputs);
+		    List<RelativityScriptInput> inputs, RelativityWorkspace workspace);
     }
 }

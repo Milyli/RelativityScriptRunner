@@ -55,7 +55,7 @@
 					RelativityHelper.InWorkspace(
 							(client, ws) =>
 					{
-						this.ExecuteJobInWorkspace(client, job);
+						this.ExecuteJobInWorkspace(client, job, ws);
 					},
 							workspace,
 							this.relativityClient.GetRelativityClient());
@@ -78,7 +78,8 @@
 		/// </summary>
 		/// <param name="client">the relativity client</param>
 		/// <param name="job">the scheduled job</param>
-		private void ExecuteJobInWorkspace(IRSAPIClient client, JobSchedule job)
+		/// <param name="workspace">the workspace we exect to execute the script in</param>
+		private void ExecuteJobInWorkspace(IRSAPIClient client, JobSchedule job, RelativityWorkspace workspace)
 		{
 			var inputs = this.jobScheduleRepository.GetJobInputs(job);
 			Logger.Trace($"found ${inputs.Count} inputs for job ${job.Id}");
@@ -94,7 +95,7 @@
 				{
 					var script = new kCura.Relativity.Client.DTOs.RelativityScript(job.RelativityScriptId);
 					var scriptInputs = inputs.Select(i => new RelativityScriptInput(i.InputName, i.InputValue)).ToList();
-					scriptResult = this.relativityScriptRepository.ExecuteRelativityScript(script, scriptInputs);
+					scriptResult = this.relativityScriptRepository.ExecuteRelativityScript(script, scriptInputs, workspace);
 				}
 				catch (Exception ex)
 				{

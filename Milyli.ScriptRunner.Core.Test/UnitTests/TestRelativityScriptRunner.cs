@@ -2,6 +2,8 @@
 // Copyright © 2016 Milyli
 // </copyright>
 
+using Milyli.ScriptRunner.Core.Models;
+
 namespace Milyli.ScriptRunner.Core.Test.UnitTests
 {
 	using System;
@@ -36,7 +38,7 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
 			};
 
 			scriptExecutionRepositoryMock
-				.Setup(repo => repo.ExecuteRelativityScript(It.IsAny<RelativityScript>(), It.IsAny<List<RelativityScriptInput>>())).Returns(result);
+				.Setup(repo => repo.ExecuteRelativityScript(It.IsAny<RelativityScript>(), It.IsAny<List<RelativityScriptInput>>(), It.IsAny<RelativityWorkspace>())).Returns(result);
 
 			clientMock.Setup(m => m.APIOptions).Returns(new APIOptions(-1));
 
@@ -61,7 +63,7 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
 			factoryMock.Setup(m => m.GetRelativityClient()).Returns(clientMock.Object);
 
 			scriptExecutionRepositoryMock
-				.Setup(repo => repo.ExecuteRelativityScript(It.IsAny<RelativityScript>(), It.IsAny<List<RelativityScriptInput>>()))
+				.Setup(repo => repo.ExecuteRelativityScript(It.IsAny<RelativityScript>(), It.IsAny<List<RelativityScriptInput>>(), It.IsAny<RelativityWorkspace>()))
 				.Throws(new Exception("None shall pass"));
 
 			clientMock.Setup(m => m.APIOptions).Returns(new APIOptions(-1));
