@@ -8,8 +8,8 @@
 	/// <summary>
 	/// Routes NLog log entries to Relativity Agent logging sink.
 	/// </summary>
-	[Target("RelativityAgent")]
-	public class RelativityAgentNLogTarget : TargetWithLayout
+	[Target("RelativityAgentTarget")]
+	public sealed class RelativityAgentNLogTarget : TargetWithLayout
 	{
 		/// <summary>
 		/// The agent to pass log entries on to.
@@ -35,6 +35,7 @@
 		{
 			this.agent = agent;
 			this.levelLimit = levelLimit;
+			this.Name = AgentLoggingBootstrapper.AgentTargetName;
 		}
 
 		/// <summary>

@@ -62,7 +62,7 @@
 				}
 				catch (Exception ex)
 				{
-					Logger.Fatal(ex, $"Execution of job {job.Id} failed");
+					Logger.Warn(ex, $"Execution of job {job.Id} failed");
 					job.CurrentJobHistory.ResultText = "Exception: " + ex.ToString();
 					job.CurrentJobHistory.HasError = true;
 				}

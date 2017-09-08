@@ -5,15 +5,14 @@
 	using NLog;
 	using NLog.Config;
 
-	public class AgentLoggingBootstrapper
+	public static class AgentLoggingBootstrapper
 	{
 		public const string AgentTargetName = "scriptrunner-agent";
 
 		public static void ConfigureAgentTarget(AScriptRunnerAgent agent, int levelLimit, string targetName = AgentTargetName)
 		{
-			var configuration = LoggingBootstrapper.EnsureConfiguration();
-
 			var agentTarget = new RelativityAgentNLogTarget(agent, levelLimit);
+			var configuration = LoggingBootstrapper.EnsureConfiguration();
 			configuration.AddTarget(AgentTargetName, agentTarget);
 
 			LogLevel logLevel;
@@ -34,8 +33,7 @@
 				logLevel = LogLevel.Off;
 			}
 
-			var rule = new LoggingRule(targetName, logLevel, agentTarget);
-			configuration.LoggingRules.Add(rule);
+			configuration.AddRule(logLevel, LogLevel.Fatal, targetName);
 
 			LogManager.ReconfigExistingLoggers();
 		}

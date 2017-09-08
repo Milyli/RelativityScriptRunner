@@ -110,7 +110,7 @@
                 }
                 catch (Exception ex)
                 {
-                    Logger.Fatal(ex, $"Staring {jobSchedule.Id} failed");
+                    Logger.Warn(ex, $"Staring {jobSchedule.Id} failed");
                     transaction.Rollback();
                     throw;
                 }
@@ -175,7 +175,7 @@
                 }
                 catch (Exception ex)
                 {
-                    Logger.Fatal(ex, $"Could not mark {jobSchedule.Id} as finished");
+                    Logger.Warn(ex, $"Could not mark {jobSchedule.Id} as finished");
                     transaction.Rollback();
                     throw;
                 }

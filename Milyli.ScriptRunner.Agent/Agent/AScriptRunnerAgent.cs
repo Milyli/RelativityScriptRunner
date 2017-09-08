@@ -9,9 +9,7 @@ namespace Milyli.ScriptRunner.Agent.Agent
 	using Milyli.ScriptRunner.Agent.DependencyResolution;
 	using Milyli.ScriptRunner.Agent.Logging;
 	using Milyli.ScriptRunner.Core.Logging;
-	using NLog;
-	using NLog.Config;
-	using Relativity.API;
+	using NLog.Targets;
 	using StructureMap;
 
 	public abstract class AScriptRunnerAgent : kCura.Agent.AgentBase
@@ -20,13 +18,13 @@ namespace Milyli.ScriptRunner.Agent.Agent
 
 		private const int Logdetailcharlimit = 30000; // 32766; // leave some room before the absolute 32766 char limit for formatting
 
+		private static NLog.Logger Logger => NLog.LogManager.GetCurrentClassLogger();
+
 		public override void Execute()
 		{
+			Target.Register<RelativityAgentNLogTarget>("RelativityAgentTarget");
 			var agentName = this.Name.Replace(" ", string.Empty);
 			kCura.Config.Config.ApplicationName = $"Milyli.ScriptRunner::{agentName}";
-
-			// Ensure logging is not being configured multiple times.
-			LogManager.Configuration = new LoggingConfiguration();
 
 			// Initialize agent logging
 			AgentLoggingBootstrapper.ConfigureAgentTarget(this, 10);
@@ -42,8 +40,8 @@ namespace Milyli.ScriptRunner.Agent.Agent
 				{
 					this.Execute(childContainer);
 				}
-
-				this.RaiseMessage("Completed.", 10);
+			
+				Logger.Info("Run complete.");
 			}
 		}
 
