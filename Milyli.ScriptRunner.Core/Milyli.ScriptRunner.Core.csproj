@@ -182,6 +182,7 @@
     <Compile Include="Services\PermissionsService.cs" />
     <Compile Include="Services\RelativityScriptRunner.cs" />
     <Compile Include="Tools\BitmaskHelper.cs" />
+    <Compile Include="Tools\KcuraAssemblyResolver.cs" />
     <Compile Include="Tools\RelativityHelper.cs" />
     <Compile Include="Tools\ScheduleConversionHelper.cs" />
   </ItemGroup>
