@@ -15,7 +15,7 @@
 		protected void Application_Start()
 		{
 			AppDomain.CurrentDomain.AssemblyResolve += KcuraAssemblyResolver.ResolveKcuraAssembly;
-			kCura.Config.Config.ApplicationName = "Milyli.ScriptRunner::CustomPage";
+
 			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
