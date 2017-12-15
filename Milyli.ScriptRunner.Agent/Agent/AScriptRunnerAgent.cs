@@ -18,13 +18,31 @@ namespace Milyli.ScriptRunner.Agent.Agent
 
 		private const int Logdetailcharlimit = 30000; // 32766; // leave some room before the absolute 32766 char limit for formatting
 
+		private static bool loggingSetup = false;
+
 		private static NLog.Logger Logger => NLog.LogManager.GetCurrentClassLogger();
 
 		public override void Execute()
 		{
+			if (!loggingSetup)
+			{
+				this.SetupLogging();
+				loggingSetup = true;
+			}
+
+			using (var parentContainer = ContainerBootstrapper.Setup(this.Helper))
+			{
+				using (var childContainer = parentContainer.CreateChildContainer())
+				{
+					this.Execute(childContainer);
+				}
+				Logger.Info("Run complete.");
+			}
+		}
+
+		private void SetupLogging()
+		{
 			Target.Register<RelativityAgentNLogTarget>("RelativityAgentTarget");
-			var agentName = this.Name.Replace(" ", string.Empty);
-			kCura.Config.Config.ApplicationName = $"Milyli.ScriptRunner::{agentName}";
 
 			// Initialize agent logging
 			AgentLoggingBootstrapper.ConfigureAgentTarget(this, 10);
@@ -33,16 +51,6 @@ namespace Milyli.ScriptRunner.Agent.Agent
 			LoggingBootstrapper.ConfigureEventLogTarget("ScriptRunner Agent");
 
 			NLog.MappedDiagnosticsContext.Set("Agent", $"{this.Name}:{this.AgentID}");
-
-			using (var parentContainer = ContainerBootstrapper.Setup(this.Helper))
-			{
-				using (var childContainer = parentContainer.CreateChildContainer())
-				{
-					this.Execute(childContainer);
-				}
-			
-				Logger.Info("Run complete.");
-			}
 		}
 
 		public void RaiseLimitedError(Exception exception, string message = "")
