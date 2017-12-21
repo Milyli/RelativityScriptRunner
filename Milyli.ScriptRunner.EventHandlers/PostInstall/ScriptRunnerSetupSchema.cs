@@ -9,7 +9,6 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Convention AFAICT")]
         public override kCura.EventHandler.Response Execute()
         {
-            kCura.Config.Config.ApplicationName = "Milyli.ScriptRunner::InstancePostInstall";
             kCura.EventHandler.Response retVal = new kCura.EventHandler.Response();
             retVal.Success = true;
             retVal.Message = string.Empty;
