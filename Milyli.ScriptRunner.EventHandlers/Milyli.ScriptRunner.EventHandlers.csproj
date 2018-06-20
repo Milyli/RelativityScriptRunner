@@ -42,51 +42,36 @@
   <ItemGroup>
     <Reference Include="Dapper, Version=1.40.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\Dapper.1.42\lib\net45\Dapper.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="kCura.Config, Version=9.5.41.87, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.Core.9.5.41.87\lib\kCura.Config.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="kCura.Config, Version=9.5.89.76, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.Other.9.5.89.76\lib\kCura.Config.dll</HintPath>
     </Reference>
-    <Reference Include="kCura.Crypto, Version=9.5.41.87, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.Core.9.5.41.87\lib\kCura.Crypto.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="kCura.Data.RowDataGateway, Version=9.5.89.76, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.Other.9.5.89.76\lib\kCura.Data.RowDataGateway.dll</HintPath>
     </Reference>
-    <Reference Include="kCura.Data.RowDataGateway, Version=9.5.41.87, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.Core.9.5.41.87\lib\kCura.Data.RowDataGateway.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="kCura.EventHandler, Version=9.5.69.85, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\Solutions\packages\Relativity.EventHandler.9.5.69.85\lib\kCura.EventHandler.dll</HintPath>
     </Reference>
-    <Reference Include="kCura.EventHandler, Version=9.5.41.87, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\Solutions\packages\Relativity.EventHandler.9.5.41.87\lib\kCura.EventHandler.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="kCura.Relativity.Client, Version=9.5.69.85, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.Rsapi.9.5.69.85\lib\kCura.Relativity.Client.dll</HintPath>
     </Reference>
-    <Reference Include="kCura.Relativity.Client, Version=9.5.41.87, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.RSAPI.9.5.41.87\lib\kCura.Relativity.Client.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Relativity.API, Version=9.5.41.87, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.RSAPI.9.5.41.87\lib\Relativity.API.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Relativity.API, Version=9.5.69.85, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.Api.9.5.69.85\lib\Relativity.API.dll</HintPath>
     </Reference>
     <Reference Include="Relativity.Kepler, Version=1.0.1.261, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.RSAPI.9.5.41.87\lib\Relativity.Kepler.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.69.85\lib\Relativity.Kepler.dll</HintPath>
     </Reference>
-    <Reference Include="Relativity.Services.DataContracts, Version=9.5.41.87, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.RSAPI.9.5.41.87\lib\Relativity.Services.DataContracts.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Relativity.Services.DataContracts, Version=9.5.69.85, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.69.85\lib\Relativity.Services.DataContracts.dll</HintPath>
     </Reference>
-    <Reference Include="Relativity.Services.Interfaces, Version=9.5.41.87, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.RSAPI.9.5.41.87\lib\Relativity.Services.Interfaces.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Relativity.Services.Interfaces, Version=9.5.69.85, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.69.85\lib\Relativity.Services.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="Relativity.Services.ServiceProxy, Version=1.0.1.261, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.RSAPI.9.5.41.87\lib\Relativity.Services.ServiceProxy.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.69.85\lib\Relativity.Services.ServiceProxy.dll</HintPath>
     </Reference>
     <Reference Include="RelativityTabManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\RelativityTabManager.1.1.0\lib\RelativityTabManager.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
