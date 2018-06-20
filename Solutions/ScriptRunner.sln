@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milyli.ScriptRunner.Agent",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milyli.ScriptRunner.EventHandlers", "..\Milyli.ScriptRunner.EventHandlers\Milyli.ScriptRunner.EventHandlers.csproj", "{67C92CEA-C099-4770-9B8C-4FEB34910595}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Milyli.ScriptRunner.ExternalIHelper", "..\Milyli.ScriptRunner.ExternalIHelper\Milyli.ScriptRunner.ExternalIHelper.csproj", "{93E3793A-0139-4081-BD91-C3C7B10AE989}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,8 +41,15 @@ Global
 		{67C92CEA-C099-4770-9B8C-4FEB34910595}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67C92CEA-C099-4770-9B8C-4FEB34910595}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67C92CEA-C099-4770-9B8C-4FEB34910595}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93E3793A-0139-4081-BD91-C3C7B10AE989}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93E3793A-0139-4081-BD91-C3C7B10AE989}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93E3793A-0139-4081-BD91-C3C7B10AE989}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93E3793A-0139-4081-BD91-C3C7B10AE989}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AFA84BF7-16E4-47FB-A2F4-7B88489963A2}
 	EndGlobalSection
 EndGlobal

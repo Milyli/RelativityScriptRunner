@@ -18,7 +18,9 @@
         // GET: RelativityScript
         public ActionResult Index()
         {
-            if (this.PermissionRepository.IsUserAdmin(Relativity.CustomPages.ConnectionHelper.Helper().GetAuthenticationManager().UserInfo.ArtifactID))
+#if !DEBUG
+			if (this.PermissionRepository.IsUserAdmin(Relativity.CustomPages.ConnectionHelper.Helper().GetAuthenticationManager().UserInfo.ArtifactID))
+#endif
             {
                 return this.Redirect(this.Url.Action("List"));
             }
