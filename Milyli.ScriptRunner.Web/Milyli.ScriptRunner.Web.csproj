@@ -24,6 +24,7 @@
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -158,6 +159,7 @@
     <Compile Include="DependencyResolution\ControllerConvention.cs" />
     <Compile Include="DependencyResolution\DefaultRegistry.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
+    <Compile Include="DependencyResolution\RelativityHelperUtil.cs" />
     <Compile Include="DependencyResolution\StructureMapDependencyScope.cs" />
     <Compile Include="DependencyResolution\StructureMapScopeModule.cs" />
     <Compile Include="Global.asax.cs">
@@ -494,6 +496,7 @@
     <Content Include="Views\Error\NotAuthorized.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <None Include="Web.base.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -502,6 +505,10 @@
     <ProjectReference Include="..\Milyli.ScriptRunner.Core\Milyli.ScriptRunner.Core.csproj">
       <Project>{eaf9c518-b0b8-4445-898c-db68a3ff1057}</Project>
       <Name>Milyli.ScriptRunner.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Milyli.ScriptRunner.ExternalIHelper\Milyli.ScriptRunner.ExternalIHelper.csproj">
+      <Project>{93e3793a-0139-4081-bd91-c3c7b10ae989}</Project>
+      <Name>Milyli.ScriptRunner.ExternalIHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -565,4 +572,7 @@
   </Target>
   <Target Name="AfterBuild">
   </Target> -->
+  <Target Name="BeforeBuild">
+    <TransformXml Source="Web.base.config" Transform="Web.$(Configuration).config" Destination="Web.config" />
+  </Target>
 </Project>
