@@ -1,0 +1,68 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RelativityAPIVersion Condition="'$(RelativityAPIVersion)' == ''">9.5.89.76</RelativityAPIVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Milyli.ScriptRunner.ExternalIHelper</PackageId>
+    <Version>$(RelativityAPIVersion)</Version>
+    <Authors />
+    <Company>Milyli, Inc.</Company>
+    <Product>Milyli.ScriptRunner.ExternalIHelper</Product>
+    <Description>An IHelper implementation for standalone applications.</Description>
+    <Copyright>Copyright © 2018</Copyright>
+    <AssemblyName>Milyli.ScriptRunner.ExternalIHelper</AssemblyName>
+    <RootNamespace>Milyli.ScriptRunner.ExternalIHelper</RootNamespace>
+    <CodeAnalysisRuleSet>ProjectSettings.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(RelativityAPIVersion)' == '9.5.89.76'">
+    <TargetFramework>net451</TargetFramework>
+    <RelativityVersion>[9.5.89.76,9.5.169.7)</RelativityVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(RelativityAPIVersion)' == '9.5.169.7'">
+    <TargetFramework>net462</TargetFramework>
+    <RelativityVersion>[9.5.169.7,9.6.26.97)</RelativityVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(RelativityAPIVersion)' == '9.6.26.97'">
+    <TargetFramework>net462</TargetFramework>
+    <RelativityVersion>[9.6.26.97,9.6.85.9)</RelativityVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(RelativityAPIVersion)' == '9.6.85.9'">
+    <TargetFramework>net462</TargetFramework>
+    <RelativityVersion>9.6.85.9</RelativityVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DefineConstants Condition="'$(RelativityAPIVersion)' != ''">$(DefineConstants);V$(RelativityAPIVersion.Replace(".", "_"))</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Relativity.Api" Version="$(RelativityVersion)" /> 
+    <PackageReference Include="Relativity.ObjectManager" Version="$(RelativityVersion)" />
+    <PackageReference Include="Relativity.Other" Version="$(RelativityVersion)" />
+    <PackageReference Include="Milyli.CodeAnalysis" Version="2.0.1">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="..\Solutions\packages\Milyli.CodeAnalysis.2.0.1\tools\stylecop.json">
+      <Link>stylecop.json</Link>
+    </AdditionalFiles>
+    <CodeAnalysisDictionary Include="..\Solutions\packages\Milyli.CodeAnalysis.2.0.1\tools\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Configuration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <!-- Workaround for https://github.com/dotnet/roslyn-project-system/issues/1739 -->
+  <PropertyGroup>
+    <AssemblySearchPaths>$(AssemblySearchPaths);{GAC}</AssemblySearchPaths>
+  </PropertyGroup>
+</Project>

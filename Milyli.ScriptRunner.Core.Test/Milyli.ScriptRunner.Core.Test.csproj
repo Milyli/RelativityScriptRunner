@@ -72,9 +72,6 @@
     <Reference Include="Relativity.Services.ServiceProxy, Version=1.0.1.261, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.69.85\lib\Relativity.Services.ServiceProxy.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleConfigSections, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\SimpleConfigSections.1.4.1\lib\net35\SimpleConfigSections.dll</HintPath>
-    </Reference>
     <Reference Include="StructureMap, Version=4.4.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\StructureMap.4.4.5\lib\net45\StructureMap.dll</HintPath>
     </Reference>
@@ -111,6 +108,10 @@
     <ProjectReference Include="..\Milyli.ScriptRunner.Core\Milyli.ScriptRunner.Core.csproj">
       <Project>{eaf9c518-b0b8-4445-898c-db68a3ff1057}</Project>
       <Name>Milyli.ScriptRunner.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Milyli.ScriptRunner.ExternalIHelper\Milyli.ScriptRunner.ExternalIHelper.csproj">
+      <Project>{93E3793A-0139-4081-BD91-C3C7B10AE989}</Project>
+      <Name>Milyli.ScriptRunner.ExternalIHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

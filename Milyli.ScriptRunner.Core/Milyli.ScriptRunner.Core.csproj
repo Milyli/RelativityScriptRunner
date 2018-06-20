@@ -90,9 +90,6 @@
     <Reference Include="Relativity.Services.ServiceProxy, Version=1.0.1.261, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.69.85\lib\Relativity.Services.ServiceProxy.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleConfigSections, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\SimpleConfigSections.1.4.1\lib\net35\SimpleConfigSections.dll</HintPath>
-    </Reference>
     <Reference Include="StructureMap, Version=4.0.0.315, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\structuremap.4.0.0.315\lib\net40\StructureMap.dll</HintPath>
     </Reference>
@@ -135,14 +132,9 @@
     <Compile Include="Relativity\Factories\RelativityConnectionFactoryBase.cs" />
     <Compile Include="Relativity\Factories\RelativityWorkspaceConnectionFactory.cs" />
     <Compile Include="Relativity\Factories\RelativityWorkspaceDependencyFactory.cs" />
-    <Compile Include="Relativity\Interfaces\IRelativityConstants.cs" />
     <Compile Include="Relativity\Interfaces\IRelativityContext.cs" />
-    <Compile Include="Relativity\Interfaces\IRelativityEnvironment.cs" />
     <Compile Include="Relativity\Interfaces\IRelativityInstanceConnectionFactory.cs" />
     <Compile Include="Relativity\Interfaces\IRelativityWorkspaceConnectionFactory.cs" />
-    <Compile Include="Relativity\Interfaces\TestIHelper.cs" />
-    <Compile Include="Relativity\RelativityConstants.cs" />
-    <Compile Include="Relativity\RelativityConstantsExtensions.cs" />
     <Compile Include="Relativity\RelativityContext.cs" />
     <Compile Include="Relativity\RelativityDependencyRegistry.cs" />
     <Compile Include="Repositories\BaseReadRepository.cs" />
