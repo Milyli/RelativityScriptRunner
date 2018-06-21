@@ -29,7 +29,7 @@
             return this.InWorkspace(
                 (client, ws) =>
                 {
-                    var scriptArtifact = client.Repositories.RelativityScript.ReadSingle(script.RelativityScriptId);
+                    var scriptArtifact = new DTOs.RelativityScript(script.RelativityScriptId);
                     var fields = client.Repositories.RelativityScript.GetRelativityScriptInputs(scriptArtifact);
                     return fields.Select(f => new Models.ScriptInput()
                     {
@@ -91,12 +91,31 @@
 
         private RelativityScript GetScript(int scriptArtifactId, RelativityWorkspace workspace)
         {
-            var scriptArtifact = this.RelativityClient.Repositories.RelativityScript.ReadSingle(scriptArtifactId);
+			DTOs.RelativityScript scriptArtifact;
+
+			// try/catch block needed for R96; see https://devhelp.relativity.com/t/4525/17
+			try
+			{
+				scriptArtifact = this.RelativityClient.Repositories.RelativityScript.ReadSingle(scriptArtifactId);
+			}
+			catch (APIException ex) when (ex.Message == "Unable to cast object of type 'System.Int32' to type 'System.String'.")
+			{
+				scriptArtifact = this.RelativityClient.Repositories.RelativityScript.Query(
+					new DTOs.Query<DTOs.RelativityScript>
+					{
+						Condition = new TextCondition(
+							"Artifact ID",
+							TextConditionEnum.In,
+							new[] { scriptArtifactId.ToString() }),
+						Fields = DTOs.FieldValue.AllFields
+					}).GetResults().Single();
+			}
+
             return new RelativityScript()
             {
+				RelativityScriptId = scriptArtifact.ArtifactID,
                 Name = scriptArtifact.Name,
                 Description = scriptArtifact.Description,
-                RelativityScriptId = scriptArtifact.ArtifactID,
                 WorkspaceId = workspace.WorkspaceId
             };
         }

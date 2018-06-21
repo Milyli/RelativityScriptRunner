@@ -3,8 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using kCura.Relativity.Client;
-    using Milyli.ScriptRunner.Core.Models;
+	using System.Text;
+	using kCura.Relativity.Client;
+	using kCura.Relativity.Client.DTOs;
+	using Milyli.ScriptRunner.Core.Models;
     using DTOs = kCura.Relativity.Client.DTOs;
 
     public static class RelativityHelper
@@ -45,5 +47,23 @@
                 Name = name
             }).ToList();
         }
+
+		public static List<T> GetResults<T>(this ResultSet<T> resultSet)
+			where T : DTOs.Artifact
+		{
+			var failureItems = resultSet.Results.Where(x => !x.Success);
+			if (resultSet.Success && !failureItems.Any())
+			{
+				return resultSet.Results.Select(x => x.Artifact).ToList();
+			}
+
+			var stringBuilder = new StringBuilder(resultSet.Message ?? "One or more results failed.");
+			foreach (var message in failureItems.Select(x => $"- {x.Message}"))
+			{
+				stringBuilder.AppendLine().Append(message);
+			}
+
+			throw new InvalidOperationException(stringBuilder.ToString());
+		}
     }
 }

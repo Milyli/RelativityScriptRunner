@@ -8,7 +8,8 @@ namespace Milyli.ScriptRunner.Core.Repositories
     using System.Threading;
     using kCura.Relativity.Client;
     using Milyli.ScriptRunner.Core.Models;
-    using Relativity.Client;
+	using Milyli.ScriptRunner.Core.Tools;
+	using Relativity.Client;
     using DTOs = kCura.Relativity.Client.DTOs;
 
     public class RelativityWorkspaceRepository : RelativityClientRepository, IRelativityWorkspaceRepository
@@ -42,23 +43,27 @@ namespace Milyli.ScriptRunner.Core.Repositories
 
         private Dictionary<int, RelativityWorkspace> GetWorkspaceDictionary()
         {
-            var workspaces = this.RelativityClient.Repositories.Workspace.Query(new DTOs.Query<DTOs.Workspace>()
-            {
-                Fields = new List<DTOs.FieldValue>() { new DTOs.FieldValue(NAME_FIELD) }
-            });
-            if (workspaces.Success)
-            {
-                return workspaces.Results
-                    .Select(ws => new RelativityWorkspace()
-                    {
-                        WorkspaceId = ws.Artifact.ArtifactID,
-                        Name = ws.Artifact.Name
-                    })
-                    .ToDictionary(rws => rws.WorkspaceId);
-            }
+			List<DTOs.Workspace> results;
+			try
+			{
+				results = this.RelativityClient.Repositories.Workspace.Query(new DTOs.Query<DTOs.Workspace>()
+				{
+					Fields = new List<DTOs.FieldValue>() { new DTOs.FieldValue(NAME_FIELD) }
+				}).GetResults();
+			}
+			catch
+			{
+				// TODO throw instead of return?
+				return new Dictionary<int, RelativityWorkspace>();
+			}
 
-            // TODO throw instead of return?
-            return new Dictionary<int, RelativityWorkspace>();
+			return results
+                .Select(ws => new RelativityWorkspace()
+                {
+                    WorkspaceId = ws.ArtifactID,
+                    Name = ws.Name
+                })
+                .ToDictionary(rws => rws.WorkspaceId);
         }
     }
 }
