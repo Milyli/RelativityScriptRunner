@@ -1,0 +1,3 @@
+[submodule "Deployment/Tools/psake"]
+	path = Deployment/Tools/psake
+	url = https://github.com/psake/psake.git
