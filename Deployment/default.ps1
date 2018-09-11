@@ -1,8 +1,11 @@
 Properties {
 	$Deployment = Split-Path $psake.build_script_file
-	$Artifacts = "$Deployment\Artifacts"
-	$nuget_exe = "$Deployment\Tools\nuget.exe"
 	$sln = "$Deployment\..\Solutions\ScriptRunner.sln"
+	$Artifacts = "$Deployment\Artifacts"
+	$Tools = "$Deployment\Tools"
+	$BuildTools = "$Tools\BuildTools"
+	$nuget_exe = "$Tools\nuget.exe"
+	$packages_config = "$Deployment\packages.config"
 }
 
 Task Default -Depends Rebuild
@@ -33,7 +36,13 @@ Task Clean {
 	}
 }
 
+Task RestoreBuildTools -Depends InstallNuget -precondition { -Not (Test-Path $BuildTools) } {
+
+	Exec { & $nuget_exe install $packages_config -o $BuildTools }
+}
+
 Task InstallNuget -precondition { -Not (Test-Path $nuget_exe) } {
 
 	Invoke-WebRequest -Uri "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe" -OutFile $nuget_exe -ErrorAction Stop
 }
+
