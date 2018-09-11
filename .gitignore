@@ -41,7 +41,10 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
+
+# Build Script
 Deployment/Artifacts
+Deployment/Tools/nuget.exe
 
 # Visual Studio 2015 cache/options directory
 .vs/

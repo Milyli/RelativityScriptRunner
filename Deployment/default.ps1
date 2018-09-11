@@ -1,6 +1,7 @@
 Properties {
 	$Deployment = Split-Path $psake.build_script_file
 	$Artifacts = "$Deployment\Artifacts"
+	$nuget_exe = "$Deployment\Tools\nuget.exe"
 	$sln = "$Deployment\..\Solutions\ScriptRunner.sln"
 }
 
@@ -24,12 +25,15 @@ Task Clean {
 	}
 	mkdir $Artifacts | out-null
 
-	Write-Host "$sln"
-
 	Exec { 
 		msbuild "$sln" `
 			/t:Clean `
 			/p:Configuration=Release `
 			/v:quiet
 	}
+}
+
+Task InstallNuget -precondition { -Not (Test-Path $nuget_exe) } {
+
+	Invoke-WebRequest -Uri "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe" -OutFile $nuget_exe -ErrorAction Stop
 }
