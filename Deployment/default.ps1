@@ -14,31 +14,22 @@ Properties {
 
 Task Default -Depends CreateRap
 
-Task Rebuild -Depends Clean, Build
-
-Task BuildAndTest -Depends Rebuild, UnitTest
-
-Task Build {
+Task PackageBuild {
 	Exec { 
 		msbuild "$sln" `
-			/t:Build `
+			/t:Clean,Rebuild `
 			/p:Configuration=Release `
 			/v:quiet `
-			/p:OutDir=$Artifacts }
+			/p:OutDir=$Artifacts 
+	}
 }
 
-Task Clean {
-
-	if(Test-Path $Artifacts) {
-		rd $Artifacts -rec -force | out-null
-	}
-	mkdir $Artifacts | out-null
-
+Task TestBuild {
 	Exec { 
 		msbuild "$sln" `
-			/t:Clean `
-			/p:Configuration=Release `
-			/v:quiet
+			/t:Clean,Rebuild `
+			/p:Configuration=Debug `
+			/v:quiet `
 	}
 }
 
@@ -52,10 +43,10 @@ Task InstallNuget -precondition { -Not (Test-Path $nuget_exe) } {
 	Invoke-WebRequest -Uri "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe" -OutFile $nuget_exe -ErrorAction Stop
 }
 
-Task UnitTest -Depends RestoreBuildTools, Build {
+Task UnitTest -Depends RestoreBuildTools, TestBuild {
 	Exec { & $nunit_exe $sln --result="$TestResult_xml" --where="cat == Unit && cat != Integration && cat != PlatformUnitTest && cat != Explicit && cat != Ignore" --skipnontestassemblies }
 }
 
-Task CreateRap -Depends RestoreBuildTools, Rebuild {
+Task CreateRap -Depends RestoreBuildTools, PackageBuild {
 	Exec { & $rapbuilder_exe /source:"$Deployment" /input:"$build_xml" /version:9.6.0.1 }
 }
