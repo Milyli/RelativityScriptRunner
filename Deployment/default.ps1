@@ -10,9 +10,11 @@ Properties {
 	$build_xml = "$Deployment\build.xml"
 	$nunit_exe = "$BuildTools\NUnit.ConsoleRunner.3.8.0\tools\nunit3-console.exe"
 	$rapbuilder_exe = "$BuildTools\RelativityDev.RapBuilder.0.0.0.3-alpha\lib\kCura.RAPBuilder.exe"
+
+	$Version = $null
 }
 
-Task Default -Depends CreateRap
+Task Default -Depends UnitTest
 
 Task PackageBuild {
 	Exec { 
@@ -48,5 +50,5 @@ Task UnitTest -Depends RestoreBuildTools, TestBuild {
 }
 
 Task CreateRap -Depends RestoreBuildTools, PackageBuild {
-	Exec { & $rapbuilder_exe /source:"$Deployment" /input:"$build_xml" /version:9.6.0.1 }
+	Exec { & $rapbuilder_exe /source:"$Deployment" /input:"$build_xml" /version:"$Version" }
 }
