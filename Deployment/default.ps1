@@ -10,6 +10,8 @@ Properties {
 	$build_xml = "$Deployment\build.xml"
 	$nunit_exe = "$BuildTools\NUnit.ConsoleRunner.3.8.0\tools\nunit3-console.exe"
 	$rapbuilder_exe = "$BuildTools\RelativityDev.RapBuilder.0.0.0.3-alpha\lib\kCura.RAPBuilder.exe"
+	$Packages = "$Deployment\Packages"
+	$scriptrunner_rap = "$Deployment\ScriptRunner.rap"
 
 	$Version = $null
 }
@@ -51,4 +53,8 @@ Task UnitTest -Depends RestoreBuildTools, TestBuild {
 
 Task CreateRap -Depends RestoreBuildTools, PackageBuild {
 	Exec { & $rapbuilder_exe /source:"$Deployment" /input:"$build_xml" /version:"$Version" }
+	if(-Not (Test-Path $Packages)) {
+		mkdir $Packages
+	}
+	Copy-Item $scriptrunner_rap -Destination "$Packages\Milyli.ScriptRunner-$Version.rap" -Force | Out-Null
 }

@@ -46,6 +46,8 @@ bld/
 Deployment/Artifacts
 Deployment/Tools/nuget.exe
 Deployment/Tools/BuildTools
+Deployment/ScriptRunner.rap
+Deployment/Packages
 
 # Visual Studio 2015 cache/options directory
 .vs/
