@@ -18,7 +18,7 @@ Properties {
 
 Task Default -Depends UnitTest
 
-Task PackageBuild {
+Task PackageBuild -Depends RestorePackages {
 	Exec { 
 		msbuild "$sln" `
 			/t:Clean,Rebuild `
@@ -28,7 +28,7 @@ Task PackageBuild {
 	}
 }
 
-Task TestBuild {
+Task TestBuild -Depends RestorePackages {
 	Exec { 
 		msbuild "$sln" `
 			/t:Clean,Rebuild `
@@ -37,13 +37,15 @@ Task TestBuild {
 	}
 }
 
-Task RestoreBuildTools -Depends InstallNuget -precondition { -Not (Test-Path $BuildTools) } {
+Task RestorePackages -Depends InstallNuget {
+	Exec { & $nuget_exe restore $sln }
+}
 
+Task RestoreBuildTools -Depends InstallNuget -precondition { -Not (Test-Path $BuildTools) } {
 	Exec { & $nuget_exe install $packages_config -o $BuildTools }
 }
 
 Task InstallNuget -precondition { -Not (Test-Path $nuget_exe) } {
-
 	Invoke-WebRequest -Uri "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe" -OutFile $nuget_exe -ErrorAction Stop
 }
 
