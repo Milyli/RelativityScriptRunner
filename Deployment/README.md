@@ -47,11 +47,6 @@ The following are all valid invocations:
 You can find the output rap in the Deployment/Packages folder.
 *Note:* the output rap will override any other raps with the same version.
 
-## Windows Subsystem for Linux
-
-If you're using WSFL you can build the project using `./lbuild` in the root of the project.
-All parameters will be passed through to the powershell build script.
-
 ## Structure and Process
 
 ### Relevant files/folders
