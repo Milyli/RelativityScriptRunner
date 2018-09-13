@@ -55,8 +55,8 @@ Task UnitTest -Depends RestoreBuildTools, TestBuild {
 
 Task CreateRap -Depends RestoreBuildTools, PackageBuild {
 	Exec { & $rapbuilder_exe /source:"$Deployment" /input:"$build_xml" /version:"$Version" }
-	if(-Not (Test-Path $Packages)) {
-		mkdir $Packages
+	if(-Not (Test-Path "$Packages\$Version")) {
+		New-Item "$Packages\$Version" -ItemType Directory
 	}
-	Copy-Item $scriptrunner_rap -Destination "$Packages\Milyli.ScriptRunner-$Version.rap" -Force | Out-Null
+	Copy-Item $scriptrunner_rap -Destination "$Packages\$Version\Milyli.ScriptRunner-$Version.rap" -Force | Out-Null
 }
