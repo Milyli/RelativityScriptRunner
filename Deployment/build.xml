@@ -10,7 +10,7 @@
 				</Assemblies>
 				<ResourceFiles />
 				<CustomPages>
-					<CustomPage guid="A5B83E42-D9F0-4DF8-B1CB-D2BA361F1B25">Artifacts\_PublishedWebsites\Milyli.ScriptRunner.Web</CustomPage>
+					<CustomPage guid="a5b83e42-d9f0-4df8-b1cb-d2ba361f1b25">Artifacts\_PublishedWebsites\Milyli.ScriptRunner.Web</CustomPage>
 				</CustomPages>
 			</Application>
 		</Applications>
