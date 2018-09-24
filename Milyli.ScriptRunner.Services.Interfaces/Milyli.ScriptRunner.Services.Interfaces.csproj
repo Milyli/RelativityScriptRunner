@@ -52,8 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IScriptManager.cs" />
-    <Compile Include="IScriptRunManager.cs" />
+    <Compile Include="V1\IScriptManager.cs" />
+    <Compile Include="V1\IScriptRunManager.cs" />
+    <Compile Include="Models\Responses\CaseScriptResponse.cs" />
+    <Compile Include="Models\Responses\RunHistoryResponse.cs" />
+    <Compile Include="Models\Responses\ScriptResponse.cs" />
+    <Compile Include="Models\Responses\ScriptRunResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
