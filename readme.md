@@ -9,7 +9,7 @@ Points of Interest
 -------------------
  - RAP (Relativity Application Package)
  - Documentation 
- - [License](https://github.com/Milyli/RelativityScriptRunner/blob/master/license.txt)
+ - [License](./LICENSE)
 
 
 # Project Champion 
