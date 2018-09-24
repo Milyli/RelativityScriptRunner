@@ -7,9 +7,9 @@ Pull requests will be reviewed, accepted, and cherished. Thank you for your help
 
 Points of Interest
 -------------------
- - RAP (Relativity Application Package)
- - Documentation 
+ - [Relativity Application Package (RAP) and Documentation](https://github.com/Milyli/RelativityScriptRunner/releases/latest)
  - [License](./LICENSE)
+ - [Build Documentation](./Deployment/)
 
 
 # Project Champion 
