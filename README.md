@@ -15,7 +15,8 @@ The Relativity Script Runner is a Relativity Application that allows you to sche
 Please request support for the package by submitting issues through GitHub. 
 
 # Project Champion 
-![Milyli](http://milyli.com/wp-content/uploads/2014/07/milyli_header-regular.png "Milyli")
+
+<img src="./Milyli_Logo_Color_Tagline.png " title="Milyli" alt="Milyli Logo" width="278" >
 
 [Milyli](http://www.milyli.com) is a major contributor to this project.  If you are interested in having modifications made to this project, please reach out to [Milyli](http://www.milyli.com) for an estimate. 
 
