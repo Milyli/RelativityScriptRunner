@@ -1,16 +1,18 @@
-﻿# Relativity Script Runner #
+﻿# Relativity Script Runner
+
 The Relativity Script Runner is a Relativity Application that allows you to schedule Relativity scripts to be run at regularly occurring intervals.
 
-Please request support for the package by submitting issues through GitHub. 
+## Points of Interest
 
-Pull requests will be reviewed, accepted, and cherished. Thank you for your help.
-
-Points of Interest
--------------------
  - [Relativity Application Package (RAP) and Documentation](https://github.com/Milyli/RelativityScriptRunner/releases/latest)
- - [License](./LICENSE)
  - [Build Documentation](./Deployment/)
+ - [Contributing](./CONTRIBUTING.md)
+ - [Code of Conduct](./CODE_OF_CONDUCT.md)
+ - [License](./LICENSE)
 
+## Support
+
+Please request support for the package by submitting issues through GitHub. 
 
 # Project Champion 
 ![Milyli](http://milyli.com/wp-content/uploads/2014/07/milyli_header-regular.png "Milyli")
