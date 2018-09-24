@@ -12,7 +12,13 @@ The Relativity Script Runner is a Relativity Application that allows you to sche
 
 ## Support
 
-Please request support for the package by submitting issues through GitHub. 
+Please request support for the Application by opening GitHub issues.
+
+After an issue is submitted, we'll triage it and stick an `in TFS` label on it.
+This means that we've identified it and it will be considered for future work.
+
+You can see all the currently planned and in-progress work on the [GitHub Project](https://github.com/Milyli/RelativityScriptRunner/projects/1).
+
 
 # Project Champion 
 
