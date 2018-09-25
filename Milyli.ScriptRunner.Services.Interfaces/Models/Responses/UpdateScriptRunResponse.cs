@@ -1,6 +1,6 @@
 ﻿namespace Milyli.ScriptRunner.Services.Interfaces.Models.Responses
 {
-	public class RunHistoryResponse
+	public class UpdateScriptRunResponse : ScriptRunResponse
 	{
 	}
 }

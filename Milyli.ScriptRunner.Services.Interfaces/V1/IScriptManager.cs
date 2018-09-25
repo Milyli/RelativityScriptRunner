@@ -1,6 +1,7 @@
 ﻿namespace Milyli.ScriptRunner.Services.Interfaces.V1
 {
 	using System.Threading.Tasks;
+	using Models.Requests;
 	using Models.Responses;
 	using Relativity.Kepler.Services;
 
@@ -10,9 +11,9 @@
 	public interface IScriptManager
 	{
 		[Route("ReadSingle")]
-		Task<ScriptResponse> GetScriptAsync(int caseId, int scriptId);
+		Task<ReadScriptResponse> GetScriptAsync(ReadScriptRequest req);
 
 		[Route("ReadAll")]
-		Task<CaseScriptResponse> GetCaseScripts(int caseId);
+		Task<ReadCaseScriptResponse> GetCaseScripts(ReadCaseScriptsRequest req);
 	}
 }

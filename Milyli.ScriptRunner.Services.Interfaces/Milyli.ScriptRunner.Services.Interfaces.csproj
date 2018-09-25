@@ -52,16 +52,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Requests\CreateScriptRunRequest.cs" />
+    <Compile Include="Models\Requests\ReadCaseScriptsRequest.cs" />
+    <Compile Include="Models\Requests\ReadScriptRequest.cs" />
+    <Compile Include="Models\Requests\RunAllRequest.cs" />
+    <Compile Include="Models\Requests\RunScriptRunRequest.cs" />
+    <Compile Include="Models\Requests\ReadHistoryRequest.cs" />
+    <Compile Include="Models\Requests\ReadScriptRunRequest.cs" />
+    <Compile Include="Models\Requests\UpdateScriptRunRequest.cs" />
+    <Compile Include="Models\Responses\CreateScriptRunResponse.cs" />
+    <Compile Include="Models\Responses\ReadScriptRunResponse.cs" />
+    <Compile Include="Models\Responses\UpdateScriptRunResponse.cs" />
     <Compile Include="V1\IScriptManager.cs" />
     <Compile Include="V1\IScriptRunManager.cs" />
-    <Compile Include="Models\Responses\CaseScriptResponse.cs" />
-    <Compile Include="Models\Responses\RunHistoryResponse.cs" />
-    <Compile Include="Models\Responses\ScriptResponse.cs" />
+    <Compile Include="Models\Responses\ReadCaseScriptResponse.cs" />
+    <Compile Include="Models\Responses\ReadRunHistoryResponse.cs" />
+    <Compile Include="Models\Responses\ReadScriptResponse.cs" />
     <Compile Include="Models\Responses\ScriptRunResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
