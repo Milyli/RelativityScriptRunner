@@ -93,8 +93,3 @@ The nunit3 console runner is then used to build only the Unit Tests.
 The solution is built in release mode and the build artifacts are output to the `Deployment/Artifacts` folder.
 After the build the RelativityDev.RapBuilder executable is used to package the assemblies and custom page.
 The rap is output to `Deployment/ScriptRunner.rap` and then copied and renamed into the `Deployment/Packages` folder.
-
-## TFS
-
-Milyli uses this build script on its internal TFS build server to create github releases.
-Additional information about this process is coming soon.
