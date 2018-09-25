@@ -8,6 +8,6 @@
 		/// Run Time defining which Script Runs to execute.
 		/// All unrun Runs scheduled for or prior to the run time should be executed.
 		/// </summary>
-		private DateTime RunTime { get; set; }
+		public DateTime RunTime { get; set; }
 	}
 }

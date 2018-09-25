@@ -4,6 +4,10 @@
 
 	public class ReadCaseScriptResponse
 	{
-		private List<ReadScriptResponse> CaseScripts { get; set; }
+		public int CaseId { get; set; }
+
+		public string CaseName { get; set; }
+
+		public List<ReadScriptResponse> CaseScripts { get; set; }
 	}
 }

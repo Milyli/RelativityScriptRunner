@@ -2,8 +2,8 @@
 {
 	public class ReadScriptRequest
 	{
-		int CaseId { get; set; }
+		public int CaseId { get; set; }
 
-		private int ScriptId { get; set; }
+		public int ScriptId { get; set; }
 	}
 }

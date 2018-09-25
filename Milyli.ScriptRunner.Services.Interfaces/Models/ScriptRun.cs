@@ -1,9 +1,8 @@
-﻿namespace Milyli.ScriptRunner.Services.Interfaces.Models.Requests
+﻿namespace Milyli.ScriptRunner.Services.Interfaces.Models
 {
 	using System;
-	using System.Collections.Generic;
 
-	public class UpdateScriptRunRequest
+	public class ScriptRun
 	{
 		public int Id { get; set; }
 
@@ -30,7 +29,5 @@
 		/// Gets or sets the execution Time-of-day (in seconds).
 		/// </summary>
 		public int ExecutionTime { get; set; }
-
-		public List<Input> ScriptInputs { get; set; }
 	}
 }

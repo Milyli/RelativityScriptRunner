@@ -2,6 +2,6 @@
 {
 	public class ReadScriptRunRequest
 	{
-		private int ScriptRunId { get; set; }
+		public int ScriptRunId { get; set; }
 	}
 }

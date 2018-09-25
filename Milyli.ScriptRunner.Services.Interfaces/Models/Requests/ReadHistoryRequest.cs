@@ -2,6 +2,6 @@
 {
 	public class ReadHistoryRequest
 	{
-		private int ScriptRunId { get; set; }
+		public int ScriptRunId { get; set; }
 	}
 }

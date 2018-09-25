@@ -2,6 +2,6 @@
 {
 	public class ReadCaseScriptsRequest
 	{
-		private int CaseId { get; set; }
+		public int CaseId { get; set; }
 	}
 }
