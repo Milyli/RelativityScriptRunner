@@ -7,7 +7,7 @@
 
 	[WebService("ScriptApi")]
 	[ServiceAudience(Audience.Public)]
-	[RoutePrefix("API/Script")]
+	[RoutePrefix("API/V1/Script")]
 	public interface IScriptManager
 	{
 		[Route("ReadSingle")]
