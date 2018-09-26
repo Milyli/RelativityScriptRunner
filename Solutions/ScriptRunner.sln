@@ -17,8 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Milyli.ScriptRunner.Externa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milyli.ScriptRunner.Services.Interfaces", "..\Milyli.ScriptRunner.Services.Interfaces\Milyli.ScriptRunner.Services.Interfaces.csproj", "{2441DFFC-FB33-4D70-97A4-51519FE3ABCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milyli.ScriptRunner.Services", "Milyli.ScriptRunner.Services\Milyli.ScriptRunner.Services.csproj", "{64E1D712-356F-43BE-82AA-795F1E487F1F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,10 +51,6 @@ Global
 		{2441DFFC-FB33-4D70-97A4-51519FE3ABCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2441DFFC-FB33-4D70-97A4-51519FE3ABCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2441DFFC-FB33-4D70-97A4-51519FE3ABCE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{64E1D712-356F-43BE-82AA-795F1E487F1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{64E1D712-356F-43BE-82AA-795F1E487F1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{64E1D712-356F-43BE-82AA-795F1E487F1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{64E1D712-356F-43BE-82AA-795F1E487F1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
