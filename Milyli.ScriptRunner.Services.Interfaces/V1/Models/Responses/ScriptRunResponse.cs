@@ -3,6 +3,9 @@
 	using System.Collections.Generic;
 	using Models;
 
+	/// <summary>
+	/// Base response to Script Run requests
+	/// </summary>
 	public class ScriptRunResponse
 	{
 		public ScriptRun ScriptRun { get; set; }

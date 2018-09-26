@@ -3,6 +3,9 @@
 	using System.Collections.Generic;
 	using Models;
 
+	/// <summary>
+	/// Response to script read requests
+	/// </summary>
 	public class ReadScriptResponse
 	{
 		public Script Script { get; set; }
