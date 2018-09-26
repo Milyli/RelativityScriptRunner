@@ -8,8 +8,14 @@
 	/// </summary>
 	public class ScriptRunResponse
 	{
+		/// <summary>
+		/// Returned Script Run.
+		/// </summary>
 		public ScriptRun ScriptRun { get; set; }
 
+		/// <summary>
+		/// Associated script run inputs.
+		/// </summary>
 		public List<Input> ScriptInputs { get; set; } 
 	}
 }

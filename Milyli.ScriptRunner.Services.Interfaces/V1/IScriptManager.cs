@@ -27,6 +27,6 @@
 		/// <param name="req">Request defining the case to read scripts from.</param>
 		/// <returns>All scripts in the case.</returns>
 		[Route("ReadAll")]
-		Task<ReadCaseScriptResponse> GetCaseScripts(ReadCaseScriptsRequest req);
+		Task<ReadCaseScriptResponse> GetCaseScriptsAsync(ReadCaseScriptsRequest req);
 	}
 }

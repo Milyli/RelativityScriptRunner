@@ -8,8 +8,14 @@
 	/// </summary>
 	public class ReadScriptResponse
 	{
+		/// <summary>
+		/// Relativity script
+		/// </summary>
 		public Script Script { get; set; }
 
+		/// <summary>
+		/// Script runs using the returned script.
+		/// </summary>
 		public List<ScriptRun> ScriptRuns { get; set; }
 	}
 }

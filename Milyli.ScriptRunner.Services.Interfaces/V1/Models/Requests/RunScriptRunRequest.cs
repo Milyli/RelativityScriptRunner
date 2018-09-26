@@ -5,6 +5,9 @@
 	/// </summary>
 	public class RunScriptRunRequest
 	{
+		/// <summary>
+		/// Script Run to execute.
+		/// </summary>
 		public int ScriptRunId { get; set; }
 	}
 }
