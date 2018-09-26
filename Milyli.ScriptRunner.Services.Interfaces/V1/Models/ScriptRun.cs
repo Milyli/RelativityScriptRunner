@@ -18,12 +18,16 @@
 
 		public int JobStatus { get; set; }
 
+		/// <summary>
+		/// Gets or sets whether the job is enabled.
+		/// Disabled Script Runs will not execute as scheduled.
+		/// </summary>
 		public bool JobEnabled { get; set; } = true;
 
 		/// <summary>
-		/// Gets or sets the bitmask that represents the schedule.  Only the first 7 bits (0x01 through 0x7F) are used, the LSB represents Sunday, the 7th bit represents Saturday
+		/// Gets or sets the days of the week the execution is scheduled.
 		/// </summary>
-		public int ExecutionSchedule { get; set; }
+		public WeeklySchedule ExecutionSchedule { get; set; }
 
 		/// <summary>
 		/// Gets or sets the execution Time-of-day (in seconds).
