@@ -78,17 +78,17 @@
     <Reference Include="Relativity.API, Version=9.5.69.85, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\Relativity.Api.9.5.69.85\lib\Relativity.API.dll</HintPath>
     </Reference>
-    <Reference Include="Relativity.Kepler, Version=1.0.1.261, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.69.85\lib\Relativity.Kepler.dll</HintPath>
+    <Reference Include="Relativity.Kepler, Version=1.0.1.312, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Kepler.dll</HintPath>
     </Reference>
-    <Reference Include="Relativity.Services.DataContracts, Version=9.5.69.85, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.69.85\lib\Relativity.Services.DataContracts.dll</HintPath>
+    <Reference Include="Relativity.Services.DataContracts, Version=9.5.162.111, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Services.DataContracts.dll</HintPath>
     </Reference>
-    <Reference Include="Relativity.Services.Interfaces, Version=9.5.69.85, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.69.85\lib\Relativity.Services.Interfaces.dll</HintPath>
+    <Reference Include="Relativity.Services.Interfaces, Version=9.5.162.111, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Services.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="Relativity.Services.ServiceProxy, Version=1.0.1.261, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.69.85\lib\Relativity.Services.ServiceProxy.dll</HintPath>
+    <Reference Include="Relativity.Services.ServiceProxy, Version=1.0.1.312, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Services.ServiceProxy.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap, Version=4.0.0.315, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\structuremap.4.0.0.315\lib\net40\StructureMap.dll</HintPath>

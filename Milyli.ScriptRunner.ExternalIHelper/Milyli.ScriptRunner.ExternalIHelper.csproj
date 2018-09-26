@@ -38,7 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Relativity.Api" Version="$(RelativityVersion)" /> 
-    <PackageReference Include="Relativity.ObjectManager" Version="$(RelativityVersion)" />
+    <PackageReference Include="Relativity.ObjectManager" Version="9.5.162.111" />
     <PackageReference Include="Relativity.Other" Version="$(RelativityVersion)" />
     <PackageReference Include="Milyli.CodeAnalysis" Version="2.0.1">
       <PrivateAssets>all</PrivateAssets>
