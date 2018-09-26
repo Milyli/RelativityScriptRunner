@@ -1,7 +1,8 @@
-﻿namespace Milyli.ScriptRunner.Services.Interfaces.Models.Requests
+﻿namespace Milyli.ScriptRunner.Services.Interfaces.V1.Models.Requests
 {
 	using System;
 	using System.Collections.Generic;
+	using Models;
 
 	public class UpdateScriptRunRequest
 	{

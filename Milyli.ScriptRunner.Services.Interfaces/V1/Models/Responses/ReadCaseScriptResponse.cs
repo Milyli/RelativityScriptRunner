@@ -1,4 +1,4 @@
-﻿namespace Milyli.ScriptRunner.Services.Interfaces.Models.Responses
+﻿namespace Milyli.ScriptRunner.Services.Interfaces.V1.Models.Responses
 {
 	using System.Collections.Generic;
 

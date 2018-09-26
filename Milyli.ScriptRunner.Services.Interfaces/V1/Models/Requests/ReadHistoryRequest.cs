@@ -1,4 +1,4 @@
-﻿namespace Milyli.ScriptRunner.Services.Interfaces.Models.Requests
+﻿namespace Milyli.ScriptRunner.Services.Interfaces.V1.Models.Requests
 {
 	public class ReadHistoryRequest
 	{

@@ -1,4 +1,4 @@
-﻿namespace Milyli.ScriptRunner.Services.Interfaces.Models
+﻿namespace Milyli.ScriptRunner.Services.Interfaces.V1.Models
 {
 	public class Input
 	{
