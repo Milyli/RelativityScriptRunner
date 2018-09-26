@@ -8,6 +8,6 @@
 
 		public string CaseName { get; set; }
 
-		public List<ReadScriptResponse> CaseScripts { get; set; }
+		public List<Script> CaseScripts { get; set; }
 	}
 }

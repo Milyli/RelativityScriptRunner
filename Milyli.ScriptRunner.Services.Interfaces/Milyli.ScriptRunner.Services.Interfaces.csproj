@@ -64,6 +64,7 @@
     <Compile Include="V1\Models\Responses\CreateScriptRunResponse.cs" />
     <Compile Include="V1\Models\Responses\ReadScriptRunResponse.cs" />
     <Compile Include="V1\Models\Responses\UpdateScriptRunResponse.cs" />
+    <Compile Include="V1\Models\Script.cs" />
     <Compile Include="V1\Models\ScriptRun.cs" />
     <Compile Include="V1\IScriptManager.cs" />
     <Compile Include="V1\IScriptRunManager.cs" />

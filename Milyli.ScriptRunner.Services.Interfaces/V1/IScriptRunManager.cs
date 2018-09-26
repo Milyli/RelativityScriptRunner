@@ -48,7 +48,7 @@
 		/// <summary>
 		/// Execute a single Script Run on-demand.
 		/// </summary>
-		/// <param name="req"></param>
+		/// <param name="req">Run Request indicating which script run to execute.</param>
 		/// <returns></returns>
 		[Route("Run")]
 		Task RunAsync(RunScriptRunRequest req);
@@ -56,7 +56,7 @@
 		/// <summary>
 		/// Execute all Script Runs that are scheduled.
 		/// </summary>
-		/// <param name="req"></param>
+		/// <param name="req">Run All Request.</param>
 		/// <returns></returns>
 		[Route("RunAll")]
 		Task RunAllAsync(RunAllRequest req);
