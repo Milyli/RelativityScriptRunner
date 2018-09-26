@@ -12,9 +12,9 @@
 
 		public string Name { get; set; }
 
-		public DateTime? LastExecutionTime { get; set; }
+		public DateTimeOffset? LastExecutionTimeUTC { get; set; }
 
-		public DateTime? NextExecutionTime { get; set; }
+		public DateTimeOffset? NextExecutionTimeUTC { get; set; }
 
 		public int JobStatus { get; set; }
 
