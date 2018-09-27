@@ -6,12 +6,12 @@ To better separate the Custom Page and Agent Projects from the actual ScriptRunn
 
 **Table of Contents**
 
-- [Versioning](#Versioning)
-- [Usage](#Usage)
-- [API Documentation](#API-Documentation)
-  - [Models](#Models)
-  - [IScriptManager](#IScriptManager)
-  - [IScriptRunManager](#IScriptRunManager)
+- [Versioning](#versioning)
+- [Usage](#usage)
+- [API Documentation](#api-documentation)
+  - [Models](#models)
+  - [IScriptManager](#iscriptmanager)
+  - [IScriptRunManager](#iscriptrunmanager)
 
 ## Versioning
 
