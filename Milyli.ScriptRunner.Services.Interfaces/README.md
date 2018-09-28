@@ -133,9 +133,9 @@ Input represents a parameter passed to the script as an Input value.
 
 The Script Manager is used to Query for scripts in the Relativity Script Library.
 
-#### Get a single script (IScriptManager.GetScriptAsync)
+#### Get a single script (`IScriptManager.GetScriptAsync`)
 
-This gets a single Workspace Level Script and a list of associated Milyli.ScriptRunner Script Run Jobs.
+Gets a single Workspace Level Script and a list of associated Script Run Jobs.
 
 ```
 POST https://localhost/Relativity.REST/api/Milyli.ScriptRunner/API/V1/Script/ReadSingle
@@ -151,4 +151,32 @@ ReadScriptRequest.ScriptId | Integer | The ArtifactID of the Script in the Works
 
 ##### Response
 
+Name | Type | Description
+--- | --- | ---
+ReadScriptResponse | Object | The Response Container
+ReadScriptResponse.Script | Script | Information about the script in the Relativity Script Library.
+ReadScriptResponse.ScriptRuns | ScriptRun[] | A list of information about the schedule and history of the script.
 
+#### List all scripts in a workspace (`IScriptManager.GetCaseScriptsAsync`)
+
+Lists all Workspace Level Scripts.
+
+```
+POST https://localhost/Relativity.REST/api/Milyli.ScriptRunner/API/V1/Script/ReadAll
+```
+
+##### Request
+
+Name | Type | Description
+--- | --- | ---
+ReadCaseScriptsRequest | Object | The Request Container
+ReadCaseScriptsRequest.CaseId | Integer | The ArtifactID of the Workspace containing the Scripts.
+
+##### Response
+
+Name | Type | Description
+--- | --- | ---
+ReadCaseScriptResponse | Object | The Response Container
+ReadScriptRequest.CaseId | Integer | The ArtifactID of the Workspace containing the Scripts.
+ReadScriptRequest.CaseName | Integer | The Name of the Workspace containing the Scripts.
+ReadCaseScriptResponse.CaseScripts | Script[] | A list of information about the scripts in the Workspace Relativity Script Library.
