@@ -46,7 +46,7 @@ In this documentation the Request/Response format:
 
 Name | Type | Description
 --- | --- | ---
-ReadScriptRequest | Object | The Request Container
+ReadScriptRequest | Object | The Request Container.
 ReadScriptRequest.CaseId | Integer | The ArtifactID of the Workspace containing the Script.
 ReadScriptRequest.ScriptId | Integer | The ArtifactID of the Script in the Workspace.
 
@@ -135,8 +135,6 @@ The Script Manager is used to Query for scripts in the Relativity Script Library
 
 #### Get a single script (`IScriptManager.GetScriptAsync`)
 
-Gets a single Workspace Level Script and a list of associated Script Run Jobs.
-
 ```
 POST https://localhost/Relativity.REST/api/Milyli.ScriptRunner/API/V1/Script/ReadSingle
 ```
@@ -145,7 +143,7 @@ POST https://localhost/Relativity.REST/api/Milyli.ScriptRunner/API/V1/Script/Rea
 
 Name | Type | Description
 --- | --- | ---
-ReadScriptRequest | Object | The Request Container
+ReadScriptRequest | Object | The Request Container.
 ReadScriptRequest.CaseId | Integer | The ArtifactID of the Workspace containing the Script.
 ReadScriptRequest.ScriptId | Integer | The ArtifactID of the Script in the Workspace.
 
@@ -153,13 +151,11 @@ ReadScriptRequest.ScriptId | Integer | The ArtifactID of the Script in the Works
 
 Name | Type | Description
 --- | --- | ---
-ReadScriptResponse | Object | The Response Container
+ReadScriptResponse | Object | The Response Container.
 ReadScriptResponse.Script | Script | Information about the script in the Relativity Script Library.
 ReadScriptResponse.ScriptRuns | ScriptRun[] | A list of information about the schedule and history of the script.
 
 #### List all scripts in a workspace (`IScriptManager.GetCaseScriptsAsync`)
-
-Lists all Workspace Level Scripts.
 
 ```
 POST https://localhost/Relativity.REST/api/Milyli.ScriptRunner/API/V1/Script/ReadAll
@@ -169,14 +165,142 @@ POST https://localhost/Relativity.REST/api/Milyli.ScriptRunner/API/V1/Script/Rea
 
 Name | Type | Description
 --- | --- | ---
-ReadCaseScriptsRequest | Object | The Request Container
+ReadCaseScriptsRequest | Object | The Request Container.
 ReadCaseScriptsRequest.CaseId | Integer | The ArtifactID of the Workspace containing the Scripts.
 
 ##### Response
 
 Name | Type | Description
 --- | --- | ---
-ReadCaseScriptResponse | Object | The Response Container
+ReadCaseScriptResponse | Object | The Response Container.
 ReadScriptRequest.CaseId | Integer | The ArtifactID of the Workspace containing the Scripts.
 ReadScriptRequest.CaseName | Integer | The Name of the Workspace containing the Scripts.
 ReadCaseScriptResponse.CaseScripts | Script[] | A list of information about the scripts in the Workspace Relativity Script Library.
+
+### IScriptRunManager
+
+The Script Run Manager is used to Query for information about a script's schedule and history.
+
+#### Get a single script run job (`IScriptRunManager.GetScriptRunAsync`)
+
+```
+POST https://localhost/Relativity.REST/api/Milyli.ScriptRunner/API/V1/ScriptRun/Read
+```
+
+##### Request
+
+Name | Type | Description
+--- | --- | ---
+ReadScriptRunRequest | Object | The Request Container.
+ReadScriptRunRequest.ScriptRunId | Integer | The Id of the Script Run Job.
+
+##### Response
+
+Name | Type | Description
+--- | --- | ---
+ReadScriptRunResponse | Object | The Response Container.
+ReadScriptRunResponse.ScriptRun | ScriptRun | Information about the schedule and history of a script.
+ReadScriptRunResponse.ScriptInputs | Input[] | A list of information about the inputs of a script.
+
+#### Create a script run job (`IScriptRunManager.CreateScriptRunAsync`)
+
+```
+POST https://localhost/Relativity.REST/api/Milyli.ScriptRunner/API/V1/ScriptRun/Create
+```
+
+##### Request
+
+Name | Type | Description
+--- | --- | ---
+CreateScriptRunRequest | Object | The Request Container.
+CreateScriptRunRequest.ScriptRun | ScriptRun | Information about the script run job to be created.
+CreateScriptRunRequest.ScriptInputs | Input[] | A list of script inputs to use when executing the script run job.
+
+##### Response
+
+Name | Type | Description
+--- | --- | ---
+CreateScriptRunResponse | Object | The Response Container.
+CreateScriptRunResponse.ScriptRun | ScriptRun | Information about the schedule and history of a script.
+CreateScriptRunResponse.ScriptInputs | ScriptInput[] | A list of information about the inputs of a script.
+
+#### Get history for a single script run job (`IScriptRunManager.GetRunHistoryAsync`)
+
+```
+POST https://localhost/Relativity.REST/api/Milyli.ScriptRunner/API/V1/ScriptRun/History
+```
+
+##### Request
+
+Name | Type | Description
+--- | --- | ---
+ReadHistoryRequest | Object | The Request Container.
+ReadHistoryRequest.ScriptRunId | Integer | The Id of the script run job to read history.
+
+##### Response
+
+Name | Type | Description
+--- | --- | ---
+ReadRunHistoryResponse | Object | The Response Container.
+ReadRunHistoryResponse.Id | Integer | The Id of the script run job history.
+ReadRunHistoryResponse.ScriptRunId | Integer | The Id of the script run job.
+ReadRunHistoryResponse.StartTimeUTC | DateTime | The time the script run job started executing.
+ReadRunHistoryResponse.Runtime | Integer | The length of a script run job execution in seconds.
+ReadRunHistoryResponse.HasError | Boolean | A value indicating whether the script run job execution encountered errors.
+ReadRunHistoryResponse.ResultText | String | The textual representation of the script run job execution.
+
+#### Update a script run job (`IScriptRunManager.UpdateScriptRunAsync`)
+
+```
+POST https://localhost/Relativity.REST/api/Milyli.ScriptRunner/API/V1/ScriptRun/Update
+```
+
+##### Request
+
+Name | Type | Description
+--- | --- | ---
+UpdateScriptRunRequest | Object | The Request Container.
+UpdateScriptRunRequest.ScriptRun | ScriptRun | Information about the script run job to be updated.
+UpdateScriptRunRequest.ScriptInputs | Input[] | A list of script inputs to use when executing the script run job.
+
+##### Response
+
+Name | Type | Description
+--- | --- | ---
+UpdateScriptRunResponse | Object | The Response Container.
+UpdateScriptRunResponse.ScriptRun | ScriptRun | Information about the schedule and history of a script.
+UpdateScriptRunResponse.ScriptInputs | ScriptInput[] | A list of information about the inputs of a script.
+
+#### Run a single script run job (`IScriptRunManager.RunScriptRunRequest`)
+
+```
+POST https://localhost/Relativity.REST/api/Milyli.ScriptRunner/API/V1/ScriptRun/Run
+```
+
+##### Request
+
+Name | Type | Description
+--- | --- | ---
+RunScriptRunRequest | Object | The Request Container.
+RunScriptRunRequest.ScriptRunId | Integer | The Id of the script run job to execute.
+
+##### Response
+
+WIP
+
+#### Run many script run jobs (`IScriptRunManager.RunAllAsync`)
+
+```
+POST https://localhost/Relativity.REST/api/Milyli.ScriptRunner/API/V1/ScriptRun/RunAll
+```
+
+##### Request
+
+Name | Type | Description
+--- | --- | ---
+RunAllRequest | Object | The Request Container.
+RunAllRequest.RunTimeUTC | DateTime | The cutoff point for selecting scheduled and unrun script run jobs to execute.
+
+##### Response
+
+WIP
