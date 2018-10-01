@@ -1,8 +1,8 @@
 ﻿namespace Milyli.ScriptRunner.Services.Interfaces.V1
 {
 	using System.Threading.Tasks;
-	using Models.Requests;
-	using Models.Responses;
+	using Contracts.V1.Requests;
+	using Contracts.V1.Responses;
 	using Relativity.Kepler.Services;
 
 	/// <summary>

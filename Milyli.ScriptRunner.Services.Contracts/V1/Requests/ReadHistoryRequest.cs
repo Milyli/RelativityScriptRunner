@@ -1,4 +1,4 @@
-﻿namespace Milyli.ScriptRunner.Services.Interfaces.V1.Models.Requests
+﻿namespace Milyli.ScriptRunner.Services.Contracts.V1.Requests
 {
 	/// <summary>
 	/// Request definition to read a script run's history.

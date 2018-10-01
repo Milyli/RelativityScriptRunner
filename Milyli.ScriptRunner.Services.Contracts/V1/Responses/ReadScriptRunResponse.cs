@@ -1,4 +1,4 @@
-﻿namespace Milyli.ScriptRunner.Services.Interfaces.V1.Models.Responses
+﻿namespace Milyli.ScriptRunner.Services.Contracts.V1.Responses
 {
 	/// <summary>
 	/// Response to Script Run read requests

@@ -1,7 +1,7 @@
-﻿namespace Milyli.ScriptRunner.Services.Interfaces.V1.Models.Responses
+﻿namespace Milyli.ScriptRunner.Services.Contracts.V1.Responses
 {
 	using System.Collections.Generic;
-	using Models;
+	using V1;
 
 	/// <summary>
 	/// Base response to Script Run requests

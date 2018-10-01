@@ -1,4 +1,4 @@
-﻿namespace Milyli.ScriptRunner.Services.Interfaces.V1.Models
+﻿namespace Milyli.ScriptRunner.Services.Contracts.V1
 {
 	/// <summary>
 	/// Defines a relativity script associated with a script run.
