@@ -78,6 +78,11 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Milyli.ScriptRunner.Services.Contracts\Milyli.ScriptRunner.Services.Contracts.csproj">
+      <Project>{ce861b8e-4e96-4de9-a778-77c5c17d77a0}</Project>
+      <Name>Milyli.ScriptRunner.Services.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
