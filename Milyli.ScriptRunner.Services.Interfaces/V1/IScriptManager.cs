@@ -18,15 +18,15 @@
 		/// </summary>
 		/// <param name="req">Request defining script id and case id.</param>
 		/// <returns>Script and its associated script runs.</returns>
-		[Route("ReadSingle")]
-		Task<ReadScriptResponse> GetScriptAsync(ReadScriptRequest req);
+		[Route("Read")]
+		Task<ReadScriptResponse> ReadSingleAsync(ReadScriptRequest req);
 
 		/// <summary>
 		/// Gets all scripts for a case.
 		/// </summary>
 		/// <param name="req">Request defining the case to read scripts from.</param>
 		/// <returns>All scripts in the case.</returns>
-		[Route("ReadAll")]
+		[Route("ReadByCase")]
 		Task<ReadCaseScriptResponse> GetCaseScriptsAsync(ReadCaseScriptsRequest req);
 	}
 }

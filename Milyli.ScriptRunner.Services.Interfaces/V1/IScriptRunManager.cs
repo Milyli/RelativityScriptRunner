@@ -19,7 +19,7 @@
 		/// <param name="req">Request defining the single script run to return.</param>
 		/// <returns>Script Run definition.</returns>
 		[Route("Read")]
-		Task<ReadScriptRunResponse> GetScriptRunAsync(ReadScriptRunRequest req);
+		Task<ReadScriptRunResponse> ReadSingleAsync(ReadScriptRunRequest req);
 
 		/// <summary>
 		/// Creates a new Script Run.
@@ -27,14 +27,14 @@
 		/// <param name="req">Creation request.</param>
 		/// <returns>Newly created Script Run.</returns>
 		[Route("Create")]
-		Task<CreateScriptRunResponse> CreateScriptRunAsync(CreateScriptRunRequest req);
+		Task<CreateScriptRunResponse> CreateSingleAsync(CreateScriptRunRequest req);
 
 		/// <summary>
 		/// Gets the history for a single Script Run.
 		/// </summary>
 		/// <param name="req">History request.</param>
 		/// <returns>Run History.</returns>
-		[Route("History")]
+		[Route("ReadHistory")]
 		Task<ReadRunHistoryResponse> GetRunHistoryAsync(ReadHistoryRequest req);
 
 		/// <summary>
@@ -43,7 +43,7 @@
 		/// <param name="req">Update Request.</param>
 		/// <returns>Updated Script Definition.</returns>
 		[Route("Update")]
-		Task<UpdateScriptRunResponse> UpdateScriptRunAsync(UpdateScriptRunRequest req);
+		Task<UpdateScriptRunResponse> UpdateSingleAsync(UpdateScriptRunRequest req);
 
 		/// <summary>
 		/// Execute a single Script Run on-demand.
@@ -51,7 +51,7 @@
 		/// <param name="req">Run Request indicating which script run to execute.</param>
 		/// <returns></returns>
 		[Route("Run")]
-		Task RunAsync(RunScriptRunRequest req);
+		Task RunSingleAsync(RunScriptRunRequest req);
 
 		/// <summary>
 		/// Execute all Script Runs that are scheduled.
