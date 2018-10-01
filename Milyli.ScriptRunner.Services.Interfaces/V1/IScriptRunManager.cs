@@ -10,7 +10,7 @@
 	/// </summary>
 	[WebService("ScriptRunApi")]
 	[ServiceAudience(Audience.Public)]
-	[RoutePrefix("API/V1/ScriptRun")]
+	[RoutePrefix("ScriptRun")]
     public interface IScriptRunManager
 	{
 		/// <summary>
