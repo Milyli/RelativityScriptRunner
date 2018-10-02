@@ -1,4 +1,4 @@
-﻿namespace Milyli.ScriptRunner.Services.Contracts.V1
+﻿namespace Milyli.ScriptRunner.Services.Contracts.V1.Enumerations
 {
 	using System;
 

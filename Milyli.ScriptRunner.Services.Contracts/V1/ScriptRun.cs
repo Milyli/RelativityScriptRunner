@@ -1,6 +1,7 @@
 ﻿namespace Milyli.ScriptRunner.Services.Contracts.V1
 {
 	using System;
+	using Enumerations;
 
 	/// <summary>
 	/// Defines a Script Run job.
@@ -40,7 +41,7 @@
 		/// <summary>
 		/// Status of the script run.
 		/// </summary>
-		public int JobStatus { get; set; }
+		public RunStatus Status { get; set; }
 
 		/// <summary>
 		/// Gets or sets whether the job is enabled.

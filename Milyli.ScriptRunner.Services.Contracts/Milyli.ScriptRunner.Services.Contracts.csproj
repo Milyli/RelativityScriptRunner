@@ -42,23 +42,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="V1\Enumerations\RunStatus.cs" />
+    <Compile Include="V1\ScriptRunHistory.cs" />
     <Compile Include="V1\Input.cs" />
-    <Compile Include="V1\Requests\CreateScriptRunRequest.cs" />
-    <Compile Include="V1\Requests\ReadHistoryRequest.cs" />
-    <Compile Include="V1\Requests\ReadScriptRunRequest.cs" />
-    <Compile Include="V1\Requests\RunAllRequest.cs" />
-    <Compile Include="V1\Requests\RunScriptRunRequest.cs" />
-    <Compile Include="V1\Requests\UpdateScriptRunRequest.cs" />
-    <Compile Include="V1\Responses\CreateScriptRunResponse.cs" />
+    <Compile Include="V1\Requests\ScriptRunRequest.cs" />
     <Compile Include="V1\Responses\ReadCaseScriptResponse.cs" />
     <Compile Include="V1\Responses\ReadRunHistoryResponse.cs" />
     <Compile Include="V1\Responses\ReadScriptResponse.cs" />
-    <Compile Include="V1\Responses\ReadScriptRunResponse.cs" />
     <Compile Include="V1\Responses\ScriptRunResponse.cs" />
-    <Compile Include="V1\Responses\UpdateScriptRunResponse.cs" />
     <Compile Include="V1\Script.cs" />
     <Compile Include="V1\ScriptRun.cs" />
-    <Compile Include="V1\WeeklySchedule.cs" />
+    <Compile Include="V1\Enumerations\WeeklySchedule.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

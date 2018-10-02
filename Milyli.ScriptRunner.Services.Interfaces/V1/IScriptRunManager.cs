@@ -1,5 +1,6 @@
 ﻿namespace Milyli.ScriptRunner.Services.Interfaces.V1
 {
+	using System;
 	using System.Threading.Tasks;
 	using Contracts.V1.Requests;
 	using Contracts.V1.Responses;
@@ -16,10 +17,10 @@
 		/// <summary>
 		/// Read a single Script Run.
 		/// </summary>
-		/// <param name="req">Request defining the single script run to return.</param>
+		/// <param name="scriptRunId">Script run to read.</param>
 		/// <returns>Script Run definition.</returns>
 		[Route("Read")]
-		Task<ReadScriptRunResponse> ReadSingleAsync(ReadScriptRunRequest req);
+		Task<ScriptRunResponse> ReadSingleAsync(int scriptRunId);
 
 		/// <summary>
 		/// Creates a new Script Run.
@@ -27,15 +28,15 @@
 		/// <param name="req">Creation request.</param>
 		/// <returns>Newly created Script Run.</returns>
 		[Route("Create")]
-		Task<CreateScriptRunResponse> CreateSingleAsync(CreateScriptRunRequest req);
+		Task<ScriptRunResponse> CreateSingleAsync(ScriptRunRequest req);
 
 		/// <summary>
 		/// Gets the history for a single Script Run.
 		/// </summary>
-		/// <param name="req">History request.</param>
+		/// <param name="scriptRunId">Script Run to read history of.</param>
 		/// <returns>Run History.</returns>
 		[Route("ReadHistory")]
-		Task<ReadRunHistoryResponse> GetRunHistoryAsync(ReadHistoryRequest req);
+		Task<ReadRunHistoryResponse> GetRunHistoryAsync(int scriptRunId);
 
 		/// <summary>
 		/// Updates definition of a single Script Run.
@@ -43,22 +44,23 @@
 		/// <param name="req">Update Request.</param>
 		/// <returns>Updated Script Definition.</returns>
 		[Route("Update")]
-		Task<UpdateScriptRunResponse> UpdateSingleAsync(UpdateScriptRunRequest req);
+		Task<ScriptRunResponse> UpdateSingleAsync(ScriptRunRequest req);
 
 		/// <summary>
 		/// Execute a single Script Run on-demand.
 		/// </summary>
-		/// <param name="req">Run Request indicating which script run to execute.</param>
+		/// <param name="scriptRunId">Script Run to execute.</param>
 		/// <returns></returns>
 		[Route("Run")]
-		Task RunSingleAsync(RunScriptRunRequest req);
+		Task RunSingleAsync(int scriptRunId);
 
 		/// <summary>
 		/// Execute all Script Runs that are scheduled.
 		/// </summary>
-		/// <param name="req">Run All Request.</param>
+		/// <param name="runTimeUtc">Run Time defining which Script Runs to execute.
+		/// All unrun Runs scheduled for or prior to the run time should be executed.</param>
 		/// <returns></returns>
 		[Route("RunAll")]
-		Task RunAllAsync(RunAllRequest req);
+		Task RunAllAsync(DateTimeOffset runTimeUtc);
 	}
 }
