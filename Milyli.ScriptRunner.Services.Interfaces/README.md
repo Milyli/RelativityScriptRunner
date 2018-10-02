@@ -141,7 +141,6 @@ ScriptRunHistory represents the results of a single execution of a Script Run Jo
 
 Name | Type | Description
 --- | --- | ---
-Id | Integer | The Id of the Script Run Job History.
 StartTimeUTC | DateTime | The time the script run job started executing.
 Runtime | Integer | The length of a script run job execution in seconds.
 HasError | Boolean | A value indicating whether the script run job execution encountered errors.
