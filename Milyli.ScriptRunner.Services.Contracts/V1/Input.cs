@@ -6,18 +6,24 @@
 	public class Input
 	{
 		/// <summary>
-		/// Name of the script
+		/// Script Run input identifier.
 		/// </summary>
-		public string Name { get; set; }
+		public int Id { get; set; }
 
 		/// <summary>
-		/// Data type of the input.
+		/// Relativity script input identifier.
 		/// </summary>
-		public string InputType { get; set; }
+		public int RelativityInputId { get; set; }
 
 		/// <summary>
-		/// Indicates if the input is required.
+		/// Name of the input field.
+		/// Read only property.
 		/// </summary>
-		public bool IsRequired { get; set; }
+		public string InputName { get; set; }
+
+		/// <summary>
+		/// Current input value.
+		/// </summary>
+		public string InputValue { get; set; }
 	}
 }
