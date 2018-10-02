@@ -6,6 +6,16 @@
 	public class Script
 	{
 		/// <summary>
+		/// Name of the script.
+		/// </summary>
+		public string Name { get; set; }
+
+		/// <summary>
+		/// Script description.
+		/// </summary>
+		public string Description { get; set; }
+
+		/// <summary>
 		/// Script identifier.
 		/// </summary>
 		public int RelativityScriptId { get; set; }
@@ -19,20 +29,5 @@
 		/// Name of the workspace the script belongs to.
 		/// </summary>
 		public string WorkspaceName { get; set; }
-
-		/// <summary>
-		/// Name of the script.
-		/// </summary>
-		public string Name { get; set; }
-
-		/// <summary>
-		/// Script description.
-		/// </summary>
-		public string Description { get; set; }
-
-		/// <summary>
-		/// Script timeout.
-		/// </summary>
-		public int ScriptTimeout { get; set; }
 	}
 }

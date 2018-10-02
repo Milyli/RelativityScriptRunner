@@ -9,12 +9,17 @@
 	public class ReadScriptResponse
 	{
 		/// <summary>
-		/// Relativity script
+		/// Relativity script.
 		/// </summary>
 		public Script Script { get; set; }
 
 		/// <summary>
-		/// Script runs using the returned script.
+		/// Script's input fields.
+		/// </summary>
+		public List<Input> ScriptInputs { get; set; }
+
+		/// <summary>
+		/// Script runs using the script.
 		/// </summary>
 		public List<ScriptRun> ScriptRuns { get; set; }
 	}
