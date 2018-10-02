@@ -248,7 +248,9 @@ scriptRunId | Integer | The Id of the script run job to execute.
 
 ##### Response
 
-WIP
+Name | Type | Description
+--- | --- | ---
+ExecuteResponse | Object | The Response Container.
 
 #### Run many script run jobs (`IScriptRunManager.RunAllAsync`)
 
@@ -264,4 +266,6 @@ runTimeUTC | DateTime | The cutoff point for selecting scheduled and unrun scrip
 
 ##### Response
 
-WIP
+Name | Type | Description
+--- | --- | ---
+ExecuteResponse | Object | The Response Container.
