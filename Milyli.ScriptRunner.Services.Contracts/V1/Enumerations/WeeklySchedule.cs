@@ -5,6 +5,7 @@
 	/// <summary>
 	/// Serves as flags to indicate some number of distinct days of the week
 	/// </summary>
+	/// <remarks>The integer values of the enums must be powers of 2 for the bitmask to work correctly.</remarks>
 	[Flags]
 	public enum WeeklySchedule
 	{

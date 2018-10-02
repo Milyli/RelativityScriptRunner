@@ -8,16 +8,6 @@
 	public class ScriptRunHistory
 	{
 		/// <summary>
-		/// Script Run History identifier.
-		/// </summary>
-		public int Id { get; set; }
-
-		/// <summary>
-		/// Script Run identifier.
-		/// </summary>
-		public int ScriptRunId { get; set; }
-
-		/// <summary>
 		/// Start time of the execution in UTC.
 		/// </summary>
 		public DateTime StartTimeUtc { get; set; }

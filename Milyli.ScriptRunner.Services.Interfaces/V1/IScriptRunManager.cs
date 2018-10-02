@@ -52,7 +52,7 @@
 		/// <param name="scriptRunId">Script Run to execute.</param>
 		/// <returns></returns>
 		[Route("Run")]
-		Task RunSingleAsync(int scriptRunId);
+		Task<ExecuteResponse> ExecuteSingleAsync(int scriptRunId);
 
 		/// <summary>
 		/// Execute all Script Runs that are scheduled.
@@ -61,6 +61,6 @@
 		/// All unrun Runs scheduled for or prior to the run time should be executed.</param>
 		/// <returns></returns>
 		[Route("RunAll")]
-		Task RunAllAsync(DateTime runTimeUtc);
+		Task<ExecuteResponse> ExecuteAllAsync(DateTime runTimeUtc);
 	}
 }
