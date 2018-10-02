@@ -46,11 +46,8 @@
     <Compile Include="V1\ScriptRunHistory.cs" />
     <Compile Include="V1\Input.cs" />
     <Compile Include="V1\Requests\ScriptRunRequest.cs" />
-    <Compile Include="V1\Responses\ReadCaseScriptResponse.cs" />
     <Compile Include="V1\Responses\ReadRunHistoryResponse.cs" />
-    <Compile Include="V1\Responses\ReadScriptResponse.cs" />
     <Compile Include="V1\Responses\ScriptRunResponse.cs" />
-    <Compile Include="V1\Script.cs" />
     <Compile Include="V1\ScriptRun.cs" />
     <Compile Include="V1\Enumerations\WeeklySchedule.cs" />
   </ItemGroup>

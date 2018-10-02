@@ -52,7 +52,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="V1\IScriptManager.cs" />
     <Compile Include="V1\IScriptRunManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="V1\IServiceModule.cs" />
