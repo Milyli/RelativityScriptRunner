@@ -10,7 +10,6 @@ To better separate the Custom Page and Agent Projects from the actual ScriptRunn
 - [Usage](#usage)
 - [API Documentation](#api-documentation)
   - [Models](#models)
-  - [IScriptManager](#iscriptmanager)
   - [IScriptRunManager](#iscriptrunmanager)
 
 ## Versioning
@@ -33,9 +32,9 @@ Include it in your Application using the [`Install-Package` nuget command](https
 Calling Kepler Services is similar to [calling the Services API](https://platform.relativity.com/9.6/Content/RSAPI/Basic_concepts/Best_practices_for_the_Services_API.htm).
 
 ```csharp
-using (var scriptManager = _helper.GetServicesManager().CreateProxy<IScriptManager>(ExecutionIdentity.System))
+using (var scriptRunManager = _helper.GetServicesManager().CreateProxy<IScriptRunManager>(ExecutionIdentity.System))
 {
-    var readScriptResponse = await scriptManager.GetScriptAsync(new ReadScriptRequest());
+    var readScriptResponse = await scriptRunManager.GetScriptAsync(new ReadScriptRequest());
 }
 
 ```
@@ -128,54 +127,6 @@ When making the request via C# you can set multiple days using the `|` operator,
 Input represents a parameter passed to the script as an Input value.
 
 **WIP**
-
-### IScriptManager
-
-The Script Manager is used to Query for scripts in the Relativity Script Library.
-
-#### Get a single script (`IScriptManager.GetScriptAsync`)
-
-```
-POST https://localhost/Relativity.REST/api/Milyli.ScriptRunner/API/V1/Script/ReadSingle
-```
-
-##### Request
-
-Name | Type | Description
---- | --- | ---
-ReadScriptRequest | Object | The Request Container.
-ReadScriptRequest.CaseId | Integer | The ArtifactID of the Workspace containing the Script.
-ReadScriptRequest.ScriptId | Integer | The ArtifactID of the Script in the Workspace.
-
-##### Response
-
-Name | Type | Description
---- | --- | ---
-ReadScriptResponse | Object | The Response Container.
-ReadScriptResponse.Script | Script | Information about the script in the Relativity Script Library.
-ReadScriptResponse.ScriptRuns | ScriptRun[] | A list of information about the schedule and history of the script.
-
-#### List all scripts in a workspace (`IScriptManager.GetCaseScriptsAsync`)
-
-```
-POST https://localhost/Relativity.REST/api/Milyli.ScriptRunner/API/V1/Script/ReadAll
-```
-
-##### Request
-
-Name | Type | Description
---- | --- | ---
-ReadCaseScriptsRequest | Object | The Request Container.
-ReadCaseScriptsRequest.CaseId | Integer | The ArtifactID of the Workspace containing the Scripts.
-
-##### Response
-
-Name | Type | Description
---- | --- | ---
-ReadCaseScriptResponse | Object | The Response Container.
-ReadScriptRequest.CaseId | Integer | The ArtifactID of the Workspace containing the Scripts.
-ReadScriptRequest.CaseName | Integer | The Name of the Workspace containing the Scripts.
-ReadCaseScriptResponse.CaseScripts | Script[] | A list of information about the scripts in the Workspace Relativity Script Library.
 
 ### IScriptRunManager
 
