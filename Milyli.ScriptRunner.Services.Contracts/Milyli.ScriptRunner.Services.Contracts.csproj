@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2441DFFC-FB33-4D70-97A4-51519FE3ABCE}</ProjectGuid>
+    <ProjectGuid>{CE861B8E-4E96-4DE9-A778-77C5C17D77A0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Milyli.ScriptRunner.Services.Interfaces</RootNamespace>
-    <AssemblyName>Milyli.ScriptRunner.Services.Interfaces</AssemblyName>
+    <RootNamespace>Milyli.ScriptRunner.Services.Contracts</RootNamespace>
+    <AssemblyName>Milyli.ScriptRunner.Services.Contracts</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,18 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Relativity.Kepler, Version=1.0.1.312, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Kepler.dll</HintPath>
-    </Reference>
-    <Reference Include="Relativity.Services.DataContracts, Version=9.5.162.111, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Services.DataContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="Relativity.Services.Interfaces, Version=9.5.162.111, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Services.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Relativity.Services.ServiceProxy, Version=1.0.1.312, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Services.ServiceProxy.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -52,18 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="V1\IScriptRunManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="V1\IServiceModule.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Milyli.ScriptRunner.Services.Contracts\Milyli.ScriptRunner.Services.Contracts.csproj">
-      <Project>{ce861b8e-4e96-4de9-a778-77c5c17d77a0}</Project>
-      <Name>Milyli.ScriptRunner.Services.Contracts</Name>
-    </ProjectReference>
+    <Compile Include="V1\Enumerations\RunStatus.cs" />
+    <Compile Include="V1\Responses\ExecuteResponse.cs" />
+    <Compile Include="V1\ScriptRunHistory.cs" />
+    <Compile Include="V1\Input.cs" />
+    <Compile Include="V1\Requests\ScriptRunRequest.cs" />
+    <Compile Include="V1\Responses\ReadRunHistoryResponse.cs" />
+    <Compile Include="V1\Responses\ScriptRunResponse.cs" />
+    <Compile Include="V1\ScriptRun.cs" />
+    <Compile Include="V1\Enumerations\WeeklySchedule.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,20 +1,20 @@
-﻿namespace Milyli.ScriptRunner.Services.Interfaces.V1.Models.Requests
+﻿namespace Milyli.ScriptRunner.Services.Contracts.V1.Requests
 {
 	using System.Collections.Generic;
-	using Models;
+	using V1;
 
 	/// <summary>
-	/// Request definition to update a script run.
+	/// Request definition to create or update a script run.
 	/// </summary>
-	public class UpdateScriptRunRequest
+	public class ScriptRunRequest
 	{
 		/// <summary>
-		/// Updated script run.
+		/// User-defined Script Run.
 		/// </summary>
 		public ScriptRun ScriptRun { get; set; }
 
 		/// <summary>
-		/// Updated script run inputs.
+		/// User-defined Script Run inputs.
 		/// </summary>
 		public List<Input> ScriptInputs { get; set; }
 	}
