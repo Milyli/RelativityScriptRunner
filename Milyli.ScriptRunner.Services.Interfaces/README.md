@@ -65,30 +65,20 @@ and a C# Request of
 ```csharp
 new ReadScriptRequest
 {
-   CaseId = 1265546,
-   ScriptId = 1265546
+    CaseId = 1265546,
+    ScriptId = 1265546
 };
 ```
 
 ### Models
 
-There are 4 Models that are shared between the Requests and Responses.
-
-##### Script
-
-Script represents an individual script in the [Relativity Script Library](https://help.relativity.com/9.6/Content/Relativity/Library_scripts/Relativity_Script_Library.htm).
-
-Name | Type | Description
---- | --- | ---
-RelativityScriptId | Integer | The ArtifactID of the Script in the Workspace.
-WorkspaceId | Integer | The ArtifactID of the Workspace containing the Script.
-WorkspaceName | String | The Name of the Workspace containing the Script.
-Name | String | The Name of the Script.
-Description | String | The Description of the Script.
+There are 5 Models that are shared between the Requests and Responses.
 
 ##### ScriptRun
 
 ScriptRun represents a Script Run Job which pairs an individual script with an execution schedule and history.
+
+You can get the Relativity Ids from the RSAPI.
 
 Name | Type | Description
 --- | --- | ---
@@ -96,11 +86,11 @@ Id | Integer | The Id of the Script Run Job.
 RelativityScriptId | Integer | The ArtifactID of the Script in the Workspace.
 WorkspaceId | Integer | The ArtifactID of the Workspace containing the Script.
 Name | String | The Name of the Script Run Job.
-LastExecutionTimeUTC | DateTime | The last time the Script Run Job will execution. **Only available on Read.**
-NextExecutionTimeUTC | DateTime | The next time the Script Run Job will execution. **Only available on Read.**
-JobStatus | Integer | The status of the Script Run Job.
 ExecutionSchedule | WeeklySchedule/Integer | The days of the week the Script Run Job will Execute. See the WeeklySchedule section below.
 ExecutionTime | Integer | The number of seconds after midnight UTC to execute the script.
+LastExecutionTimeUTC | DateTime | The last time the Script Run Job will execution. **Only available on Read.**
+NextExecutionTimeUTC | DateTime | The next time the Script Run Job will execution. **Only available on Read.**
+JobStatus | JobStatus/Integer | The status of the Script Run Job. **Only available on Read.**
 
 ##### WeeklySchedule
 
@@ -122,11 +112,40 @@ When making the request via HTTP you can set multiple days adding the values of 
 
 When making the request via C# you can set multiple days using the `|` operator, i.e. `WeeklySchedule.Tuesday | WeeklySchedule.Thursday`
 
+##### JobStatus
+
+JobStatus represents what state the ScriptRun is currently in.
+
+Name | Value
+--- | ---
+Idle | 0
+Waiting | 1
+Running | 2
+
 ##### Input
 
 Input represents a parameter passed to the script as an Input value.
 
-**WIP**
+You can get the Relativity Ids from the RSAPI.
+
+Name | Type | Description
+--- | --- | ---
+Id | Integer | The Id of the Script Run Job.
+RelativityInputId | Integer | The ArtifactID of the Input in the Workspace. The Workspace is assumed to be the same as the associated ScriptRun.
+InputName | String | The Name of the Input. **Only available on Read.**
+InputValue | String | The value of the input to be used during the Script Run.
+
+##### ScriptRunHistory
+
+ScriptRunHistory represents the results of a single execution of a Script Run Job.
+
+Name | Type | Description
+--- | --- | ---
+Id | Integer | The Id of the Script Run Job History.
+StartTimeUTC | DateTime | The time the script run job started executing.
+Runtime | Integer | The length of a script run job execution in seconds.
+HasError | Boolean | A value indicating whether the script run job execution encountered errors.
+ResultText | String | The textual representation of the script run job execution.
 
 ### IScriptRunManager
 
