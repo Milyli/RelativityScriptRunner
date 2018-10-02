@@ -12,7 +12,7 @@ Properties {
 	$rapbuilder_exe = "$BuildTools\RelativityDev.RapBuilder.0.0.0.3-alpha\lib\kCura.RAPBuilder.exe"
 	$Packages = "$Deployment\Packages"
 	$scriptrunner_rap = "$Deployment\ScriptRunner.rap"
-	$nuspec = "todo.nuspec"
+	$nuspec = "$Deployment\Milyli.ScriptRunner.Services.Interfaces.nuspec"
 	$Version = $null
 }
 
