@@ -61,6 +61,6 @@
 		/// All unrun Runs scheduled for or prior to the run time should be executed.</param>
 		/// <returns></returns>
 		[Route("RunAll")]
-		Task RunAllAsync(DateTimeOffset runTimeUtc);
+		Task RunAllAsync(DateTime runTimeUtc);
 	}
 }

@@ -20,7 +20,7 @@
 		/// <summary>
 		/// Start time of the execution in UTC.
 		/// </summary>
-		public DateTimeOffset StartTimeUTC { get; set; }
+		public DateTime StartTimeUtc { get; set; }
 
 		/// <summary>
 		/// Running time of the script execution.
