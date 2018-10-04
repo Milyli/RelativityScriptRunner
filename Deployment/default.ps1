@@ -72,3 +72,5 @@ Task CreateNugetPkg -Depends PackageBuild {
 		-outputdirectory "$Packages\$Version\"
 		-version $Version }
 }
+
+Task CreateRapAndNuget -Depends CreateRap, CreateNugetPkg
