@@ -2,6 +2,7 @@
 <package>
   <metadata>
     <id>Milyli.ScriptRunner.Services.Interfaces</id>
+	<version>1.0.0.0</version>
     <title>ScriptRunner Services</title>
     <authors>Milyli inc</authors>
     <projectUrl>https://github.com/Milyli/RelativityScriptRunner</projectUrl>

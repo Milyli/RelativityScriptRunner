@@ -68,9 +68,7 @@ Task CreateNugetPkg -Depends PackageBuild {
 	else {
 		Remove-Item (Join-Path "$Packages\$Version" "Milyli.ScriptRunner.Services*")
 	}
-	Exec { & $nuget_exe pack $nuspec
-		-outputdirectory "$Packages\$Version\"
-		-version $Version }
+	Exec { & $nuget_exe pack $nuspec -outputdirectory "$Packages\$Version\"	-version $Version }
 }
 
 Task CreateRapAndNuget -Depends CreateRap, CreateNugetPkg
