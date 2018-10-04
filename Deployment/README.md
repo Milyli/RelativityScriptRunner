@@ -47,6 +47,14 @@ The following are all valid invocations:
 You can find the output rap in the Deployment/Packages folder.
 *Note:* the output rap will override any other raps with the same version.
 
+## Creating a Nuget Package
+
+The `Milyli.ScriptRunner.Services.Interfaces` and `Milyli.ScriptRunner.Services.Interfaces.Contracts` projects comprise a consumable package of [Kepler services](../Milyli.ScriptRunner.Services.Interfaces/) that allow other applications to use ScriptRunner.  These can be packed into a .nupkg file using the `CreateNugetPackage` option as a -TaskList parameter, or alternatively the `CreateRapAndNuget` option to create both a Rap and Nupkg.
+
+Like the Rap building process, the -Version parameter can be used to inform the version of the .nupkg.
+Also like the rap building process, the output .nupkg file can be found in the Deployment/Packages folder and will override any packages of the same version.
+*Note:* When creating both a .rap and .nupkg, any provided -Version value will be used for both.
+
 ## Structure and Process
 
 ### Relevant files/folders
