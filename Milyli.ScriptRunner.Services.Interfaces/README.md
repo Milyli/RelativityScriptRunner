@@ -29,6 +29,8 @@ V1 services will receive an `ObsoleteAttribute` and be maintained for as many re
 You can find the Kepler Interfaces for consumption in the Nuget Package contained in the [latest release](https://github.com/Milyli/RelativityScriptRunner/releases/latest).
 Include it in your Application using the [`Install-Package` nuget command](https://stackoverflow.com/a/35753968).
 
+*Note:* This depends on the non-public Relativity.Kepler package, which is not included in the package.  If needed, the Relativity.Kepler pack can currently be found in the publicly available Relativity.ObjectManager package.
+
 Calling Kepler Services is similar to [calling the Services API](https://platform.relativity.com/9.6/Content/RSAPI/Basic_concepts/Best_practices_for_the_Services_API.htm).
 
 ```csharp

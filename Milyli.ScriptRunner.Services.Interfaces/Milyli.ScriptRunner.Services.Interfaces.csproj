@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Milyli.ScriptRunner.Services.Interfaces</RootNamespace>
     <AssemblyName>Milyli.ScriptRunner.Services.Interfaces</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,15 +33,6 @@
   <ItemGroup>
     <Reference Include="Relativity.Kepler, Version=1.0.1.312, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Kepler.dll</HintPath>
-    </Reference>
-    <Reference Include="Relativity.Services.DataContracts, Version=9.5.162.111, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Services.DataContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="Relativity.Services.Interfaces, Version=9.5.162.111, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Services.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Relativity.Services.ServiceProxy, Version=1.0.1.312, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Services.ServiceProxy.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

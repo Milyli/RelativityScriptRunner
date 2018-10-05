@@ -25,7 +25,7 @@ The following are all valid invocations:
 .\build.ps1 -TaskList UnitTest
 ```
 
-Note: The -Version parameter is ignored for UnitTest builds.
+*Note:* The -Version parameter is ignored for UnitTest builds.
 
 ## Creating a RAP file
 
@@ -47,6 +47,46 @@ The following are all valid invocations:
 You can find the output rap in the Deployment/Packages folder.
 *Note:* the output rap will override any other raps with the same version.
 
+## Creating a Nuget Package
+
+The `Milyli.ScriptRunner.Services.Interfaces` and `Milyli.ScriptRunner.Services.Interfaces.Contracts` projects comprise a consumable package of [Kepler services](../Milyli.ScriptRunner.Services.Interfaces/) that allow other applications to use ScriptRunner.
+
+These can be packaged into a .nupkg file by passing `CreateNugetPackage` as the -TaskList parameter to the build script.
+Additionally, you can pass a version for the nuget package to the -Version parameter. 
+The following are all valid invocations:
+
+```ps1
+.\build.ps1 CreateNugetPackage # the version defaults to 1.0.0.18
+.\build.ps1 CreateNugetPackage 9.6.0.0
+.\build.ps1 CreateNugetPackage -Version 9.6.0.0
+.\build.ps1 -TaskList CreateNugetPackage
+.\build.ps1 -TaskList CreateNugetPackage 9.6.0.0
+.\build.ps1 -TaskList CreateNugetPackage -Version 9.6.0.0
+```
+
+You can find the output nuget package in the Deployment/Packages folder.
+*Note:* the output package will override any other packages with the same version.
+
+## Creating a Rap and Nuget Package
+
+This project offers the utility to create a Rap file and Nuget package together from the same build.
+
+To create a Rap and Nuget package pass `CreateRapAndNuget` as the -TaskList parameter to the build script.
+Additionally, you can pass a version to the -Version parameter that will be used for both the Rap and the Nuget package. 
+The following are all valid invocations:
+
+```ps1
+.\build.ps1 CreateRapAndNuget # the version defaults to 1.0.0.18
+.\build.ps1 CreateRapAndNuget 9.6.0.0
+.\build.ps1 CreateRapAndNuget -Version 9.6.0.0
+.\build.ps1 -TaskList CreateRapAndNuget
+.\build.ps1 -TaskList CreateRapAndNuget 9.6.0.0
+.\build.ps1 -TaskList CreateRapAndNuget -Version 9.6.0.0
+```
+
+You can find the output files in the Deployment/Packages folder.
+*Note:* the output files will override any others with the same version.
+
 ## Structure and Process
 
 ### Relevant files/folders
@@ -64,6 +104,7 @@ RelativityScriptRunner/
 |   |-- application.xml  # Relativity application manifest
 |   |-- build.xml 	 # Input file for the RelativityDev.RapBuilder executable
 |   |-- default.ps1 	 # The psake build file
+|   |-- Milyli.*.nuspec  # The nuget package definition for the kepler services
 |   |-- packages.config  # Contains the nuget packages required for the build process
 |   |-- ScriptRunner.rap # The intermediate rap file output by the RelativityDev.RapBuilder executable, not in Source Control
 |   |-- TestResult.xml 	 # Output of the last UnitTest build

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Milyli.ScriptRunner.Services.Interfaces</id>
+	<version>1.0.0.0</version>
+    <title>ScriptRunner Services</title>
+    <authors>Milyli inc</authors>
+    <projectUrl>https://github.com/Milyli/RelativityScriptRunner</projectUrl>
+    <owners>Milyli inc</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Kepler services to interact with Milyli ScriptRunner</description>
+  </metadata>
+  <files>
+    <file src=".\Artifacts\Milyli.ScriptRunner.Services.Interfaces.dll"
+	target="lib\net462" />
+    <file src=".\Artifacts\Milyli.ScriptRunner.Services.Contracts.dll"
+	target="lib\net462" />
+	<file src="..\Milyli.ScriptRunner.Services.Interfaces\README.md"
+	target="docs" />
+</files>
+</package>

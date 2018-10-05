@@ -12,7 +12,7 @@ Properties {
 	$rapbuilder_exe = "$BuildTools\RelativityDev.RapBuilder.0.0.0.3-alpha\lib\kCura.RAPBuilder.exe"
 	$Packages = "$Deployment\Packages"
 	$scriptrunner_rap = "$Deployment\ScriptRunner.rap"
-
+	$nuspec = "$Deployment\Milyli.ScriptRunner.Services.Interfaces.nuspec"
 	$Version = $null
 }
 
@@ -60,3 +60,15 @@ Task CreateRap -Depends RestoreBuildTools, PackageBuild {
 	}
 	Copy-Item $scriptrunner_rap -Destination "$Packages\$Version\Milyli.ScriptRunner-$Version.rap" -Force | Out-Null
 }
+
+Task CreateNugetPkg -Depends PackageBuild, InstallNuget {
+	if(-Not (Test-Path "$Packages\$Version")) {
+		New-Item "$Packages\$Version" -ItemType Directory
+	}
+	else {
+		Remove-Item (Join-Path "$Packages\$Version" "Milyli.ScriptRunner.Services*")
+	}
+	Exec { & $nuget_exe pack $nuspec -outputdirectory "$Packages\$Version\"	-version $Version }
+}
+
+Task CreateRapAndNuget -Depends CreateRap, CreateNugetPkg
