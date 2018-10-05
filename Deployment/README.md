@@ -104,6 +104,7 @@ RelativityScriptRunner/
 |   |-- application.xml  # Relativity application manifest
 |   |-- build.xml 	 # Input file for the RelativityDev.RapBuilder executable
 |   |-- default.ps1 	 # The psake build file
+|   |-- Milyli.*.nuspec  # The nuget package definition for the kepler services
 |   |-- packages.config  # Contains the nuget packages required for the build process
 |   |-- ScriptRunner.rap # The intermediate rap file output by the RelativityDev.RapBuilder executable, not in Source Control
 |   |-- TestResult.xml 	 # Output of the last UnitTest build
