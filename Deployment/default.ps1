@@ -61,7 +61,7 @@ Task CreateRap -Depends RestoreBuildTools, PackageBuild {
 	Copy-Item $scriptrunner_rap -Destination "$Packages\$Version\Milyli.ScriptRunner-$Version.rap" -Force | Out-Null
 }
 
-Task CreateNugetPkg -Depends PackageBuild {
+Task CreateNugetPkg -Depends PackageBuild, InstallNuget {
 	if(-Not (Test-Path "$Packages\$Version")) {
 		New-Item "$Packages\$Version" -ItemType Directory
 	}

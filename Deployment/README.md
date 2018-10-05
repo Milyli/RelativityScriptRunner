@@ -25,7 +25,7 @@ The following are all valid invocations:
 .\build.ps1 -TaskList UnitTest
 ```
 
-Note: The -Version parameter is ignored for UnitTest builds.
+*Note:* The -Version parameter is ignored for UnitTest builds.
 
 ## Creating a RAP file
 
@@ -49,11 +49,43 @@ You can find the output rap in the Deployment/Packages folder.
 
 ## Creating a Nuget Package
 
-The `Milyli.ScriptRunner.Services.Interfaces` and `Milyli.ScriptRunner.Services.Interfaces.Contracts` projects comprise a consumable package of [Kepler services](../Milyli.ScriptRunner.Services.Interfaces/) that allow other applications to use ScriptRunner.  These can be packed into a .nupkg file using the `CreateNugetPackage` option as a -TaskList parameter, or alternatively the `CreateRapAndNuget` option to create both a Rap and Nupkg.
+The `Milyli.ScriptRunner.Services.Interfaces` and `Milyli.ScriptRunner.Services.Interfaces.Contracts` projects comprise a consumable package of [Kepler services](../Milyli.ScriptRunner.Services.Interfaces/) that allow other applications to use ScriptRunner.
 
-Like the Rap building process, the -Version parameter can be used to inform the version of the .nupkg.
-Also like the rap building process, the output .nupkg file can be found in the Deployment/Packages folder and will override any packages of the same version.
-*Note:* When creating both a .rap and .nupkg, any provided -Version value will be used for both.
+These can be packaged into a .nupkg file by passing `CreateNugetPackage` as the -TaskList parameter to the build script.
+Additionally, you can pass a version for the nuget package to the -Version parameter. 
+The following are all valid invocations:
+
+```ps1
+.\build.ps1 CreateNugetPackage # the version defaults to 1.0.0.18
+.\build.ps1 CreateNugetPackage 9.6.0.0
+.\build.ps1 CreateNugetPackage -Version 9.6.0.0
+.\build.ps1 -TaskList CreateNugetPackage
+.\build.ps1 -TaskList CreateNugetPackage 9.6.0.0
+.\build.ps1 -TaskList CreateNugetPackage -Version 9.6.0.0
+```
+
+You can find the output nuget package in the Deployment/Packages folder.
+*Note:* the output package will override any other packages with the same version.
+
+## Creating a Rap and Nuget Package
+
+This project offers the utility to create a Rap file and Nuget package together from the same build.
+
+To create a Rap and Nuget package pass `CreateRapAndNuget` as the -TaskList parameter to the build script.
+Additionally, you can pass a version to the -Version parameter that will be used for both the Rap and the Nuget package. 
+The following are all valid invocations:
+
+```ps1
+.\build.ps1 CreateRapAndNuget # the version defaults to 1.0.0.18
+.\build.ps1 CreateRapAndNuget 9.6.0.0
+.\build.ps1 CreateRapAndNuget -Version 9.6.0.0
+.\build.ps1 -TaskList CreateRapAndNuget
+.\build.ps1 -TaskList CreateRapAndNuget 9.6.0.0
+.\build.ps1 -TaskList CreateRapAndNuget -Version 9.6.0.0
+```
+
+You can find the output files in the Deployment/Packages folder.
+*Note:* the output files will override any others with the same version.
 
 ## Structure and Process
 

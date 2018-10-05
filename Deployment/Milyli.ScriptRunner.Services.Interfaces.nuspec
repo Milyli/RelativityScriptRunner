@@ -12,12 +12,10 @@
   </metadata>
   <files>
     <file src=".\Artifacts\Milyli.ScriptRunner.Services.Interfaces.dll"
-	target="lib\Milyli.ScriptRunner.Services.Interfaces\net462" />
+	target="lib\net462" />
     <file src=".\Artifacts\Milyli.ScriptRunner.Services.Contracts.dll"
-	target="lib\Milyli.ScriptRunner.Services.Interfaces\net462" />
-    <file src=".\Artifacts\Milyli.ScriptRunner.Services.Contracts.dll"
-	target="lib\Milyli.ScriptRunner.Services.Interfaces\net462" />
+	target="lib\net462" />
 	<file src="..\Milyli.ScriptRunner.Services.Interfaces\README.md"
-	target="lib\Milyli.ScriptRunner.Services.Interfaces\net462" />
+	target="docs" />
 </files>
 </package>
