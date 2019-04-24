@@ -83,19 +83,16 @@
 		{
 			var inputs = this.jobScheduleRepository.GetJobInputs(job);
 			Logger.Trace($"found ${inputs.Count} inputs for job ${job.Id}");
-			// new relativity script pass in artifact id
 
 			var maxAttempts = 3;
 			var attempts = 0;
-			RelativityScriptResult scriptResult = null;
+			ExecuteResult executeResult = null;
 			do
 			{
 				attempts++;
 				try
 				{
-					var script = new kCura.Relativity.Client.DTOs.RelativityScript(job.RelativityScriptId);
-					var scriptInputs = inputs.Select(i => new RelativityScriptInput(i.InputName, i.InputValue)).ToList();
-					scriptResult = this.relativityScriptRepository.ExecuteRelativityScript(script, scriptInputs, workspace);
+					executeResult = this.relativityScriptRepository.ExecuteRelativityScript(job.RelativityScriptId, inputs, workspace);
 				}
 				catch (Exception ex)
 				{
@@ -112,13 +109,13 @@
 				}
 			} while (attempts < maxAttempts);
 
-			if (scriptResult != null)
+			if (executeResult != null)
 			{
-				job.CurrentJobHistory.HasError = !scriptResult.Success;
-				job.CurrentJobHistory.ResultText = scriptResult.Message;
+				job.CurrentJobHistory.HasError = !executeResult.Success;
+				job.CurrentJobHistory.ResultText = executeResult.Message;
 				if (job.CurrentJobHistory.HasError)
 				{
-					Logger.Info($"Job {job.Id} failed with result {scriptResult.Message}");
+					Logger.Info($"Job {job.Id} failed with result {executeResult.Message}");
 				}
 			}
 			else

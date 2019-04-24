@@ -37,9 +37,9 @@
     <DefineConstants Condition="'$(RelativityAPIVersion)' != ''">$(DefineConstants);V$(RelativityAPIVersion.Replace(".", "_"))</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Relativity.Api" Version="$(RelativityVersion)" /> 
-    <PackageReference Include="Relativity.ObjectManager" Version="9.5.162.111" />
-    <PackageReference Include="Relativity.Other" Version="$(RelativityVersion)" />
+    <PackageReference Include="Relativity.Api" Version="9.6.284.6" /> 
+    <PackageReference Include="Relativity.ObjectManager" Version="9.6.284.6" />
+    <PackageReference Include="Relativity.Other" Version="9.6.284.6" />
     <PackageReference Include="Milyli.CodeAnalysis" Version="2.0.1">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -64,5 +64,6 @@
   <!-- Workaround for https://github.com/dotnet/roslyn-project-system/issues/1739 -->
   <PropertyGroup>
     <AssemblySearchPaths>$(AssemblySearchPaths);{GAC}</AssemblySearchPaths>
+    <TargetFramework>net462</TargetFramework>
   </PropertyGroup>
 </Project>

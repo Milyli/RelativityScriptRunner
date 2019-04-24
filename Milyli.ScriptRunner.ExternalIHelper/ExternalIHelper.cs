@@ -156,6 +156,16 @@
 			throw new NotImplementedException();
 		}
 
+		public ISecretStore GetSecretStore()
+		{
+			throw new NotImplementedException();
+		}
+
+		public IInstanceSettingsBundle GetInstanceSettingBundle()
+		{
+			throw new NotImplementedException();
+		}
+
 #if V9_6_26_97 || V9_6_85_9
 		public ISecretStore GetSecretStore()
 		{

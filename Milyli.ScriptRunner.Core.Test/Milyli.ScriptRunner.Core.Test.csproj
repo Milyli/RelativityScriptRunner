@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Milyli.ScriptRunner.Core.Test</RootNamespace>
     <AssemblyName>Milyli.ScriptRunner.Core.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,11 +40,11 @@
     <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="kCura.EventHandler, Version=9.5.69.85, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\Solutions\packages\Relativity.EventHandler.9.5.69.85\lib\kCura.EventHandler.dll</HintPath>
+    <Reference Include="kCura.EventHandler, Version=9.6.284.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.EventHandler.9.6.284.6\lib\kCura.EventHandler.dll</HintPath>
     </Reference>
-    <Reference Include="kCura.Relativity.Client, Version=9.5.69.85, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.Rsapi.9.5.69.85\lib\kCura.Relativity.Client.dll</HintPath>
+    <Reference Include="kCura.Relativity.Client, Version=9.6.284.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.Rsapi.9.6.284.6\lib\kCura.Relativity.Client.dll</HintPath>
     </Reference>
     <Reference Include="linq2db, Version=1.0.7.6, Culture=neutral, PublicKeyToken=f19f8aed7feff67e, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\linq2db.1.7.6\lib\net45\linq2db.dll</HintPath>
@@ -57,20 +58,20 @@
     <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Relativity.API, Version=9.5.69.85, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.Api.9.5.69.85\lib\Relativity.API.dll</HintPath>
+    <Reference Include="Relativity.API, Version=9.6.284.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.Api.9.6.284.6\lib\Relativity.API.dll</HintPath>
     </Reference>
-    <Reference Include="Relativity.Kepler, Version=1.0.1.312, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Kepler.dll</HintPath>
+    <Reference Include="Relativity.Kepler, Version=1.0.1.445, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.6.284.6\lib\Relativity.Kepler.dll</HintPath>
     </Reference>
-    <Reference Include="Relativity.Services.DataContracts, Version=9.5.162.111, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Services.DataContracts.dll</HintPath>
+    <Reference Include="Relativity.Services.DataContracts, Version=9.6.284.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.6.284.6\lib\Relativity.Services.DataContracts.dll</HintPath>
     </Reference>
-    <Reference Include="Relativity.Services.Interfaces, Version=9.5.162.111, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Services.Interfaces.dll</HintPath>
+    <Reference Include="Relativity.Services.Interfaces, Version=9.6.284.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.6.284.6\lib\Relativity.Services.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="Relativity.Services.ServiceProxy, Version=1.0.1.312, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Services.ServiceProxy.dll</HintPath>
+    <Reference Include="Relativity.Services.ServiceProxy, Version=1.0.1.392, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.6.284.6\lib\Relativity.Services.ServiceProxy.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap, Version=4.4.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\StructureMap.4.4.5\lib\net45\StructureMap.dll</HintPath>

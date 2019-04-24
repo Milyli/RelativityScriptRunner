@@ -13,9 +13,12 @@
 
     public class RelativityScriptRepository : RelativityClientRepository, IRelativityScriptRepository
     {
-        public RelativityScriptRepository(IRelativityClientFactory relativityClientFactory)
+			private readonly IHelper relativityHelper;
+
+				public RelativityScriptRepository(IRelativityClientFactory relativityClientFactory, IHelper relativityHelper)
             : base(relativityClientFactory)
         {
+					this.relativityHelper = relativityHelper ?? throw new ArgumentNullException(nameof(relativityHelper));
         }
 
         public List<RelativityScript> GetRelativityScripts(RelativityWorkspace workspace)
@@ -48,20 +51,24 @@
                 this.GetScript(scriptArtifactId, ws), workspace);
         }
 
-		public RelativityScriptResult ExecuteRelativityScript(DTOs.RelativityScript script, List<RelativityScriptInput> inputs, RelativityWorkspace workspace)
+		public ExecuteResult ExecuteRelativityScript(int scriptArtifactId, List<JobScriptInput> inputs, RelativityWorkspace workspace)
 		{
-			if (script == null)
-			{
-				throw new ArgumentNullException("script");
-			}
-
-			if (script.ArtifactID == 0)
-			{
-				throw new ArgumentNullException("script.ArtfactID");
-			}
-
+			var relativityInputs = inputs.Select(i => new RelativityScriptInput(i.InputName, i.InputValue)).ToList();
 			return this.InWorkspace(
-				(client, ws) => client.Repositories.RelativityScript.ExecuteRelativityScript(script, inputs), workspace);
+				(client, ws) =>
+				{
+					var rsapiResult = client.Repositories.RelativityScript.ExecuteRelativityScript(new DTOs.RelativityScript(scriptArtifactId), relativityInputs);
+					return new ExecuteResult { Success = rsapiResult.Success, Message = rsapiResult.Message };
+				}, workspace);
+		}
+
+		/// <inheritdoc />
+		public ExecuteResult ExecuteScriptDirectSql(int scriptArtifactId, List<JobScriptInput> inputs, RelativityWorkspace workspace, int timeOutSeconds = 600)
+		{
+			var relativityInputs = inputs.Select(i => new RelativityScriptInput(i.InputName, i.InputValue)).ToList();
+			var script = this.InWorkspace((client, ws) => client.Repositories.RelativityScript.ReadSingle(scriptArtifactId), workspace);
+			var scriptSql = script.Body.AsXmlDocument.GetElementsByTagName("action").Item(0);
+			throw new NotImplementedException();
 		}
 
 		private T InWorkspace<T>(Func<IRSAPIClient, RelativityWorkspace, T> action, RelativityWorkspace workspace)
@@ -119,5 +126,5 @@
                 WorkspaceId = workspace.WorkspaceId
             };
         }
-    }
+	}
 }
