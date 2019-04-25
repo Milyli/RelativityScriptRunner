@@ -169,6 +169,7 @@
     <Compile Include="Tools\IRelativityScriptProcessor.cs" />
     <Compile Include="Tools\KcuraAssemblyResolver.cs" />
     <Compile Include="Tools\RelativityHelper.cs" />
+    <Compile Include="Tools\RelativityScriptProcessor.cs" />
     <Compile Include="Tools\ScheduleConversionHelper.cs" />
   </ItemGroup>
   <ItemGroup>
