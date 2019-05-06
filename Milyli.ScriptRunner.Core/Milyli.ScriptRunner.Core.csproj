@@ -167,10 +167,12 @@
     <Compile Include="Services\RelativityScriptRunner.cs" />
     <Compile Include="Tools\BitmaskHelper.cs" />
     <Compile Include="Tools\IRelativityScriptProcessor.cs" />
+    <Compile Include="Tools\ISearchTableManager.cs" />
     <Compile Include="Tools\KcuraAssemblyResolver.cs" />
     <Compile Include="Tools\RelativityHelper.cs" />
     <Compile Include="Tools\RelativityScriptProcessor.cs" />
     <Compile Include="Tools\ScheduleConversionHelper.cs" />
+    <Compile Include="Tools\SearchTableManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
