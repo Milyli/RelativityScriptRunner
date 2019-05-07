@@ -98,7 +98,7 @@
                             return jobScriptInput.InputName();
                         });
                         return invalidInputs;
-                    })
+                    });
 
 										JobScheduleModel.TimeoutInvalid = ko.computed(function () {
 											return JobScheduleModel.JobSchedule.DirectSql ? JobScheduleModel.JobSchedule.MaximumRuntime < 30 : false;
@@ -109,7 +109,7 @@
 										});
 
                     JobScheduleModel.IsInvalid = ko.computed(function () {
-											return JobScheduleModel.InputsInvalid || JobScheduleModel.TimeoutInvalid;
+											return JobScheduleModel.InputsInvalid() || JobScheduleModel.TimeoutInvalid();
                     });
 
                     JobScheduleModel.InvalidText = ko.computed(function () {

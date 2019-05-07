@@ -74,7 +74,7 @@
         <div class="schedule-section">
             <h4>Script Inputs</h4>
             <div data-bind="foreach: JobScriptInputs" class="script-inputs">
-                <div class="input-container" data-bind="css: { required : IsRequired(), invalid : InputsInvalid() }">
+                <div class="input-container" data-bind="css: { required : IsRequired(), invalid : IsInvalid() }">
                     <label data-bind="text: InputName">
                     </label>
                     <div data-bind="ifnot : HasOptions">
