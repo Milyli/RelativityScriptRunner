@@ -88,7 +88,7 @@
         </div>
         <div class="schedule-footer">
             <div data-bind="css : { 'error-notification' : IsInvalid() }, text : InvalidText"></div>
-            <button class="btn btn-primary" id="save-job-schedule" data-bind="click: SaveJobSchedule, disable: (!HasName() || IsInvalid), attr {title : InvalidText}">Save</button>
+            <button class="btn btn-primary" id="save-job-schedule" data-bind="click: SaveJobSchedule, disable: (!HasName() || IsInvalid()), attr {title : InvalidText}">Save</button>
         </div>
         <div class="run-script-container">
             <iframe id="run-script" src="/Relativity/Case/RelativityScript/Run.aspx?AppID=@Model.RelativityWorkspace.WorkspaceId&ArtifactID=@Model.RelativityScript.RelativityScriptId"></iframe>

@@ -101,7 +101,7 @@
                     });
 
 										JobScheduleModel.TimeoutInvalid = ko.computed(function () {
-											return JobScheduleModel.JobSchedule.DirectSql ? JobScheduleModel.JobSchedule.MaximumRuntime < 30 : false;
+											return JobScheduleModel.JobSchedule.DirectSql() ? JobScheduleModel.JobSchedule.MaximumRuntime() < 30 : false;
 										});
 
 										JobScheduleModel.InputsInvalid = ko.computed(function () {
