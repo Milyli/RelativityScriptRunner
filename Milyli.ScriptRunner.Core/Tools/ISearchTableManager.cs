@@ -15,12 +15,14 @@
 		/// <param name="workspaceId">Id of the workspace to create the table in.</param>
 		/// <param name="savedSearchids">List of saved searches to create tables for.</param>
 		/// <param name="scriptRunnerJobId">Id of the associated script runner job.</param>
+		/// <param name="timeoutSeconds">Number of seconds to wait before a SQL timeout.</param>
 		/// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
 		Task CreateTablesAsync(
 			string searchTablePrepend,
 			int workspaceId,
 			IEnumerable<int> savedSearchids,
-			int scriptRunnerJobId);
+			int scriptRunnerJobId,
+			int timeoutSeconds);
 
 		/// <summary>
 		/// Deletes all created tables corresponding to a saved search for the given prepend.

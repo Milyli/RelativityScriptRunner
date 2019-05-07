@@ -8,6 +8,8 @@
 	using Milyli.ScriptRunner.Core.Tools;
 	using Relativity.Client;
 	using System;
+	using System.Collections.Generic;
+	using System.Linq;
 	using System.Threading.Tasks;
 
 	public class RelativityScriptRunner : IRelativityScriptRunner
@@ -44,29 +46,52 @@
 		{
 			var schedules = this.jobScheduleRepository.GetJobSchedules(executionTime);
 			Logger.Trace($"found {schedules.Count} jobs to execute");
-			schedules.ForEach(this.ExecuteScriptJob);
+			foreach (var schedule in schedules)
+			{
+				if (schedule.DirectSql)
+				{
+					this.ExecuteDirectSqlJob(schedule);
+				}
+				else
+				{
+					this.ExecuteScriptJob(schedule);
+				}
+			}
 		}
 
 		/// <inheritdoc />
 		public void ExecuteDirectSqlJob(JobSchedule job)
 		{
-			var inputs = this.jobScheduleRepository.GetJobInputs(job);
 			var workspace = new RelativityWorkspace { WorkspaceId = job.WorkspaceId };
-			var script = RelativityHelper.InWorkspace((client, _) => client.Repositories.RelativityScript.ReadSingle(job.RelativityScriptId), workspace, this.relativityClient.GetRelativityClient());
-			var originalInputs = RelativityHelper.InWorkspace((client, _) => client.Repositories.RelativityScript.GetRelativityScriptInputs(script), workspace, this.relativityClient.GetRelativityClient());
-			var scriptSql = script.Body.AsXmlDocument.GetElementsByTagName("action").Item(0).InnerText;
-			scriptSql = this.relativityScriptProcessor.SubstituteGlobalVariables(workspace.WorkspaceId, scriptSql);
-			scriptSql = this.relativityScriptProcessor.SubstituteScriptInputs(inputs, originalInputs, scriptSql, SearchTablePrepend, job.Id);
-			var searchIds = this.relativityScriptProcessor.GetSavedSearchIds(inputs, originalInputs);
+			var searchIds = new List<int>();
+			var activationStatus = this.jobScheduleRepository.StartJob(job);
 
-			try
+			if (activationStatus == JobActivationStatus.Started)
 			{
-				this.searchTableManager.CreateTablesAsync(SearchTablePrepend, workspace.WorkspaceId, searchIds, job.Id).GetAwaiter().GetResult();
-				this.helper.GetDBContext(workspace.WorkspaceId).ExecuteNonQuerySQLStatement(scriptSql, -1);
-			}
-			finally
-			{
-				this.searchTableManager.DeleteTables(SearchTablePrepend, workspace.WorkspaceId, searchIds, job.Id);
+				try
+				{
+					var inputs = this.jobScheduleRepository.GetJobInputs(job);
+					var script = RelativityHelper.InWorkspace((client, _) => client.Repositories.RelativityScript.ReadSingle(job.RelativityScriptId), workspace, this.relativityClient.GetRelativityClient());
+					var originalInputs = RelativityHelper.InWorkspace((client, _) => client.Repositories.RelativityScript.GetRelativityScriptInputs(script), workspace, this.relativityClient.GetRelativityClient());
+					var scriptSql = script.Body.AsXmlDocument.GetElementsByTagName("action").Item(0).InnerText;
+					scriptSql = this.relativityScriptProcessor.SubstituteGlobalVariables(workspace.WorkspaceId, scriptSql);
+					scriptSql = this.relativityScriptProcessor.SubstituteScriptInputs(inputs, originalInputs, scriptSql, SearchTablePrepend, job.Id);
+					searchIds = this.relativityScriptProcessor.GetSavedSearchIds(inputs, originalInputs).ToList();
+
+					this.searchTableManager.CreateTablesAsync(SearchTablePrepend, workspace.WorkspaceId, searchIds, job.Id, job.MaximumRuntime).GetAwaiter().GetResult();
+					this.helper.GetDBContext(workspace.WorkspaceId).ExecuteNonQuerySQLStatement(scriptSql, job.MaximumRuntime);
+				}
+				catch (Exception ex)
+				{
+					Logger.Warn(ex, $"Execution of job {job.Id} failed");
+					job.CurrentJobHistory.ResultText = "Exception: " + ex.ToString();
+					job.CurrentJobHistory.HasError = true;
+				}
+				finally
+				{
+					this.jobScheduleRepository.FinishJob(job);
+					this.searchTableManager.DeleteTables(SearchTablePrepend, workspace.WorkspaceId, searchIds, job.Id);
+				}
 			}
 		}
 

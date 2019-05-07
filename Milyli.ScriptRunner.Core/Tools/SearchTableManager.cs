@@ -29,7 +29,8 @@
 			string searchTablePrepend,
 			int workspaceId,
 			IEnumerable<int> savedSearchids,
-			int scriptRunnerJobId)
+			int scriptRunnerJobId,
+			int timeoutSeconds)
 		{
 			const string createTableSql = @"IF OBJECT_ID('{0}') IS NOT NULL
 BEGIN
@@ -59,7 +60,7 @@ ELSE CREATE TABLE {0} (DocId int)";
 					results.Objects.ForEach(o => table.Rows.Add(o.ArtifactID));
 					if (table.Rows.Count > BulkCopyBatch)
 					{
-						BulkInsertResults(table, dbContext, tableName);
+						BulkInsertResults(table, dbContext, tableName, timeoutSeconds);
 					}
 
 					position = results.CurrentStartIndex + ObjectManagerQueryBatch;
@@ -87,12 +88,12 @@ END";
 			}
 		}
 
-		private static void BulkInsertResults(DataTable dataTable, IDBContext dbContext, string destinationTable)
+		private static void BulkInsertResults(DataTable dataTable, IDBContext dbContext, string destinationTable, int timeoutSeconds)
 		{
 			using (var connection = dbContext.GetConnection())
 			{
 				var bulkCopy = new SqlBulkCopy(connection);
-				bulkCopy.BulkCopyTimeout = 0;
+				bulkCopy.BulkCopyTimeout = timeoutSeconds;
 				bulkCopy.DestinationTableName = destinationTable;
 				bulkCopy.WriteToServer(dataTable);
 			}
