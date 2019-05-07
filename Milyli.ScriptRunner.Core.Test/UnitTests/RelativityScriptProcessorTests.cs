@@ -24,6 +24,57 @@
 		}
 
 		[Test]
+		public void GetSavedSearchIds_ReturnsExpected()
+		{
+			// Arrange
+			var firstSearchId = 1234;
+			var secondSearchId = 12345;
+			var expectedSearchIds = new List<int> { firstSearchId, secondSearchId };
+			var populatedInputs = new List<JobScriptInput>
+			{
+				new JobScriptInput
+				{
+					InputId = nameof(firstSearchId),
+					InputValue = firstSearchId.ToString(),
+				},
+				new JobScriptInput
+				{
+					InputId = nameof(secondSearchId),
+					InputValue = secondSearchId.ToString(),
+				},
+				new JobScriptInput
+				{
+					InputId = "otherInput",
+					InputValue = "some other input",
+				},
+			};
+			var relativityInputs = new List<RelativityScriptInputDetails>
+			{
+				new RelativityScriptInputDetails
+				{
+					Id = nameof(firstSearchId),
+					InputType = RelativityScriptInputDetailsScriptInputType.SavedSearch,
+				},
+				new RelativityScriptInputDetails
+				{
+					Id = nameof(secondSearchId),
+					InputType = RelativityScriptInputDetailsScriptInputType.SavedSearch,
+				},
+				new RelativityScriptInputDetails
+				{
+					Id = "otherInput",
+					InputType = RelativityScriptInputDetailsScriptInputType.Constant,
+				},
+			};
+
+			// Act
+			var searchIds = this.relativityScriptProcessor.GetSavedSearchIds(populatedInputs, relativityInputs);
+
+			// Assert
+			CollectionAssert.AreEquivalent(expectedSearchIds, searchIds);
+		}
+
+		[Test]
 		public void ReplaceCaseArtifactId()
 		{
 			// Arrange
@@ -152,7 +203,7 @@ SET[Bar] = {0}";
 			};
 
 			// Act
-			var generatedSql = this.relativityScriptProcessor.SubstituteScriptInputs(populatedInputs, relativityInputs, scriptSql, null);
+			var generatedSql = this.relativityScriptProcessor.SubstituteScriptInputs(populatedInputs, relativityInputs, scriptSql, null, 1);
 
 			// Assert
 			Assert.AreEqual(expectedSql, generatedSql);
@@ -192,7 +243,7 @@ SET[Bar] = {0}";
 			};
 
 			// Act
-			var generatedSql = this.relativityScriptProcessor.SubstituteScriptInputs(populatedInputs, relativityInputs, scriptSql, null);
+			var generatedSql = this.relativityScriptProcessor.SubstituteScriptInputs(populatedInputs, relativityInputs, scriptSql, null, 1);
 
 			// Assert
 			Assert.AreEqual(expectedSql, generatedSql);
@@ -231,7 +282,7 @@ SET[Bar] = {0}";
 			};
 
 			// Act
-			var generatedSql = this.relativityScriptProcessor.SubstituteScriptInputs(populatedInputs, relativityInputs, scriptSql, null);
+			var generatedSql = this.relativityScriptProcessor.SubstituteScriptInputs(populatedInputs, relativityInputs, scriptSql, null, 1);
 
 			// Assert
 			Assert.AreEqual(expectedSql, generatedSql);
@@ -276,7 +327,7 @@ SET[Bar] = {0}";
 			};
 
 			// Act
-			var generatedSql = this.relativityScriptProcessor.SubstituteScriptInputs(populatedInputs, relativityInputs, scriptSql, null);
+			var generatedSql = this.relativityScriptProcessor.SubstituteScriptInputs(populatedInputs, relativityInputs, scriptSql, null, 1);
 
 			// Assert
 			Assert.AreEqual(expectedSql, generatedSql);
@@ -323,7 +374,7 @@ WHERE {0}.DocId = [Document].ArtifactID",
 			};
 
 			// Act
-			var generatedSql = this.relativityScriptProcessor.SubstituteScriptInputs(populatedInputs, relativityInputs, scriptSql, searchTablePrepend);
+			var generatedSql = this.relativityScriptProcessor.SubstituteScriptInputs(populatedInputs, relativityInputs, scriptSql, searchTablePrepend, 1);
 
 			// Assert
 			Assert.AreEqual(expectedSql, generatedSql);

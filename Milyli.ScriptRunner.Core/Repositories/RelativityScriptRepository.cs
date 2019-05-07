@@ -62,15 +62,6 @@
 				}, workspace);
 		}
 
-		/// <inheritdoc />
-		public ExecuteResult ExecuteScriptDirectSql(int scriptArtifactId, List<JobScriptInput> inputs, RelativityWorkspace workspace, int timeOutSeconds = 600)
-		{
-			var relativityInputs = inputs.Select(i => new RelativityScriptInput(i.InputName, i.InputValue)).ToList();
-			var script = this.InWorkspace((client, ws) => client.Repositories.RelativityScript.ReadSingle(scriptArtifactId), workspace);
-			var scriptSql = script.Body.AsXmlDocument.GetElementsByTagName("action").Item(0);
-			throw new NotImplementedException();
-		}
-
 		private T InWorkspace<T>(Func<IRSAPIClient, RelativityWorkspace, T> action, RelativityWorkspace workspace)
         {
             return RelativityHelper.InWorkspace(action, workspace, this.RelativityClient);

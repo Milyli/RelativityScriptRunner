@@ -1,36 +1,45 @@
 ﻿namespace Milyli.ScriptRunner.Core.Services
 {
-	using System;
-	using System.Linq;
-	using System.Threading.Tasks;
+	using global::Relativity.API;
 	using kCura.Relativity.Client;
 	using Milyli.ScriptRunner.Core.Models;
 	using Milyli.ScriptRunner.Core.Repositories;
 	using Milyli.ScriptRunner.Core.Repositories.Interfaces;
 	using Milyli.ScriptRunner.Core.Tools;
 	using Relativity.Client;
+	using System;
+	using System.Threading.Tasks;
 
 	public class RelativityScriptRunner : IRelativityScriptRunner
 	{
-		private IJobScheduleRepository jobScheduleRepository;
-		private IRelativityClientFactory relativityClient;
-		private IRelativityScriptRepository relativityScriptRepository;
+		private const string SearchTablePrepend = "SavedSearch_";
 
-		public RelativityScriptRunner(IJobScheduleRepository jobScheduleRepository, IRelativityClientFactory relativityClient, IRelativityScriptRepository relativityScriptRepository)
+		private readonly IJobScheduleRepository jobScheduleRepository;
+		private readonly IRelativityClientFactory relativityClient;
+		private readonly IRelativityScriptRepository relativityScriptRepository;
+		private readonly IRelativityScriptProcessor relativityScriptProcessor;
+		private readonly ISearchTableManager searchTableManager;
+		private readonly IHelper helper;
+
+		public RelativityScriptRunner(
+			IJobScheduleRepository jobScheduleRepository,
+			IRelativityClientFactory relativityClient,
+			IRelativityScriptRepository relativityScriptRepository,
+			IRelativityScriptProcessor relativityScriptProcessor,
+			ISearchTableManager searchTableManager,
+			IHelper helper)
 		{
 			this.jobScheduleRepository = jobScheduleRepository;
 			this.relativityClient = relativityClient;
 			this.relativityScriptRepository = relativityScriptRepository;
+			this.relativityScriptProcessor = relativityScriptProcessor;
+			this.searchTableManager = searchTableManager;
+			this.helper = helper;
 		}
 
-		private static NLog.Logger Logger
-		{
-			get
-			{
-				return NLog.LogManager.GetLogger("Default");
-			}
-		}
+		private static NLog.Logger Logger => NLog.LogManager.GetLogger("Default");
 
+		/// <inheritdoc />
 		public void ExecuteAllJobs(DateTime executionTime)
 		{
 			var schedules = this.jobScheduleRepository.GetJobSchedules(executionTime);
@@ -38,6 +47,30 @@
 			schedules.ForEach(this.ExecuteScriptJob);
 		}
 
+		/// <inheritdoc />
+		public void ExecuteDirectSqlJob(JobSchedule job)
+		{
+			var inputs = this.jobScheduleRepository.GetJobInputs(job);
+			var workspace = new RelativityWorkspace { WorkspaceId = job.WorkspaceId };
+			var script = RelativityHelper.InWorkspace((client, _) => client.Repositories.RelativityScript.ReadSingle(job.RelativityScriptId), workspace, this.relativityClient.GetRelativityClient());
+			var originalInputs = RelativityHelper.InWorkspace((client, _) => client.Repositories.RelativityScript.GetRelativityScriptInputs(script), workspace, this.relativityClient.GetRelativityClient());
+			var scriptSql = script.Body.AsXmlDocument.GetElementsByTagName("action").Item(0).InnerText;
+			scriptSql = this.relativityScriptProcessor.SubstituteGlobalVariables(workspace.WorkspaceId, scriptSql);
+			scriptSql = this.relativityScriptProcessor.SubstituteScriptInputs(inputs, originalInputs, scriptSql, SearchTablePrepend, job.Id);
+			var searchIds = this.relativityScriptProcessor.GetSavedSearchIds(inputs, originalInputs);
+
+			try
+			{
+				this.searchTableManager.CreateTablesAsync(SearchTablePrepend, workspace.WorkspaceId, searchIds, job.Id).GetAwaiter().GetResult();
+				this.helper.GetDBContext(workspace.WorkspaceId).ExecuteNonQuerySQLStatement(scriptSql, -1);
+			}
+			finally
+			{
+				this.searchTableManager.DeleteTables(SearchTablePrepend, workspace.WorkspaceId, searchIds, job.Id);
+			}
+		}
+
+		/// <inheritdoc />
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "TODO: this is probably a good idea")]
 		public void ExecuteScriptJob(JobSchedule job)
 		{

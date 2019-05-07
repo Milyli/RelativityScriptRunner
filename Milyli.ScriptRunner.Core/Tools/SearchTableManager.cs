@@ -14,7 +14,7 @@
 	public class SearchTableManager : ISearchTableManager
 	{
 		private const int ObjectManagerQueryBatch = 1000;
-.		private const int BulkCopyBatch = 100000;
+		private const int BulkCopyBatch = 100000;
 		private readonly IObjectManager objectManager;
 		private readonly IHelper relativityHelper;
 
@@ -25,7 +25,11 @@
 		}
 
 		/// <inheritdoc />
-		public async Task CreateTablesAsync(string searchTablePrepend, int workspaceId, IEnumerable<int> savedSearchids)
+		public async Task CreateTablesAsync(
+			string searchTablePrepend,
+			int workspaceId,
+			IEnumerable<int> savedSearchids,
+			int scriptRunnerJobId)
 		{
 			const string createTableSql = @"IF OBJECT_ID('{0}') IS NOT NULL
 BEGIN
@@ -36,7 +40,7 @@ ELSE CREATE TABLE {0} (DocId int)";
 			var dbContext = this.relativityHelper.GetDBContext(workspaceId);
 			foreach (var searchId in savedSearchids)
 			{
-				var tableName = RelativityScriptProcessor.GetSearchTableName(searchTablePrepend, searchId);
+				var tableName = RelativityScriptProcessor.GetSearchTableName(searchTablePrepend, searchId, scriptRunnerJobId);
 				var createSearchTableSql = string.Format(createTableSql, tableName);
 				dbContext.ExecuteNonQuerySQLStatement(createSearchTableSql);
 				var table = new DataTable();
@@ -65,7 +69,11 @@ ELSE CREATE TABLE {0} (DocId int)";
 		}
 
 		/// <inheritdoc />
-		public void DeleteTables(string searchTablePrepend, int workspaceId, IEnumerable<int> savedSearchids)
+		public void DeleteTables(
+			string searchTablePrepend,
+			int workspaceId,
+			IEnumerable<int> savedSearchids,
+			int scriptRunnerJobId)
 		{
 			const string deleteTableSql = @"IF OBJECT_ID('{0}') IS NOT NULL
 BEGIN
@@ -74,7 +82,7 @@ END";
 			var dbContext = this.relativityHelper.GetDBContext(workspaceId);
 			foreach (var searchId in savedSearchids)
 			{
-				var tableName = RelativityScriptProcessor.GetSearchTableName(searchTablePrepend, searchId);
+				var tableName = RelativityScriptProcessor.GetSearchTableName(searchTablePrepend, searchId, scriptRunnerJobId);
 				dbContext.ExecuteNonQuerySQLStatement(deleteTableSql);
 			}
 		}
@@ -88,6 +96,7 @@ END";
 				bulkCopy.DestinationTableName = destinationTable;
 				bulkCopy.WriteToServer(dataTable);
 			}
+
 			dataTable.Rows.Clear();
 		}
 	}

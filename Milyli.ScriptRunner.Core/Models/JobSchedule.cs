@@ -48,6 +48,13 @@ namespace Milyli.ScriptRunner.Core.Models
         [Column(Name = "JobEnabled")]
         public bool JobEnabled { get; set; } = true;
 
+				/// <summary>
+				/// Gets or sets a value indicating whether a job should be ran through
+				/// direct SQL rather than RSAPI.
+				/// </summary>
+				[Column(Name = "DirectSql")]
+				public bool DirectSql { get; set; } = false;
+
         /// <summary>
         /// Gets or sets the maximum runtime (in seconds) for the job
         /// </summary>

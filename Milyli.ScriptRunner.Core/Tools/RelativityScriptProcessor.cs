@@ -34,8 +34,35 @@
 		/// </summary>
 		/// <param name="tablePrepend">Prepend used when creating the table.</param>
 		/// <param name="searchId">Id of the saved search.</param>
+		/// <param name="scriptRunnerJobId">Id of the script runner job.</param>
 		/// <returns>Generated table for the specified saved search.</returns>
-		public static string GetSearchTableName(string tablePrepend, int searchId) => tablePrepend + "_" + searchId.ToString();
+		public static string GetSearchTableName(string tablePrepend, int searchId, int scriptRunnerJobId) => tablePrepend + "_" + searchId.ToString() + "_" + scriptRunnerJobId.ToString();
+
+		/// <inheritdoc />
+		public IList<int> GetSavedSearchIds(IEnumerable<JobScriptInput> populatedInputs, IEnumerable<RelativityScriptInputDetails> relativityScriptInputDetails)
+		{
+			var searchList = new List<int>();
+			var mappedInputs = populatedInputs.Join(
+				relativityScriptInputDetails,
+				p => p.InputId,
+				d => d.Id,
+				(p, d) => new
+				{
+					p.InputValue,
+					d.InputType
+				});
+
+			foreach (var populatedInput in mappedInputs)
+			{
+				if (populatedInput.InputType == RelativityScriptInputDetailsScriptInputType.SavedSearch)
+				{
+					var searchId = Convert.ToInt32(populatedInput.InputValue);
+					searchList.Add(searchId);
+				}
+			}
+
+			return searchList;
+		}
 
 		/// <inheritdoc />
 		public string SubstituteGlobalVariables(int workspaceId, string inputSql)
@@ -68,7 +95,8 @@
 			IEnumerable<JobScriptInput> populatedInputs,
 			IEnumerable<RelativityScriptInputDetails> relativityScriptInputDetails,
 			string inputSql,
-			string searchTablePrepend)
+			string searchTablePrepend,
+			int scriptRunnerJobId)
 		{
 			var mappedInputs = populatedInputs.Join(
 				relativityScriptInputDetails,
@@ -114,7 +142,7 @@
 
 						break;
 					case RelativityScriptInputDetailsScriptInputType.SavedSearch:
-						var searchTableName = GetSearchTableName(searchTablePrepend, Convert.ToInt32(populatedInput.InputValue));
+						var searchTableName = GetSearchTableName(searchTablePrepend, Convert.ToInt32(populatedInput.InputValue), scriptRunnerJobId);
 						replaceString = string.Format(
 							@"FROM [Document], {0} (NOLOCK)
 WHERE {0}.DocId = [Document].ArtifactID",

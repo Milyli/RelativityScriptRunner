@@ -61,6 +61,24 @@ namespace Milyli.ScriptRunner.EventHandlers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to IF NOT EXISTS (
+        ///  SELECT * 
+        ///  FROM   sys.columns 
+        ///  WHERE  object_id = OBJECT_ID(N&apos;[eddsdbo].[JobSchedule]&apos;) 
+        ///         AND name = &apos;DirectSql&apos;
+        ///)
+        ///BEGIN
+        ///    ALTER TABLE [eddsdbo].[JobSchedule]
+        ///    ADD [DirectSql] bit
+        ///END.
+        /// </summary>
+        internal static string AddDirectSqlJobSchedule {
+            get {
+                return ResourceManager.GetString("AddDirectSqlJobSchedule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IF OBJECT_ID(&apos;JobHistory&apos;, &apos;u&apos;) IS NULL
         ///BEGIN
         ///	CREATE TABLE JobHistory

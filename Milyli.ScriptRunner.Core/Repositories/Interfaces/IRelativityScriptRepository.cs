@@ -40,19 +40,5 @@
 				int scriptArtifactId,
 				List<JobScriptInput> inputs,
 				RelativityWorkspace workspace);
-
-		/// <summary>
-		/// Executes an individual script with a given list of inputs through a direct SQL connection.
-		/// </summary>
-		/// <param name="scriptArtifactId">ArtifactId of the Relativity Script to run.</param>
-		/// <param name="inputs">The <see cref="List{JobScriptInput}"/> inputs to the script</param>
-		/// <param name="workspace">the relativity workspace</param>
-		/// <param name="timeOutSeconds">Number of seconds to allow before the script execution times out.</param>
-		/// <returns><see cref="ExecuteResult"/> indicating whether the script executed successfully.</returns>
-		ExecuteResult ExecuteScriptDirectSql(
-				int scriptArtifactId,
-				List<JobScriptInput> inputs,
-				RelativityWorkspace workspace,
-				int timeOutSeconds = 600);
 	}
 }

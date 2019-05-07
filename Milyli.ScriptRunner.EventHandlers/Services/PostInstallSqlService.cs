@@ -24,6 +24,7 @@
             this.dbContext.ExecuteNonQuerySQLStatement(SqlScript.JobSchedule_Table);
             this.dbContext.ExecuteNonQuerySQLStatement(SqlScript.JobScriptInput_Table);
             this.dbContext.ExecuteNonQuerySQLStatement(SqlScript.JobHistory_Table);
+            this.dbContext.ExecuteNonQuerySQLStatement(SqlScript.AddDirectSqlJobSchedule);
         }
 
         public void Dispose()

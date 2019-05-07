@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
+    <Content Include="SQL\AddDirectSqlJobSchedule.sql" />
     <Content Include="SQL\JobHistory.Table.sql" />
     <Content Include="SQL\JobSchedule.Table.sql" />
     <Content Include="SQL\JobScriptInput.Table.sql" />
