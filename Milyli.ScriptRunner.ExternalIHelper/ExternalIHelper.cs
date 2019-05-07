@@ -166,19 +166,6 @@
 			throw new NotImplementedException();
 		}
 
-#if V9_6_26_97 || V9_6_85_9
-		public ISecretStore GetSecretStore()
-		{
-			throw new NotImplementedException();
-		}
-#endif
-
-#if V9_6_85_9
-		public IInstanceSettingsBundle GetInstanceSettingBundle()
-		{
-			throw new NotImplementedException();
-		}
-#endif
 		public class Settings
 		{
 			public string EddsServerName { get; set; }

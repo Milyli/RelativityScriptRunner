@@ -75,6 +75,7 @@
 					var originalInputs = RelativityHelper.InWorkspace((client, _) => client.Repositories.RelativityScript.GetRelativityScriptInputs(script), workspace, this.relativityClient.GetRelativityClient());
 					var scriptSql = script.Body.AsXmlDocument.GetElementsByTagName("action").Item(0).InnerText;
 					scriptSql = this.relativityScriptProcessor.SubstituteGlobalVariables(workspace.WorkspaceId, scriptSql);
+					scriptSql = this.relativityScriptProcessor.SubstituteScriptInputs(inputs, originalInputs, scriptSql);
 					searchIds = this.relativityScriptProcessor.GetSavedSearchIds(inputs, originalInputs).ToList();
 
 					var searchTables = this.searchTableManager.CreateTablesAsync(workspace.WorkspaceId, searchIds, job.Id, job.MaximumRuntime).GetAwaiter().GetResult();
