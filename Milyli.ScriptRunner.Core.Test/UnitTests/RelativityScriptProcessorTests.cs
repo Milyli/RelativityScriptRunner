@@ -203,7 +203,7 @@ SET[Bar] = {0}";
 			};
 
 			// Act
-			var generatedSql = this.relativityScriptProcessor.SubstituteScriptInputs(populatedInputs, relativityInputs, scriptSql, null, 1);
+			var generatedSql = this.relativityScriptProcessor.SubstituteScriptInputs(populatedInputs, relativityInputs, scriptSql);
 
 			// Assert
 			Assert.AreEqual(expectedSql, generatedSql);
@@ -243,7 +243,7 @@ SET[Bar] = {0}";
 			};
 
 			// Act
-			var generatedSql = this.relativityScriptProcessor.SubstituteScriptInputs(populatedInputs, relativityInputs, scriptSql, null, 1);
+			var generatedSql = this.relativityScriptProcessor.SubstituteScriptInputs(populatedInputs, relativityInputs, scriptSql);
 
 			// Assert
 			Assert.AreEqual(expectedSql, generatedSql);
@@ -282,7 +282,7 @@ SET[Bar] = {0}";
 			};
 
 			// Act
-			var generatedSql = this.relativityScriptProcessor.SubstituteScriptInputs(populatedInputs, relativityInputs, scriptSql, null, 1);
+			var generatedSql = this.relativityScriptProcessor.SubstituteScriptInputs(populatedInputs, relativityInputs, scriptSql);
 
 			// Assert
 			Assert.AreEqual(expectedSql, generatedSql);
@@ -327,7 +327,7 @@ SET[Bar] = {0}";
 			};
 
 			// Act
-			var generatedSql = this.relativityScriptProcessor.SubstituteScriptInputs(populatedInputs, relativityInputs, scriptSql, null, 1);
+			var generatedSql = this.relativityScriptProcessor.SubstituteScriptInputs(populatedInputs, relativityInputs, scriptSql);
 
 			// Assert
 			Assert.AreEqual(expectedSql, generatedSql);
@@ -338,6 +338,10 @@ SET[Bar] = {0}";
 		public void ReplaceScriptInput_SavedSearch()
 		{
 			// Arrange
+			var inputId = "my_input";
+			var inputValue = 123456;
+			var tableName = "CoolTable1234";
+			var tablePairs = new Dictionary<int, string> { { inputValue, tableName } };
 			var templateSql = @"INSERT INTO 
                                 EDDSDBO.RelativityTempTable
                 SELECT
@@ -345,14 +349,10 @@ SET[Bar] = {0}";
                                 NULL
                 {0} AND [Document].ArtifactID";
 
-			var inputId = "my_input";
-			var inputValue = "123456";
-			var searchTablePrepend = Guid.NewGuid().ToString().Replace("-", string.Empty);
-			var generatedSearchTableName = searchTablePrepend + "_" + inputValue;
 			var substitutedSql = string.Format(
-				@"FROM [Document], {0} (NOLOCK)
-WHERE {0}.DocId = [Document].ArtifactID",
-				generatedSearchTableName);
+				@"FROM [Document], [{0}] (NOLOCK)
+WHERE [{0}].DocId = [Document].ArtifactID",
+				tableName);
 			var expectedSql = string.Format(templateSql, substitutedSql);
 			var scriptSql = string.Format(templateSql, $"#{inputId}#");
 
@@ -361,7 +361,7 @@ WHERE {0}.DocId = [Document].ArtifactID",
 				new JobScriptInput
 				{
 					InputId = inputId,
-					InputValue = inputValue,
+					InputValue = inputValue.ToString(),
 				}
 			};
 			var relativityInputs = new List<RelativityScriptInputDetails>
@@ -374,7 +374,7 @@ WHERE {0}.DocId = [Document].ArtifactID",
 			};
 
 			// Act
-			var generatedSql = this.relativityScriptProcessor.SubstituteScriptInputs(populatedInputs, relativityInputs, scriptSql, searchTablePrepend, 1);
+			var generatedSql = this.relativityScriptProcessor.SubstituteSavedSearchTables(populatedInputs, relativityInputs, tablePairs, scriptSql);
 
 			// Assert
 			Assert.AreEqual(expectedSql, generatedSql);

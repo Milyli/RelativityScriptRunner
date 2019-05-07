@@ -29,15 +29,6 @@
 			this.relativityHelper = relativityHelper ?? throw new ArgumentNullException(nameof(relativityHelper));
 		}
 
-		/// <summary>
-		/// Gets name for a generated table containing a list of documents in a saved search.
-		/// </summary>
-		/// <param name="tablePrepend">Prepend used when creating the table.</param>
-		/// <param name="searchId">Id of the saved search.</param>
-		/// <param name="scriptRunnerJobId">Id of the script runner job.</param>
-		/// <returns>Generated table for the specified saved search.</returns>
-		public static string GetSearchTableName(string tablePrepend, int searchId, int scriptRunnerJobId) => tablePrepend + "_" + searchId.ToString() + "_" + scriptRunnerJobId.ToString();
-
 		/// <inheritdoc />
 		public IList<int> GetSavedSearchIds(IEnumerable<JobScriptInput> populatedInputs, IEnumerable<RelativityScriptInputDetails> relativityScriptInputDetails)
 		{
@@ -91,12 +82,44 @@
 		}
 
 		/// <inheritdoc />
+		public string SubstituteSavedSearchTables(IEnumerable<JobScriptInput> populatedInputs, IEnumerable<RelativityScriptInputDetails> relativityScriptInputDetails, IDictionary<int, string> searchTablePairs, string inputSql)
+		{
+			var mappedInputs = populatedInputs.Join(
+				relativityScriptInputDetails,
+				p => p.InputId,
+				d => d.Id,
+				(p, d) => new
+				{
+					p.InputValue,
+					d.InputType,
+					d.Id,
+				});
+			foreach (var populatedInput in mappedInputs)
+			{
+				if (populatedInput.InputType == RelativityScriptInputDetailsScriptInputType.SavedSearch)
+				{
+					var searchId = Convert.ToInt32(populatedInput.InputValue);
+					var searchTableName = searchTablePairs[searchId];
+					var replaceString = string.Format(
+						@"FROM [Document], [{0}] (NOLOCK)
+WHERE [{0}].DocId = [Document].ArtifactID",
+						searchTableName);
+					inputSql = Regex.Replace(
+							inputSql,
+							Regex.Escape($"#{populatedInput.Id}#"),
+							replaceString,
+							RegexOptions.IgnoreCase);
+				}
+			}
+
+			return inputSql;
+		}
+
+		/// <inheritdoc />
 		public string SubstituteScriptInputs(
 			IEnumerable<JobScriptInput> populatedInputs,
 			IEnumerable<RelativityScriptInputDetails> relativityScriptInputDetails,
-			string inputSql,
-			string searchTablePrepend,
-			int scriptRunnerJobId)
+			string inputSql)
 		{
 			var mappedInputs = populatedInputs.Join(
 				relativityScriptInputDetails,
@@ -140,13 +163,6 @@
 							replaceString = populatedInput.InputValue;
 						}
 
-						break;
-					case RelativityScriptInputDetailsScriptInputType.SavedSearch:
-						var searchTableName = GetSearchTableName(searchTablePrepend, Convert.ToInt32(populatedInput.InputValue), scriptRunnerJobId);
-						replaceString = string.Format(
-							@"FROM [Document], {0} (NOLOCK)
-WHERE {0}.DocId = [Document].ArtifactID",
-							searchTableName);
 						break;
 				}
 

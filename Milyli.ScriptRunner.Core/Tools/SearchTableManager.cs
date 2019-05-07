@@ -4,6 +4,7 @@
 	using System.Collections.Generic;
 	using System.Data;
 	using System.Data.SqlClient;
+	using System.Linq;
 	using System.Threading.Tasks;
 	using global::Relativity.API;
 	using global::Relativity.Services.Objects;
@@ -25,23 +26,24 @@
 		}
 
 		/// <inheritdoc />
-		public async Task CreateTablesAsync(
-			string searchTablePrepend,
+		public async Task<IDictionary<int, string>> CreateTablesAsync(
 			int workspaceId,
-			IEnumerable<int> savedSearchids,
+			IEnumerable<int> savedSearchIds,
 			int scriptRunnerJobId,
 			int timeoutSeconds)
 		{
+			var tableDictionary = new Dictionary<int, string>();
 			const string createTableSql = @"IF OBJECT_ID('{0}') IS NOT NULL
 BEGIN
-DROP TABLE {0}
-CREATE TABLE {0} (DocId int)
+TRUNCATE TABLE {0};
+DROP TABLE {0};
+CREATE TABLE {0} (DocId int);
 END
 ELSE CREATE TABLE {0} (DocId int)";
 			var dbContext = this.relativityHelper.GetDBContext(workspaceId);
-			foreach (var searchId in savedSearchids)
+			foreach (var searchId in savedSearchIds.Distinct())
 			{
-				var tableName = RelativityScriptProcessor.GetSearchTableName(searchTablePrepend, searchId, scriptRunnerJobId);
+				var tableName = GenerateTableName(searchId, scriptRunnerJobId);
 				var createSearchTableSql = string.Format(createTableSql, tableName);
 				dbContext.ExecuteNonQuerySQLStatement(createSearchTableSql);
 				var table = new DataTable();
@@ -71,25 +73,25 @@ ELSE CREATE TABLE {0} (DocId int)";
 				{
 					BulkInsertResults(table, dbContext, tableName, timeoutSeconds);
 				}
+
+				tableDictionary.Add(searchId, tableName);
 			}
+
+			return tableDictionary;
 		}
 
 		/// <inheritdoc />
-		public void DeleteTables(
-			string searchTablePrepend,
-			int workspaceId,
-			IEnumerable<int> savedSearchids,
-			int scriptRunnerJobId)
+		public void DeleteTables(int workspaceId, IEnumerable<string> tableNames)
 		{
 			const string deleteTableSql = @"IF OBJECT_ID('{0}') IS NOT NULL
 BEGIN
-DROP TABLE {0}
+TRUNCATE TABLE {0};
+DROP TABLE {0};
 END";
 			var dbContext = this.relativityHelper.GetDBContext(workspaceId);
-			foreach (var searchId in savedSearchids)
+			foreach (var table in tableNames)
 			{
-				var tableName = RelativityScriptProcessor.GetSearchTableName(searchTablePrepend, searchId, scriptRunnerJobId);
-				dbContext.ExecuteNonQuerySQLStatement(string.Format(deleteTableSql, tableName));
+				dbContext.ExecuteNonQuerySQLStatement(string.Format(deleteTableSql, table));
 			}
 		}
 
@@ -105,5 +107,14 @@ END";
 
 			dataTable.Rows.Clear();
 		}
+
+		/// <summary>
+		/// Generates a name for a generated table containing a list of documents in a saved search.
+		/// </summary>
+		/// <param name="searchId">Id of the saved search.</param>
+		/// <param name="scriptRunnerJobId">Id of the script runner job.</param>
+		/// <returns>Generated table for the specified saved search.</returns>
+		private static string GenerateTableName(int searchId, int scriptRunnerJobId) =>
+			"SavedSearch_" + searchId.ToString() + "_" + scriptRunnerJobId.ToString() + "_" + DateTime.UtcNow.ToFileTimeUtc();
 	}
 }

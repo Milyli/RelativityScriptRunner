@@ -1,5 +1,9 @@
 ﻿namespace Milyli.ScriptRunner.Core.Services
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Threading.Tasks;
 	using global::Relativity.API;
 	using kCura.Relativity.Client;
 	using Milyli.ScriptRunner.Core.Models;
@@ -7,15 +11,9 @@
 	using Milyli.ScriptRunner.Core.Repositories.Interfaces;
 	using Milyli.ScriptRunner.Core.Tools;
 	using Relativity.Client;
-	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Threading.Tasks;
 
 	public class RelativityScriptRunner : IRelativityScriptRunner
 	{
-		private const string SearchTablePrepend = "SavedSearch_";
-
 		private readonly IJobScheduleRepository jobScheduleRepository;
 		private readonly IRelativityClientFactory relativityClient;
 		private readonly IRelativityScriptRepository relativityScriptRepository;
@@ -68,6 +66,8 @@
 
 			if (activationStatus == JobActivationStatus.Started)
 			{
+				// Not a fan of the double try-catch, but the outer clause simply replicates the existing
+				// pattern of job execution in ExecuteScriptJob. If agent execution is refactored in the future the outer clause should be removed.
 				try
 				{
 					var inputs = this.jobScheduleRepository.GetJobInputs(job);
@@ -75,11 +75,19 @@
 					var originalInputs = RelativityHelper.InWorkspace((client, _) => client.Repositories.RelativityScript.GetRelativityScriptInputs(script), workspace, this.relativityClient.GetRelativityClient());
 					var scriptSql = script.Body.AsXmlDocument.GetElementsByTagName("action").Item(0).InnerText;
 					scriptSql = this.relativityScriptProcessor.SubstituteGlobalVariables(workspace.WorkspaceId, scriptSql);
-					scriptSql = this.relativityScriptProcessor.SubstituteScriptInputs(inputs, originalInputs, scriptSql, SearchTablePrepend, job.Id);
 					searchIds = this.relativityScriptProcessor.GetSavedSearchIds(inputs, originalInputs).ToList();
 
-					this.searchTableManager.CreateTablesAsync(SearchTablePrepend, workspace.WorkspaceId, searchIds, job.Id, job.MaximumRuntime).GetAwaiter().GetResult();
-					this.helper.GetDBContext(workspace.WorkspaceId).ExecuteNonQuerySQLStatement(scriptSql, job.MaximumRuntime);
+					var searchTables = this.searchTableManager.CreateTablesAsync(workspace.WorkspaceId, searchIds, job.Id, job.MaximumRuntime).GetAwaiter().GetResult();
+					scriptSql = this.relativityScriptProcessor.SubstituteSavedSearchTables(inputs, originalInputs, searchTables, scriptSql);
+
+					try
+					{
+						this.helper.GetDBContext(workspace.WorkspaceId).ExecuteNonQuerySQLStatement(scriptSql, job.MaximumRuntime);
+					}
+					finally
+					{
+						this.searchTableManager.DeleteTables(workspace.WorkspaceId, searchTables.Values);
+					}
 				}
 				catch (Exception ex)
 				{
@@ -90,7 +98,6 @@
 				finally
 				{
 					this.jobScheduleRepository.FinishJob(job);
-					this.searchTableManager.DeleteTables(SearchTablePrepend, workspace.WorkspaceId, searchIds, job.Id);
 				}
 			}
 		}
