@@ -135,7 +135,10 @@ WHERE [{0}].DocId = [Document].ArtifactID",
 
 			foreach (var populatedInput in mappedInputs)
 			{
-				string replaceString = string.Empty;
+				var replaceToken = $"#{populatedInput.Id}#";
+
+				// By default do not modify the token, e.g. to later process saved searches
+				var replaceString = replaceToken;
 				switch (populatedInput.InputType)
 				{
 					// Field, Sql, Object, Search provider input types are all simply direct substitution
@@ -168,7 +171,7 @@ WHERE [{0}].DocId = [Document].ArtifactID",
 
 				inputSql = Regex.Replace(
 							inputSql,
-							Regex.Escape($"#{populatedInput.Id}#"),
+							Regex.Escape(replaceToken),
 							replaceString,
 							RegexOptions.IgnoreCase);
 			}
