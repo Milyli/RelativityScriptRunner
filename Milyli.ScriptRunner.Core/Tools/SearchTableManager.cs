@@ -66,6 +66,11 @@ ELSE CREATE TABLE {0} (DocId int)";
 					position = results.CurrentStartIndex + ObjectManagerQueryBatch;
 					results = await this.objectManager.QuerySlimAsync(workspaceId, request, position, ObjectManagerQueryBatch);
 				}
+
+				if (table.Rows.Count > 0)
+				{
+					BulkInsertResults(table, dbContext, tableName, timeoutSeconds);
+				}
 			}
 		}
 
@@ -84,7 +89,7 @@ END";
 			foreach (var searchId in savedSearchids)
 			{
 				var tableName = RelativityScriptProcessor.GetSearchTableName(searchTablePrepend, searchId, scriptRunnerJobId);
-				dbContext.ExecuteNonQuerySQLStatement(deleteTableSql);
+				dbContext.ExecuteNonQuerySQLStatement(string.Format(deleteTableSql, tableName));
 			}
 		}
 
