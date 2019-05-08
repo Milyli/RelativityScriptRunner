@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Milyli.ScriptRunner.EventHandlers</RootNamespace>
     <AssemblyName>Milyli.ScriptRunner.EventHandlers</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,32 +44,29 @@
     <Reference Include="Dapper, Version=1.40.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\Dapper.1.42\lib\net45\Dapper.dll</HintPath>
     </Reference>
-    <Reference Include="kCura.Config, Version=9.5.89.76, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.Other.9.5.89.76\lib\kCura.Config.dll</HintPath>
+    <Reference Include="kCura, Version=9.6.284.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.Other.9.6.284.6\lib\kCura.dll</HintPath>
     </Reference>
-    <Reference Include="kCura.Data.RowDataGateway, Version=9.5.89.76, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.Other.9.5.89.76\lib\kCura.Data.RowDataGateway.dll</HintPath>
+    <Reference Include="kCura.EventHandler, Version=9.6.284.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.EventHandler.9.6.284.6\lib\kCura.EventHandler.dll</HintPath>
     </Reference>
-    <Reference Include="kCura.EventHandler, Version=9.5.69.85, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\Solutions\packages\Relativity.EventHandler.9.5.69.85\lib\kCura.EventHandler.dll</HintPath>
+    <Reference Include="kCura.Relativity.Client, Version=9.6.284.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.Rsapi.9.6.284.6\lib\kCura.Relativity.Client.dll</HintPath>
     </Reference>
-    <Reference Include="kCura.Relativity.Client, Version=9.5.69.85, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.Rsapi.9.5.69.85\lib\kCura.Relativity.Client.dll</HintPath>
+    <Reference Include="Relativity.API, Version=9.6.284.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.Api.9.6.284.6\lib\Relativity.API.dll</HintPath>
     </Reference>
-    <Reference Include="Relativity.API, Version=9.5.69.85, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.Api.9.5.69.85\lib\Relativity.API.dll</HintPath>
+    <Reference Include="Relativity.Kepler, Version=1.0.1.445, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.6.284.6\lib\Relativity.Kepler.dll</HintPath>
     </Reference>
-    <Reference Include="Relativity.Kepler, Version=1.0.1.312, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Kepler.dll</HintPath>
+    <Reference Include="Relativity.Services.DataContracts, Version=9.6.284.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.6.284.6\lib\Relativity.Services.DataContracts.dll</HintPath>
     </Reference>
-    <Reference Include="Relativity.Services.DataContracts, Version=9.5.162.111, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Services.DataContracts.dll</HintPath>
+    <Reference Include="Relativity.Services.Interfaces, Version=9.6.284.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.6.284.6\lib\Relativity.Services.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="Relativity.Services.Interfaces, Version=9.5.162.111, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Services.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Relativity.Services.ServiceProxy, Version=1.0.1.312, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Services.ServiceProxy.dll</HintPath>
+    <Reference Include="Relativity.Services.ServiceProxy, Version=1.0.1.392, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.6.284.6\lib\Relativity.Services.ServiceProxy.dll</HintPath>
     </Reference>
     <Reference Include="RelativityTabManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\RelativityTabManager.1.1.0\lib\RelativityTabManager.dll</HintPath>
@@ -113,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
+    <Content Include="SQL\AddDirectSqlJobSchedule.sql" />
     <Content Include="SQL\JobHistory.Table.sql" />
     <Content Include="SQL\JobSchedule.Table.sql" />
     <Content Include="SQL\JobScriptInput.Table.sql" />

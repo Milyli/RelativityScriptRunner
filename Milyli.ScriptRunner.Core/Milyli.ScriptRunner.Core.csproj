@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Milyli.ScriptRunner.Core</RootNamespace>
     <AssemblyName>Milyli.ScriptRunner.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,17 +55,14 @@
     <Reference Include="CronExpressionDescriptor, Version=1.21.2.0, Culture=neutral, PublicKeyToken=a2ab0e0f73f9b037, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\CronExpressionDescriptor.1.21.2\lib\net45\CronExpressionDescriptor.dll</HintPath>
     </Reference>
-    <Reference Include="kCura.Config, Version=9.5.89.76, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.Other.9.5.89.76\lib\kCura.Config.dll</HintPath>
+    <Reference Include="kCura, Version=9.6.284.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.Other.9.6.284.6\lib\kCura.dll</HintPath>
     </Reference>
-    <Reference Include="kCura.Data.RowDataGateway, Version=9.5.89.76, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.Other.9.5.89.76\lib\kCura.Data.RowDataGateway.dll</HintPath>
+    <Reference Include="kCura.EventHandler, Version=9.6.284.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.EventHandler.9.6.284.6\lib\kCura.EventHandler.dll</HintPath>
     </Reference>
-    <Reference Include="kCura.EventHandler, Version=9.5.69.85, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\Solutions\packages\Relativity.EventHandler.9.5.69.85\lib\kCura.EventHandler.dll</HintPath>
-    </Reference>
-    <Reference Include="kCura.Relativity.Client, Version=9.5.69.85, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.Rsapi.9.5.69.85\lib\kCura.Relativity.Client.dll</HintPath>
+    <Reference Include="kCura.Relativity.Client, Version=9.6.284.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.Rsapi.9.6.284.6\lib\kCura.Relativity.Client.dll</HintPath>
     </Reference>
     <Reference Include="linq2db, Version=1.0.7.6, Culture=neutral, PublicKeyToken=f19f8aed7feff67e, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\linq2db.1.7.6\lib\net45\linq2db.dll</HintPath>
@@ -75,20 +73,20 @@
     <Reference Include="Quartz, Version=2.5.0.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\Quartz.2.5.0\lib\net40\Quartz.dll</HintPath>
     </Reference>
-    <Reference Include="Relativity.API, Version=9.5.69.85, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.Api.9.5.69.85\lib\Relativity.API.dll</HintPath>
+    <Reference Include="Relativity.API, Version=9.6.284.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.Api.9.6.284.6\lib\Relativity.API.dll</HintPath>
     </Reference>
-    <Reference Include="Relativity.Kepler, Version=1.0.1.312, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Kepler.dll</HintPath>
+    <Reference Include="Relativity.Kepler, Version=1.0.1.445, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.6.284.6\lib\Relativity.Kepler.dll</HintPath>
     </Reference>
-    <Reference Include="Relativity.Services.DataContracts, Version=9.5.162.111, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Services.DataContracts.dll</HintPath>
+    <Reference Include="Relativity.Services.DataContracts, Version=9.6.284.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.6.284.6\lib\Relativity.Services.DataContracts.dll</HintPath>
     </Reference>
-    <Reference Include="Relativity.Services.Interfaces, Version=9.5.162.111, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Services.Interfaces.dll</HintPath>
+    <Reference Include="Relativity.Services.Interfaces, Version=9.6.284.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.6.284.6\lib\Relativity.Services.Interfaces.dll</HintPath>
     </Reference>
-    <Reference Include="Relativity.Services.ServiceProxy, Version=1.0.1.312, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.5.162.111\lib\Relativity.Services.ServiceProxy.dll</HintPath>
+    <Reference Include="Relativity.Services.ServiceProxy, Version=1.0.1.392, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Solutions\packages\Relativity.ObjectManager.9.6.284.6\lib\Relativity.Services.ServiceProxy.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap, Version=4.0.0.315, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\Solutions\packages\structuremap.4.0.0.315\lib\net40\StructureMap.dll</HintPath>
@@ -113,6 +111,7 @@
     <Compile Include="DependencyResolution\ServiceManagerFactory.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Logging\LoggingBootstrapper.cs" />
+    <Compile Include="Models\ExecuteResult.cs" />
     <Compile Include="Models\JobHistory.cs" />
     <Compile Include="Models\JobSchedule.cs" />
     <Compile Include="Models\JobScheduleWorkspace.cs" />
@@ -167,9 +166,13 @@
     <Compile Include="Services\PermissionsService.cs" />
     <Compile Include="Services\RelativityScriptRunner.cs" />
     <Compile Include="Tools\BitmaskHelper.cs" />
+    <Compile Include="Tools\IRelativityScriptProcessor.cs" />
+    <Compile Include="Tools\ISearchTableManager.cs" />
     <Compile Include="Tools\KcuraAssemblyResolver.cs" />
     <Compile Include="Tools\RelativityHelper.cs" />
+    <Compile Include="Tools\RelativityScriptProcessor.cs" />
     <Compile Include="Tools\ScheduleConversionHelper.cs" />
+    <Compile Include="Tools\SearchTableManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

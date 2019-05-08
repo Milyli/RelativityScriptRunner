@@ -19,7 +19,7 @@ namespace Milyli.ScriptRunner.EventHandlers {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class SqlScript {
@@ -61,6 +61,24 @@ namespace Milyli.ScriptRunner.EventHandlers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to IF NOT EXISTS (
+        ///  SELECT * 
+        ///  FROM   sys.columns 
+        ///  WHERE  object_id = OBJECT_ID(N&apos;[eddsdbo].[JobSchedule]&apos;) 
+        ///         AND name = &apos;DirectSql&apos;
+        ///)
+        ///BEGIN
+        ///    ALTER TABLE [eddsdbo].[JobSchedule]
+        ///    ADD [DirectSql] bit
+        ///END.
+        /// </summary>
+        internal static string AddDirectSqlJobSchedule {
+            get {
+                return ResourceManager.GetString("AddDirectSqlJobSchedule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IF OBJECT_ID(&apos;JobHistory&apos;, &apos;u&apos;) IS NULL
         ///BEGIN
         ///	CREATE TABLE JobHistory
@@ -75,7 +93,7 @@ namespace Milyli.ScriptRunner.EventHandlers {
         ///		CONSTRAINT FK_JobHistory_JobSchedule FOREIGN KEY (JobScheduleId) REFERENCES JobSchedule(JobScheduleId)
         ///	)
         ///
-        ///	CREATE INDEX IX_JobHistory_ByScheduleStart ON JobHistory (Jo [rest of string was truncated]&quot;;.
+        ///	CREATE INDEX IX_JobHistory_ByScheduleStart ON JobHistory (JobScheduleId, S [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string JobHistory_Table {
             get {
@@ -98,7 +116,8 @@ namespace Milyli.ScriptRunner.EventHandlers {
         ///		MaximumRuntime int NOT NULL,
         ///		ExecutionTime INT NOT NULL,
         ///		ExecutionSchedule INT NOT NULL,
-        ///		CONSTRAINT PK_JobSchedule_JobScheduleId PRIMARY KEY CLUSTERED (Job [rest of string was truncated]&quot;;.
+        ///		CONSTRAINT PK_JobSchedule_JobScheduleId PRIMARY KEY CLUSTERED (JobScheduleId)
+        ///	) [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string JobSchedule_Table {
             get {
@@ -113,13 +132,14 @@ namespace Milyli.ScriptRunner.EventHandlers {
         ///	(
         ///		JobScriptInputId int not null IDENTITY(1,1),
         ///		JobScheduleId int not null,
+        ///		InputId nvarchar(255) not null,
         ///		InputName nvarchar(255) not null,
         ///		InputValue nvarchar(max),
         ///		CONSTRAINT PK_JobScriptInput_JobScriptInputId PRIMARY KEY CLUSTERED (JobScriptInputId),
         ///		CONSTRAINT FK_JobScriptInput_JobSchedule FOREIGN KEY (JobScheduleId) REFERENCES JobSchedule(JobScheduleId)
         ///	)
         ///
-        ///	CREATE INDEX IX_JobScriptInput_JobScheduleId ON JobScriptInput(JobSchedul [rest of string was truncated]&quot;;.
+        ///	CREATE INDEX IX_JobScriptInput_JobScheduleId ON Job [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string JobScriptInput_Table {
             get {
@@ -142,7 +162,8 @@ namespace Milyli.ScriptRunner.EventHandlers {
         ///		MaximumRuntime int NOT NULL,
         ///		ExecutionTime INT NOT NULL,
         ///		ExecutionSchedule INT NOT NULL,
-        ///		CONSTRAINT PK_JobSchedule_JobScheduleId PRIMARY KEY CLUSTERED (Job [rest of string was truncated]&quot;;.
+        ///		CONSTRAINT PK_JobSchedule_JobScheduleId PRIMARY KEY CLUSTERED (JobScheduleId)
+        ///	) [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ScriptRunnerSchema {
             get {

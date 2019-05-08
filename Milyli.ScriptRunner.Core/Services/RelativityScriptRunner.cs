@@ -1,8 +1,10 @@
 ﻿namespace Milyli.ScriptRunner.Core.Services
 {
 	using System;
+	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
+	using global::Relativity.API;
 	using kCura.Relativity.Client;
 	using Milyli.ScriptRunner.Core.Models;
 	using Milyli.ScriptRunner.Core.Repositories;
@@ -12,32 +14,96 @@
 
 	public class RelativityScriptRunner : IRelativityScriptRunner
 	{
-		private IJobScheduleRepository jobScheduleRepository;
-		private IRelativityClientFactory relativityClient;
-		private IRelativityScriptRepository relativityScriptRepository;
+		private readonly IJobScheduleRepository jobScheduleRepository;
+		private readonly IRelativityClientFactory relativityClient;
+		private readonly IRelativityScriptRepository relativityScriptRepository;
+		private readonly IRelativityScriptProcessor relativityScriptProcessor;
+		private readonly ISearchTableManager searchTableManager;
+		private readonly IHelper helper;
 
-		public RelativityScriptRunner(IJobScheduleRepository jobScheduleRepository, IRelativityClientFactory relativityClient, IRelativityScriptRepository relativityScriptRepository)
+		public RelativityScriptRunner(
+			IJobScheduleRepository jobScheduleRepository,
+			IRelativityClientFactory relativityClient,
+			IRelativityScriptRepository relativityScriptRepository,
+			IRelativityScriptProcessor relativityScriptProcessor,
+			ISearchTableManager searchTableManager,
+			IHelper helper)
 		{
 			this.jobScheduleRepository = jobScheduleRepository;
 			this.relativityClient = relativityClient;
 			this.relativityScriptRepository = relativityScriptRepository;
+			this.relativityScriptProcessor = relativityScriptProcessor;
+			this.searchTableManager = searchTableManager;
+			this.helper = helper;
 		}
 
-		private static NLog.Logger Logger
-		{
-			get
-			{
-				return NLog.LogManager.GetLogger("Default");
-			}
-		}
+		private static NLog.Logger Logger => NLog.LogManager.GetLogger("Default");
 
+		/// <inheritdoc />
 		public void ExecuteAllJobs(DateTime executionTime)
 		{
 			var schedules = this.jobScheduleRepository.GetJobSchedules(executionTime);
 			Logger.Trace($"found {schedules.Count} jobs to execute");
-			schedules.ForEach(this.ExecuteScriptJob);
+			foreach (var schedule in schedules)
+			{
+				if (schedule.DirectSql)
+				{
+					this.ExecuteDirectSqlJob(schedule);
+				}
+				else
+				{
+					this.ExecuteScriptJob(schedule);
+				}
+			}
 		}
 
+		/// <inheritdoc />
+		public void ExecuteDirectSqlJob(JobSchedule job)
+		{
+			var workspace = new RelativityWorkspace { WorkspaceId = job.WorkspaceId };
+			var searchIds = new List<int>();
+			var activationStatus = this.jobScheduleRepository.StartJob(job);
+
+			if (activationStatus == JobActivationStatus.Started)
+			{
+				// Not a fan of the double try-catch, but the outer clause simply replicates the existing
+				// pattern of job execution in ExecuteScriptJob. If agent execution is refactored in the future the outer clause should be removed.
+				try
+				{
+					var inputs = this.jobScheduleRepository.GetJobInputs(job);
+					var script = RelativityHelper.InWorkspace((client, _) => client.Repositories.RelativityScript.ReadSingle(job.RelativityScriptId), workspace, this.relativityClient.GetRelativityClient());
+					var originalInputs = RelativityHelper.InWorkspace((client, _) => client.Repositories.RelativityScript.GetRelativityScriptInputs(script), workspace, this.relativityClient.GetRelativityClient());
+					var scriptSql = script.Body.AsXmlDocument.GetElementsByTagName("action").Item(0).InnerText;
+					scriptSql = this.relativityScriptProcessor.SubstituteGlobalVariables(workspace.WorkspaceId, scriptSql);
+					scriptSql = this.relativityScriptProcessor.SubstituteScriptInputs(inputs, originalInputs, scriptSql);
+					searchIds = this.relativityScriptProcessor.GetSavedSearchIds(inputs, originalInputs).ToList();
+
+					var searchTables = this.searchTableManager.CreateTablesAsync(workspace.WorkspaceId, searchIds, job.Id, job.MaximumRuntime).GetAwaiter().GetResult();
+					scriptSql = this.relativityScriptProcessor.SubstituteSavedSearchTables(inputs, originalInputs, searchTables, scriptSql);
+
+					try
+					{
+						this.helper.GetDBContext(workspace.WorkspaceId).ExecuteNonQuerySQLStatement(scriptSql, job.MaximumRuntime);
+					}
+					finally
+					{
+						this.searchTableManager.DeleteTables(workspace.WorkspaceId, searchTables.Values);
+					}
+				}
+				catch (Exception ex)
+				{
+					Logger.Warn(ex, $"Execution of job {job.Id} failed");
+					job.CurrentJobHistory.ResultText = "Exception: " + ex.ToString();
+					job.CurrentJobHistory.HasError = true;
+				}
+				finally
+				{
+					this.jobScheduleRepository.FinishJob(job);
+				}
+			}
+		}
+
+		/// <inheritdoc />
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "TODO: this is probably a good idea")]
 		public void ExecuteScriptJob(JobSchedule job)
 		{
@@ -83,19 +149,16 @@
 		{
 			var inputs = this.jobScheduleRepository.GetJobInputs(job);
 			Logger.Trace($"found ${inputs.Count} inputs for job ${job.Id}");
-			// new relativity script pass in artifact id
 
 			var maxAttempts = 3;
 			var attempts = 0;
-			RelativityScriptResult scriptResult = null;
+			ExecuteResult executeResult = null;
 			do
 			{
 				attempts++;
 				try
 				{
-					var script = new kCura.Relativity.Client.DTOs.RelativityScript(job.RelativityScriptId);
-					var scriptInputs = inputs.Select(i => new RelativityScriptInput(i.InputName, i.InputValue)).ToList();
-					scriptResult = this.relativityScriptRepository.ExecuteRelativityScript(script, scriptInputs, workspace);
+					executeResult = this.relativityScriptRepository.ExecuteRelativityScript(job.RelativityScriptId, inputs, workspace);
 				}
 				catch (Exception ex)
 				{
@@ -112,13 +175,13 @@
 				}
 			} while (attempts < maxAttempts);
 
-			if (scriptResult != null)
+			if (executeResult != null)
 			{
-				job.CurrentJobHistory.HasError = !scriptResult.Success;
-				job.CurrentJobHistory.ResultText = scriptResult.Message;
+				job.CurrentJobHistory.HasError = !executeResult.Success;
+				job.CurrentJobHistory.ResultText = executeResult.Message;
 				if (job.CurrentJobHistory.HasError)
 				{
-					Logger.Info($"Job {job.Id} failed with result {scriptResult.Message}");
+					Logger.Info($"Job {job.Id} failed with result {executeResult.Message}");
 				}
 			}
 			else
