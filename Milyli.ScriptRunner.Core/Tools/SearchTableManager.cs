@@ -35,11 +35,13 @@
 			var tableDictionary = new Dictionary<int, string>();
 			const string createTableSql = @"IF OBJECT_ID('{0}') IS NOT NULL
 BEGIN
-TRUNCATE TABLE {0};
 DROP TABLE {0};
-CREATE TABLE {0} (DocId int);
+CREATE TABLE {0} (DocId INT NOT NULL PRIMARY KEY);
 END
-ELSE CREATE TABLE {0} (DocId int)";
+ELSE 
+BEGIN
+CREATE TABLE {0} (DocId INT NOT NULL PRIMARY KEY);
+END";
 			var dbContext = this.relativityHelper.GetDBContext(workspaceId);
 			foreach (var searchId in savedSearchIds.Distinct())
 			{
@@ -85,7 +87,6 @@ ELSE CREATE TABLE {0} (DocId int)";
 		{
 			const string deleteTableSql = @"IF OBJECT_ID('{0}') IS NOT NULL
 BEGIN
-TRUNCATE TABLE {0};
 DROP TABLE {0};
 END";
 			var dbContext = this.relativityHelper.GetDBContext(workspaceId);
