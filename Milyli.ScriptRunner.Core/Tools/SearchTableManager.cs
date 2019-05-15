@@ -57,7 +57,7 @@ END";
 					ObjectType = new ObjectTypeRef { ArtifactTypeID = (int)ArtifactType.Document },
 					Fields = new List<FieldRef>(),
 				};
-				var position = 0;
+				var position = 1;
 				var results = await this.objectManager.QuerySlimAsync(workspaceId, request, position, ObjectManagerQueryBatch);
 				while (results.ResultCount > 0)
 				{
