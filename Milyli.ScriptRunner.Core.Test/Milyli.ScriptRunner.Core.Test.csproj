@@ -117,7 +117,7 @@
       <Name>Milyli.ScriptRunner.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Milyli.ScriptRunner.ExternalIHelper\Milyli.ScriptRunner.ExternalIHelper.csproj">
-      <Project>{93E3793A-0139-4081-BD91-C3C7B10AE989}</Project>
+      <Project>{93e3793a-0139-4081-bd91-c3c7b10ae989}</Project>
       <Name>Milyli.ScriptRunner.ExternalIHelper</Name>
     </ProjectReference>
   </ItemGroup>
