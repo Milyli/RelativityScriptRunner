@@ -33,21 +33,24 @@
 			int timeoutSeconds)
 		{
 			var tableDictionary = new Dictionary<int, string>();
-			const string createTableSql = @"IF OBJECT_ID('{0}') IS NOT NULL
+
+			const string createStagingTableSqlTemplate = @"
+IF OBJECT_ID('{0}') IS NOT NULL
 BEGIN
-DROP TABLE {0};
-CREATE TABLE {0} (DocId INT NOT NULL PRIMARY KEY);
-END
-ELSE 
+	DROP TABLE {0};
+	CREATE TABLE {0} (DocId INT);
+END ELSE 
 BEGIN
-CREATE TABLE {0} (DocId INT NOT NULL PRIMARY KEY);
+	CREATE TABLE {0} (DocId INT);
 END";
 			var dbContext = this.relativityHelper.GetDBContext(workspaceId);
 			foreach (var searchId in savedSearchIds.Distinct())
 			{
 				var tableName = GenerateTableName(searchId, scriptRunnerJobId);
-				var createSearchTableSql = string.Format(createTableSql, tableName);
-				dbContext.ExecuteNonQuerySQLStatement(createSearchTableSql);
+				var stagingName = $"{tableName}_Staging";
+				var createStagingTableSql = string.Format(createStagingTableSqlTemplate, stagingName);
+				dbContext.ExecuteNonQuerySQLStatement(createStagingTableSql);
+
 				var table = new DataTable();
 				table.Columns.Add("DocId", typeof(int));
 
@@ -64,7 +67,7 @@ END";
 					results.Objects.ForEach(o => table.Rows.Add(o.ArtifactID));
 					if (table.Rows.Count > BulkCopyBatch)
 					{
-						BulkInsertResults(table, dbContext, tableName, timeoutSeconds);
+						BulkInsertResults(table, dbContext, stagingName, timeoutSeconds);
 					}
 
 					position = results.CurrentStartIndex + ObjectManagerQueryBatch;
@@ -73,8 +76,27 @@ END";
 
 				if (table.Rows.Count > 0)
 				{
-					BulkInsertResults(table, dbContext, tableName, timeoutSeconds);
+					BulkInsertResults(table, dbContext, stagingName, timeoutSeconds);
 				}
+
+				const string createSearchTableSqlTemplate = @"
+IF OBJECT_ID('{0}') IS NOT NULL
+BEGIN
+	DROP TABLE {0};
+	CREATE TABLE {0} (DocId INT NOT NULL PRIMARY KEY);
+END ELSE 
+BEGIN
+	CREATE TABLE {0} (DocId INT NOT NULL PRIMARY KEY);
+END";
+				var createSearchTableSql = string.Format(createSearchTableSqlTemplate, tableName);
+				dbContext.ExecuteNonQuerySQLStatement(createSearchTableSql);
+
+				var unstageSavedSearchSqlTemplate = @"
+INSERT INTO {0} (DocId)
+SELECT DISTINCT DocId FROM {1} WHERE DocId IS NOT NULL
+";
+				var unstageSavedSearchSql = string.Format(unstageSavedSearchSqlTemplate, tableName, stagingName);
+				dbContext.ExecuteNonQuerySQLStatement(createSearchTableSql);
 
 				tableDictionary.Add(searchId, tableName);
 			}
@@ -85,14 +107,21 @@ END";
 		/// <inheritdoc />
 		public void DeleteTables(int workspaceId, IEnumerable<string> tableNames)
 		{
-			const string deleteTableSql = @"IF OBJECT_ID('{0}') IS NOT NULL
+			const string deleteTablesSqlTemplate = @"
+IF OBJECT_ID('{0}') IS NOT NULL
 BEGIN
-DROP TABLE {0};
-END";
+	DROP TABLE {0};
+END
+
+IF OBJECT_ID('{0}_Staging') IS NOT NULL
+BEGIN
+	DROP TABLE {0}_Staging;
+END
+";
 			var dbContext = this.relativityHelper.GetDBContext(workspaceId);
 			foreach (var table in tableNames)
 			{
-				dbContext.ExecuteNonQuerySQLStatement(string.Format(deleteTableSql, table));
+				dbContext.ExecuteNonQuerySQLStatement(string.Format(deleteTablesSqlTemplate, table));
 			}
 		}
 
