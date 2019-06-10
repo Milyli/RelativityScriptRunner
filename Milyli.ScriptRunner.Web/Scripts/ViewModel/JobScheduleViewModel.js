@@ -73,6 +73,13 @@
                         return JobScheduleModel.JobSchedule.JobEnabled() && !JobScheduleModel.IsNew()
                     });
 
+                    JobScheduleModel.EnableDisableText = ko.computed(function () {
+                        if (JobScheduleModel.JobSchedule.JobEnabled()) {
+                            return "Disable";
+                        }
+                        return "Enabled";
+                    })
+
                     JobScheduleModel.JobStatusName = ko.computed(function () {
                         if (JobScheduleModel.IsNew()) {
                             return "New";
@@ -179,16 +186,10 @@
             internalSaveJobSchedule();
         };
 
-        viewmodel.DisableJob = function () {
-            viewmodel.JobSchedule.JobEnabled(false);
+        viewmodel.EnableDisableJob = function () {
+            viewmodel.JobSchedule.JobEnabled(!ko.unwrap(viewmodel.JobSchedule.JobEnabled));
             self.SaveJobSchedule();
         };
-
-        viewmodel.EnableJob = function () {
-            viewmodel.JobSchedule.JobEnabled(true);
-            self.SaveJobSchedule();
-        };
-
 
         viewmodel.RunJob = function () {
             internalSaveJobSchedule(function (jobScheduleModel) {
