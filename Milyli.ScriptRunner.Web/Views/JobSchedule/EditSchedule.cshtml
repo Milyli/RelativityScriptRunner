@@ -79,12 +79,12 @@
             <div data-bind="css : { 'error-notification' : IsInvalid() }, text : InvalidText"></div>
             <div class="btn-group" role="group">
                 <button class="btn btn-primary" id="save-job-schedule" data-bind="click: SaveJobSchedule, disable: (!HasName() || IsInvalid()), attr {title : InvalidText}">Save</button>
-                <span data-bind="if: AllowRun">
+                <!-- ko if: AllowRun -->
                     <button class="btn btn-secondary" data-bind="click: RunJob">Save and Run</button>
-                </span>
-                <span data-bind="if: !IsNew()">
+                <!-- /ko -->
+                <!-- ko if: !IsNew() -->
                     <button class="btn btn-secondary" data-bind="text: EnableDisableText, click: EnableDisableJob">Enable/Disable</button>
-                </span>
+                <!-- /ko -->
             </div>
         </div>
         <div class="run-script-container">

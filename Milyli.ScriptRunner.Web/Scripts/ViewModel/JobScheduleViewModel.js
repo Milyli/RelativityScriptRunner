@@ -77,7 +77,7 @@
                         if (JobScheduleModel.JobSchedule.JobEnabled()) {
                             return "Disable";
                         }
-                        return "Enabled";
+                        return "Enable";
                     })
 
                     JobScheduleModel.JobStatusName = ko.computed(function () {
@@ -188,7 +188,7 @@
 
         viewmodel.EnableDisableJob = function () {
             viewmodel.JobSchedule.JobEnabled(!ko.unwrap(viewmodel.JobSchedule.JobEnabled));
-            self.SaveJobSchedule();
+            internalSaveJobSchedule();
         };
 
         viewmodel.RunJob = function () {
