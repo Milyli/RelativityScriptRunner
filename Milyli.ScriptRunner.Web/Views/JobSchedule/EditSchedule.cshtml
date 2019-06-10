@@ -79,7 +79,7 @@
             <div data-bind="css : { 'error-notification' : IsInvalid() }, text : InvalidText"></div>
             <div class="btn-group" role="group">
                 <button class="btn btn-primary" id="save-job-schedule" data-bind="click: SaveJobSchedule, disable: (!HasName() || IsInvalid()), attr {title : InvalidText}">Save</button>
-                <button data-bind="visible: AllowRun, click: RunJob">Run</button>
+                <button data-bind="visible: AllowRun, click: RunJob">Save and Run</button>
                 <button data-bind="visible: !IsNew() && JobSchedule.JobEnabled(), click: DisableJob">Disable</button>
                 <button data-bind="visible: !IsNew() && !JobSchedule.JobEnabled(), click: EnableJob">Enable</button> 
             </div>
