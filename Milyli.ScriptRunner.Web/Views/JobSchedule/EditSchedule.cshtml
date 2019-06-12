@@ -45,17 +45,6 @@
                 </div>
                 <div>
                     <label>Job Status</label><span data-bind="text : JobStatusName"></span>
-                    <span data-bind="if : AllowRun">
-                        <button data-bind="click: RunJob">Run</button>
-                    </span>
-                    <span data-bind="ifnot : IsNew">
-                        <span data-bind="if: JobSchedule.JobEnabled()">
-                            <button data-bind="click: DisableJob">Disable</button>
-                        </span>
-                        <span data-bind="ifnot: JobSchedule.JobEnabled()">
-                            <button data-bind="click: EnableJob">Enable</button>
-                        </span>
-                    </span>
                 </div>
             </div>
             <div class="day-picker">
@@ -88,7 +77,15 @@
         </div>
         <div class="schedule-footer">
             <div data-bind="css : { 'error-notification' : IsInvalid() }, text : InvalidText"></div>
-            <button class="btn btn-primary" id="save-job-schedule" data-bind="click: SaveJobSchedule, disable: (!HasName() || IsInvalid()), attr {title : InvalidText}">Save</button>
+            <div class="btn-group" role="group">
+                <button class="btn btn-primary" id="save-job-schedule" data-bind="click: SaveJobSchedule, disable: (!HasName() || IsInvalid()), attr {title : InvalidText}">Save</button>
+                <!-- ko if: AllowRun -->
+                    <button class="btn btn-secondary" data-bind="click: RunJob">Save and Run</button>
+                <!-- /ko -->
+                <!-- ko if: !IsNew() -->
+                    <button class="btn btn-secondary" data-bind="text: EnableDisableText, click: EnableDisableJob">Enable/Disable</button>
+                <!-- /ko -->
+            </div>
         </div>
         <div class="run-script-container">
             <iframe id="run-script" src="/Relativity/Case/RelativityScript/Run.aspx?AppID=@Model.RelativityWorkspace.WorkspaceId&ArtifactID=@Model.RelativityScript.RelativityScriptId"></iframe>

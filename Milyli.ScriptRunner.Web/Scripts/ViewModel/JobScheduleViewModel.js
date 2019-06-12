@@ -73,6 +73,13 @@
                         return JobScheduleModel.JobSchedule.JobEnabled() && !JobScheduleModel.IsNew()
                     });
 
+                    JobScheduleModel.EnableDisableText = ko.computed(function () {
+                        if (JobScheduleModel.JobSchedule.JobEnabled()) {
+                            return "Disable";
+                        }
+                        return "Enable";
+                    })
+
                     JobScheduleModel.JobStatusName = ko.computed(function () {
                         if (JobScheduleModel.IsNew()) {
                             return "New";
@@ -148,7 +155,7 @@
         };
         var viewmodel = ko.viewmodel.fromModel(model, options);
         
-        viewmodel.SaveJobSchedule = function () {
+        function internalSaveJobSchedule(postSaveAction) {
           mask();
           $.ajax({
                 type: 'POST',
@@ -164,6 +171,9 @@
                             }
                             else {
                                 ko.viewmodel.updateFromModel(viewmodel, data);
+                                if (!!postSaveAction) {
+                                    postSaveAction(viewmodel);
+                                }
                             }
                         })
                         .fail(error)
@@ -172,34 +182,30 @@
                         });
         };
 
-        viewmodel.DisableJob = function () {
-            viewmodel.JobSchedule.JobEnabled(false);
-            self.SaveJobSchedule();
+        viewmodel.SaveJobSchedule = function () {
+            internalSaveJobSchedule();
         };
 
-        viewmodel.EnableJob = function () {
-            viewmodel.JobSchedule.JobEnabled(true);
-            self.SaveJobSchedule();
+        viewmodel.EnableDisableJob = function () {
+            viewmodel.JobSchedule.JobEnabled(!ko.unwrap(viewmodel.JobSchedule.JobEnabled));
+            internalSaveJobSchedule();
         };
 
-
-        viewmodel.RunJob = function (jobScheduleModel) {
-            mask();
-            $.ajax({
-                type: 'POST',
-                url: actions.Run,
-                processData: false,
-                dataType: 'json',
-                contentType: "application/json",
-                data: ko.toJSON(jobScheduleModel.JobSchedule)
-            })
-                        .done(function (data) {
-                            ko.viewmodel.updateFromModel(viewmodel, data)
-                        })
-                        .fail(error)
-                        .always(function (data) {
-                            unmask();
-                        });
+        viewmodel.RunJob = function () {
+            internalSaveJobSchedule(function (jobScheduleModel) {
+                $.ajax({
+                    type: 'POST',
+                    url: actions.Run,
+                    processData: false,
+                    dataType: 'json',
+                    contentType: "application/json",
+                    data: ko.toJSON(jobScheduleModel.JobSchedule)
+                })
+                    .done(function (data) {
+                        ko.viewmodel.updateFromModel(viewmodel, data)
+                    })
+                    .fail(error);
+            });
         };
 
         self.UpdateOptions = function (selectableInputValues) {
