@@ -20,12 +20,20 @@
                     <label>Job Name</label><input id="JobName" class="form-control" type="text" data-bind="value : Name, style: { borderColor: Name().length < 1 ? 'red' : 'black'}" maxlength="255" /><br />
                     <label>Last Execution Time</label><span data-bind="text : LastExecutionTimeString"></span><br />
                     <label>Next Execution Time</label> <span data-bind="text : NextExecutionTimeString"></span><br />
-                    <label>Exectues At</label> 
-                    <input data-bind="value : ExecutionTimeHours" type="number" min="1" max="12" step="1"/>:<input data-bind="value : ExecutionTimeMinutes" type="number" min="0" max="59" step="1"/>
+                    <label>Exectues At</label>
+                    <input data-bind="value : ExecutionTimeHours" type="number" min="1" max="12" step="1" />:<input data-bind="value : ExecutionTimeMinutes" type="number" min="0" max="59" step="1" />
                     <select data-bind="value:ExecutionTimeMeridian">
                         <option>AM</option>
                         <option>PM</option>
                     </select>
+                    <div class="form-check">
+                        <label class="form-check-label" for="directSql">Execute Through Direct SQL</label>
+                        <input data-bind="checked : DirectSql" type="checkbox" class="form-check-input" id="directSql">
+                    </div>
+                    <div data-bind="visible: DirectSql">
+                        <label>Maximum SQL Timeout (seconds)</label>
+                        <input data-bind="value : MaximumRuntime" type="number" min="30" max="86400" step="1" value="3600"/>
+                    </div>
                 </div>
                 <div data-bind="with: RelativityWorkspace">
                     <label>Workspace</label><a href="@Url.Action("List", "RelativityScript", new { relativityWorkspaceId = Model.RelativityWorkspace.WorkspaceId })">@Model.RelativityWorkspace.Name</a>
@@ -80,7 +88,7 @@
         </div>
         <div class="schedule-footer">
             <div data-bind="css : { 'error-notification' : IsInvalid() }, text : InvalidText"></div>
-            <button class="btn btn-primary" id="save-job-schedule" data-bind="click: SaveJobSchedule, disable: (!HasName() || IsInvalid), attr {title : InvalidText}">Save</button>
+            <button class="btn btn-primary" id="save-job-schedule" data-bind="click: SaveJobSchedule, disable: (!HasName() || IsInvalid()), attr {title : InvalidText}">Save</button>
         </div>
         <div class="run-script-container">
             <iframe id="run-script" src="/Relativity/Case/RelativityScript/Run.aspx?AppID=@Model.RelativityWorkspace.WorkspaceId&ArtifactID=@Model.RelativityScript.RelativityScriptId"></iframe>

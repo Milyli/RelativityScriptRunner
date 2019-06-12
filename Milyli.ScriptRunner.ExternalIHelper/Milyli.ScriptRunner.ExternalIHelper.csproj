@@ -1,11 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <RelativityAPIVersion Condition="'$(RelativityAPIVersion)' == ''">9.5.89.76</RelativityAPIVersion>
-  </PropertyGroup>
+
 
   <PropertyGroup>
     <PackageId>Milyli.ScriptRunner.ExternalIHelper</PackageId>
-    <Version>$(RelativityAPIVersion)</Version>
+    <Version>9.6.284.6</Version>
     <Authors />
     <Company>Milyli, Inc.</Company>
     <Product>Milyli.ScriptRunner.ExternalIHelper</Product>
@@ -14,32 +12,14 @@
     <AssemblyName>Milyli.ScriptRunner.ExternalIHelper</AssemblyName>
     <RootNamespace>Milyli.ScriptRunner.ExternalIHelper</RootNamespace>
     <CodeAnalysisRuleSet>ProjectSettings.ruleset</CodeAnalysisRuleSet>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   
-  <PropertyGroup Condition="'$(RelativityAPIVersion)' == '9.5.89.76'">
-    <TargetFramework>net451</TargetFramework>
-    <RelativityVersion>[9.5.89.76,9.5.169.7)</RelativityVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(RelativityAPIVersion)' == '9.5.169.7'">
-    <TargetFramework>net462</TargetFramework>
-    <RelativityVersion>[9.5.169.7,9.6.26.97)</RelativityVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(RelativityAPIVersion)' == '9.6.26.97'">
-    <TargetFramework>net462</TargetFramework>
-    <RelativityVersion>[9.6.26.97,9.6.85.9)</RelativityVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(RelativityAPIVersion)' == '9.6.85.9'">
-    <TargetFramework>net462</TargetFramework>
-    <RelativityVersion>9.6.85.9</RelativityVersion>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <DefineConstants Condition="'$(RelativityAPIVersion)' != ''">$(DefineConstants);V$(RelativityAPIVersion.Replace(".", "_"))</DefineConstants>
-  </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Relativity.Api" Version="$(RelativityVersion)" /> 
-    <PackageReference Include="Relativity.ObjectManager" Version="9.5.162.111" />
-    <PackageReference Include="Relativity.Other" Version="$(RelativityVersion)" />
+    <PackageReference Include="Relativity.Api" Version="9.6.284.6" /> 
+    <PackageReference Include="Relativity.ObjectManager" Version="9.6.284.6" />
+    <PackageReference Include="Relativity.Other" Version="9.6.284.6" />
     <PackageReference Include="Milyli.CodeAnalysis" Version="2.0.1">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -64,5 +44,12 @@
   <!-- Workaround for https://github.com/dotnet/roslyn-project-system/issues/1739 -->
   <PropertyGroup>
     <AssemblySearchPaths>$(AssemblySearchPaths);{GAC}</AssemblySearchPaths>
+    <TargetFramework>net462</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
 </Project>

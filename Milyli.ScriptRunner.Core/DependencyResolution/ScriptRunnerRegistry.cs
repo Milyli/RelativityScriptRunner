@@ -1,12 +1,13 @@
 ﻿namespace Milyli.ScriptRunner.Core.DependencyResolution
 {
-    using DataContexts;
-    using Repositories;
-    using Services;
-    using StructureMap;
-    using Repositories.Interfaces;
+	using DataContexts;
+	using Milyli.ScriptRunner.Core.Tools;
+	using Repositories;
+	using Repositories.Interfaces;
+	using Services;
+	using StructureMap;
 
-    public class ScriptRunnerRegistry : Registry
+	public class ScriptRunnerRegistry : Registry
     {
         public ScriptRunnerRegistry()
         {
@@ -16,6 +17,7 @@
             {
                 s.AssemblyContainingType<IJobScheduleRepository>();
                 s.IncludeNamespaceContainingType<IJobScheduleRepository>();
+                s.IncludeNamespaceContainingType<IRelativityScriptProcessor>();
                 s.IncludeNamespaceContainingType<IPermissionsService>();
                 s.IncludeNamespaceContainingType<IPermissionRepository>();
                 s.IncludeNamespace("Milyli.ScriptRunner.Core.Repositories");
