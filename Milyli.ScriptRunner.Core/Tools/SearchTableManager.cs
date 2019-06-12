@@ -59,21 +59,24 @@ END";
 				};
 				var position = 1;
 				var results = await this.objectManager.QuerySlimAsync(workspaceId, request, position, ObjectManagerQueryBatch);
-				while (results.ResultCount > 0)
+				using (var connection = dbContext.GetConnection())
 				{
-					results.Objects.ForEach(o => table.Rows.Add(o.ArtifactID));
-					if (table.Rows.Count > BulkCopyBatch)
+					while (results.ResultCount > 0)
 					{
-						BulkInsertResults(table, dbContext, tableName, timeoutSeconds);
+						results.Objects.ForEach(o => table.Rows.Add(o.ArtifactID));
+						if (table.Rows.Count > BulkCopyBatch)
+						{
+							BulkInsertResults(table, connection, tableName, timeoutSeconds);
+						}
+
+						position = results.CurrentStartIndex + ObjectManagerQueryBatch;
+						results = await this.objectManager.QuerySlimAsync(workspaceId, request, position, ObjectManagerQueryBatch);
 					}
 
-					position = results.CurrentStartIndex + ObjectManagerQueryBatch;
-					results = await this.objectManager.QuerySlimAsync(workspaceId, request, position, ObjectManagerQueryBatch);
-				}
-
-				if (table.Rows.Count > 0)
-				{
-					BulkInsertResults(table, dbContext, tableName, timeoutSeconds);
+					if (table.Rows.Count > 0)
+					{
+						BulkInsertResults(table, connection, tableName, timeoutSeconds);
+					}
 				}
 
 				tableDictionary.Add(searchId, tableName);
@@ -96,15 +99,12 @@ END";
 			}
 		}
 
-		private static void BulkInsertResults(DataTable dataTable, IDBContext dbContext, string destinationTable, int timeoutSeconds)
+		private static void BulkInsertResults(DataTable dataTable, SqlConnection connection, string destinationTable, int timeoutSeconds)
 		{
-			using (var connection = dbContext.GetConnection())
-			{
-				var bulkCopy = new SqlBulkCopy(connection);
-				bulkCopy.BulkCopyTimeout = timeoutSeconds;
-				bulkCopy.DestinationTableName = destinationTable;
-				bulkCopy.WriteToServer(dataTable);
-			}
+			var bulkCopy = new SqlBulkCopy(connection);
+			bulkCopy.BulkCopyTimeout = timeoutSeconds;
+			bulkCopy.DestinationTableName = destinationTable;
+			bulkCopy.WriteToServer(dataTable);
 
 			dataTable.Rows.Clear();
 		}
