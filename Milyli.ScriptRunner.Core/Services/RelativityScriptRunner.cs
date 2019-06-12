@@ -70,6 +70,7 @@
 				// pattern of job execution in ExecuteScriptJob. If agent execution is refactored in the future the outer clause should be removed.
 				try
 				{
+					Logger.Info($"Executing script {job.Name} via direct SQL.");
 					var inputs = this.jobScheduleRepository.GetJobInputs(job);
 					var script = RelativityHelper.InWorkspace((client, _) => client.Repositories.RelativityScript.ReadSingle(job.RelativityScriptId), workspace, this.relativityClient.GetRelativityClient());
 					var originalInputs = RelativityHelper.InWorkspace((client, _) => client.Repositories.RelativityScript.GetRelativityScriptInputs(script), workspace, this.relativityClient.GetRelativityClient());
@@ -89,6 +90,7 @@
 					{
 						this.searchTableManager.DeleteTables(workspace.WorkspaceId, searchTables.Values);
 					}
+					Logger.Info($"Direct SQL Execution of script {job.Name} complete.");
 				}
 				catch (Exception ex)
 				{
@@ -117,7 +119,7 @@
 			{
 				try
 				{
-					Logger.Trace($"Executing job {job.Id}");
+					Logger.Info($"Executing {job.Name}.");
 					RelativityHelper.InWorkspace(
 							(client, ws) =>
 					{
@@ -125,10 +127,11 @@
 					},
 							workspace,
 							this.relativityClient.GetRelativityClient());
+					Logger.Info($"Execution of {job.Name} complete.");
 				}
 				catch (Exception ex)
 				{
-					Logger.Warn(ex, $"Execution of job {job.Id} failed");
+					Logger.Warn(ex, $"Execution of job {job.Id} - {job.Name} failed");
 					job.CurrentJobHistory.ResultText = "Exception: " + ex.ToString();
 					job.CurrentJobHistory.HasError = true;
 				}
