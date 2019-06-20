@@ -138,20 +138,32 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
 				DateTime now,
 				DateTime expectedNextExecutionTime)
 			{
+				var utcSchedule = new JobSchedule
+				{
+					ExecutionSchedule = executionSchedule,
+					ExecutionTime = executionTime
+				};
 				var schedule = new JobSchedule
 				{
 					ExecutionSchedule = executionSchedule,
 					ExecutionTime = executionTime
 				};
 
-				var utcSchedule = ScheduleConversionHelper.ConvertLocalToUtc(schedule);
+				utcSchedule = ScheduleConversionHelper.ConvertLocalToUtc(utcSchedule);
 				utcSchedule.NextExecutionTime = utcSchedule.GetNextExecution(now);
+				utcSchedule = ScheduleConversionHelper.ConvertUtcToLocal(utcSchedule);
 
-				var roundTripSchedule = ScheduleConversionHelper.ConvertUtcToLocal(utcSchedule);
+				schedule.NextExecutionTime = schedule.GetNextExecution(now);
 
-				Assert.That(roundTripSchedule.NextExecutionTime,
+				Assert.That(utcSchedule.NextExecutionTime,
 					Is.EqualTo(expectedNextExecutionTime)
-						.Within(1).Minutes);
+						.Within(1).Minutes,
+					"round tripping to be ok with utc conversion");
+
+				Assert.That(schedule.NextExecutionTime,
+					Is.EqualTo(expectedNextExecutionTime)
+						.Within(1).Minutes,
+					"round tripping to be ok without utc conversion");
 			}
 		}
     }
