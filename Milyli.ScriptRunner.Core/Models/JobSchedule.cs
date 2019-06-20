@@ -12,6 +12,21 @@
         Running = 2
     }
 
+	/// <summary>
+	/// The days of the week to run a <see cref="JobSchedule"/>.
+	/// </summary>
+	[Flags]
+	public enum ExecutionDay
+	{
+		Sunday = 1 << 0,
+		Monday = 1 << 1,
+		Tuesday = 1 << 2,
+		Wednesday = 1 << 3,
+		Thursday = 1 << 4,
+		Friday = 1 << 5,
+		Saturday = 1 << 6,
+	}
+
     [Table(Name = "JobSchedule")]
     public class JobSchedule : IModel<int>
     {
@@ -60,10 +75,20 @@
         public int MaximumRuntime { get; set; } = DefaultTimeout;
 
         /// <summary>
-        /// Gets or sets the bitmask that represents the schedule.  Only the first 7 bits (0x01 through 0x7F) are used, the LSB represents Sunday, the 7th bit represents Saturday
+        /// Sets the bitmask that represents the schedule.  Only the first 7 bits (0x01 through 0x7F) are used, the LSB represents Sunday, the 7th bit represents Saturday
         /// </summary>
+		[Obsolete("Use execution day instead.")]
+        public int ExecutionSchedule
+		{
+			get { return (int)this.ExecutionDay; }
+			set { this.ExecutionDay = (ExecutionDay)value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the single (or multiple) <see cref="ExecutionDay"/>(s) to run the script.
+		/// </summary>
         [Column(Name = "ExecutionSchedule")]
-        public int ExecutionSchedule { get; set; }
+		public ExecutionDay ExecutionDay { get; set; }
 
         /// <summary>
         /// Gets or sets the execution Time-of-day (in seconds).
