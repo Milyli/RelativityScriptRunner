@@ -18,6 +18,8 @@
 	[Flags]
 	public enum ExecutionDay
 	{
+		None = 0,
+
 		Sunday = 1 << 0,
 		Monday = 1 << 1,
 		Tuesday = 1 << 2,
@@ -25,6 +27,8 @@
 		Thursday = 1 << 4,
 		Friday = 1 << 5,
 		Saturday = 1 << 6,
+
+		All = Sunday | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday
 	}
 
     [Table(Name = "JobSchedule")]
@@ -80,7 +84,6 @@
 		[Obsolete("Use execution day instead.")]
         public int ExecutionSchedule
 		{
-			get { return (int)this.ExecutionDay; }
 			set { this.ExecutionDay = (ExecutionDay)value; }
 		}
 
@@ -126,7 +129,7 @@
         /// <returns>A DateTime for the next execution date, or null if the schedule is invalid</returns>
         public DateTime? GetNextExecution(DateTime runtime)
         {
-            var runtimeMask = BitmaskHelper.RotateRight(this.ExecutionSchedule, (int)runtime.DayOfWeek + 1, 7);
+            var runtimeMask = BitmaskHelper.RotateRight((int)this.ExecutionDay, (int)runtime.DayOfWeek + 1, 7);
             var numberOfDays = 1;
             while (((runtimeMask & 1) == 0) && numberOfDays < 7)
             {

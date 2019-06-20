@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Linq;
 	using Milyli.ScriptRunner.Core.Models;
 
 	/// <summary>
@@ -16,9 +17,7 @@
 			private set { }
 		}
 
-		private static readonly List<int> DayBits = new List<int> { 1, 2, 4, 8, 16, 32, 64 };
 		private static readonly int NumDays = 7;
-		private static readonly int AllDays = 127;
 
 		/// <summary>
 		/// Convert a jobSchedule sent with local parameters for  ExecutionTime and Schedule to UTC
@@ -59,13 +58,13 @@
 			if (utcExecutionTime < 0)
 			{
 				jobSchedule.ExecutionTime = utcExecutionTime + ScheduleConversionHelper.SecondsInDay;
-				jobSchedule.ExecutionSchedule = ShiftDaysLeft(jobSchedule.ExecutionSchedule);
+				jobSchedule.ExecutionDay = ShiftDaysLeft(jobSchedule.ExecutionDay);
 			}
 			else if (utcExecutionTime >= SecondsInDay)
 			{
 				// need to shift all days "forward"
 				jobSchedule.ExecutionTime = utcExecutionTime - ScheduleConversionHelper.SecondsInDay;
-				jobSchedule.ExecutionSchedule = ShiftDaysRight(jobSchedule.ExecutionSchedule);
+				jobSchedule.ExecutionDay = ShiftDaysRight(jobSchedule.ExecutionDay);
 			}
 			else if (utcExecutionTime == 0)
 			{
@@ -74,7 +73,7 @@
 				{
 					// behind: add a day
 					jobSchedule.ExecutionTime = utcExecutionTime;
-					jobSchedule.ExecutionSchedule = ShiftDaysRight(jobSchedule.ExecutionSchedule);
+					jobSchedule.ExecutionDay = ShiftDaysRight(jobSchedule.ExecutionDay);
 				}
 				else
 				{
@@ -93,62 +92,55 @@
 		/// <summary>
 		/// Moves "up" all the days in an executionschedule
 		/// </summary>
-		/// <param name="executionSchedule">the executionschedule to shift</param>
+		/// <param name="executionDays">the executionschedule to shift</param>
 		/// <returns>the shifted executionschedule</returns>
-		public static int ShiftDaysRight(int executionSchedule)
-		{
-			int returnSchedule = 0;
-			if (executionSchedule == AllDays)
-			{
-				return AllDays;
-			}
-			else
-			{
-				for (int i = 0; i < ScheduleConversionHelper.NumDays - 1; ++i)
-				{
-					if ((executionSchedule & DayBits[i]) == DayBits[i])
-					{
-						returnSchedule = returnSchedule | DayBits[i + 1];
-					}
-				}
-
-				if ((executionSchedule & DayBits[6]) == DayBits[6])
-				{
-					returnSchedule = returnSchedule | DayBits[0];
-				}
-			}
-			return returnSchedule;
-		}
+		public static ExecutionDay ShiftDaysRight(ExecutionDay executionDays) =>
+			ShiftDay(executionDays, day =>
+				day == ExecutionDay.Saturday
+					? ExecutionDay.Sunday
+					: (ExecutionDay)((int)day << 1));
 
 		/// <summary>
 		/// Moves "down" all the days in an executionschedule
 		/// </summary>
-		/// <param name="executionSchedule">the executionschedule to shift</param>
+		/// <param name="executionDays">the executionschedule to shift</param>
 		/// <returns>the shifted executionschedule</returns>
-		public static int ShiftDaysLeft(int executionSchedule)
+		public static ExecutionDay ShiftDaysLeft(ExecutionDay executionDays) =>
+			ShiftDay(executionDays, day =>
+				day == ExecutionDay.Sunday
+					? ExecutionDay.Saturday
+					: (ExecutionDay)((int)day >> 1));
+
+		/// <summary>
+		/// Shifts any flags on the <see cref="executionDay"/> using the shiftOperation
+		/// </summary>
+		/// <param name="executionDay">The day (or days) to shift.</param>
+		/// <param name="shiftOperation">How to shift a set day</param>
+		/// <returns>The shifted day (or days).</returns>
+		private static ExecutionDay ShiftDay(
+			ExecutionDay executionDay,
+			Func<ExecutionDay, ExecutionDay> shiftOperation)
 		{
-			int returnSchedule = 0;
-			if (executionSchedule == AllDays)
+			if (executionDay == ExecutionDay.All ||
+				executionDay == ExecutionDay.None)
 			{
-				return AllDays;
+				return executionDay;
 			}
-			else
-			{
-				for (int i = 1; i < ScheduleConversionHelper.NumDays; ++i)
-				{
-					if ((executionSchedule & DayBits[i]) == DayBits[i])
-					{
-						returnSchedule = returnSchedule | DayBits[i - 1];
-					}
-				}
 
-				if ((executionSchedule & DayBits[0]) == DayBits[0])
+			var newSchedule = ExecutionDay.None;
+			var allDays = Enum.GetValues(typeof(ExecutionDay))
+				.OfType<ExecutionDay>()
+				.Except(new[] { ExecutionDay.All, ExecutionDay.None });
+			foreach (var thisDay in allDays)
+			{
+				if (executionDay.HasFlag(thisDay))
 				{
-					returnSchedule = returnSchedule | DayBits[6];
+					var shiftedDay = shiftOperation(thisDay);
+					newSchedule = newSchedule | shiftedDay;
 				}
 			}
 
-			return returnSchedule;
+			return newSchedule;
 		}
 	}
 }
