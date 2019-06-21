@@ -100,7 +100,6 @@
     <Compile Include="UnitTests\DBContextStub.cs" />
     <Compile Include="UnitTests\Mocks\JobScheduleRepositoryMock.cs" />
     <Compile Include="UnitTests\RelativityScriptProcessorTests.cs" />
-    <Compile Include="UnitTests\TestBitmaskHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTests\TestJobSchedule.cs" />
     <Compile Include="UnitTests\TestRelativityScriptRunner.cs" />
