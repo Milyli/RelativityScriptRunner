@@ -173,6 +173,50 @@ SET[Bar] = 1";
 		[TestCase(RelativityScriptInputDetailsScriptInputType.Field)]
 		[TestCase(RelativityScriptInputDetailsScriptInputType.Sql)]
 		[TestCase(RelativityScriptInputDetailsScriptInputType.SearchProvider)]
+		[TestCase(RelativityScriptInputDetailsScriptInputType.Constant)]
+		[Description("Verifies that when optional inputs are not specified NULL is inserted.")]
+		public void ReplaceScriptInput_OptionalNotSpecified(RelativityScriptInputDetailsScriptInputType inputType)
+		{
+			// Arrange
+			var templateSql = @"UPDATE [Foo]
+SET[Bar] = {0}";
+			var inputId = "optional_input";
+			var otherInputId = "input_unused";
+			var expectedSql = string.Format(templateSql, "NULL");
+			var scriptSql = string.Format(templateSql, $"#{inputId}#");
+
+			var populatedInputs = new List<JobScriptInput>
+			{
+				new JobScriptInput
+				{
+					InputId = otherInputId,
+					InputValue = "unused doesn't matter",
+				}
+			};
+			var relativityInputs = new List<RelativityScriptInputDetails>
+			{
+				new RelativityScriptInputDetails
+				{
+					Id = inputId,
+					InputType = inputType,
+				},
+				new RelativityScriptInputDetails
+				{
+					Id = otherInputId,
+					InputType = RelativityScriptInputDetailsScriptInputType.Sql,
+				}
+			};
+
+			// Act
+			var generatedSql = this.relativityScriptProcessor.SubstituteScriptInputs(populatedInputs, relativityInputs, scriptSql);
+
+			// Assert
+			Assert.AreEqual(expectedSql, generatedSql);
+		}
+
+		[TestCase(RelativityScriptInputDetailsScriptInputType.Field)]
+		[TestCase(RelativityScriptInputDetailsScriptInputType.Sql)]
+		[TestCase(RelativityScriptInputDetailsScriptInputType.SearchProvider)]
 		[Description("Verifies expected replacement for script inputs which are directly substituted")]
 		public void ReplaceScriptInput_DirectReplace(RelativityScriptInputDetailsScriptInputType inputType)
 		{
