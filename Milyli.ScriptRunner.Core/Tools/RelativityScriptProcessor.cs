@@ -84,6 +84,10 @@
 		/// <inheritdoc />
 		public string SubstituteSavedSearchTables(IEnumerable<JobScriptInput> populatedInputs, IEnumerable<RelativityScriptInputDetails> relativityScriptInputDetails, IDictionary<int, string> searchTablePairs, string inputSql)
 		{
+			// Optional input  are not handled explicitly for saved searches --
+			// Per relativity this is not officially supported, so if an optional search input
+			// is not supplied the script execution will simply fail.
+			// https://devhelp.relativity.com/t/documentation-around-non-required-relativity-script-inputs/6535/5
 			var mappedInputs = populatedInputs.Join(
 				relativityScriptInputDetails,
 				p => p.InputId,
@@ -121,17 +125,25 @@ WHERE [{0}].DocId = [Document].ArtifactID",
 			IEnumerable<RelativityScriptInputDetails> relativityScriptInputDetails,
 			string inputSql)
 		{
-			var mappedInputs = populatedInputs.Join(
-				relativityScriptInputDetails,
-				p => p.InputId,
-				d => d.Id,
-				(p, d) => new
+			// The group join essentially allows a left join of the two lists --
+			// If an input is optional and not used, it will simply be null
+			var mappedInputs = relativityScriptInputDetails
+				.GroupJoin(
+					populatedInputs,
+					details => details.Id,
+					populated => populated.InputId,
+					(details, populated) => new
+						{
+							details,
+							populated = populated.DefaultIfEmpty()
+					})
+				.SelectMany(joined => joined.populated.Select(input => new
 				{
-					p.InputValue,
-					d.Attributes,
-					d.Id,
-					d.InputType
-				});
+					input?.InputValue,
+					joined.details.Id,
+					joined.details.InputType,
+					joined.details.Attributes,
+				}));
 
 			foreach (var populatedInput in mappedInputs)
 			{
@@ -139,34 +151,44 @@ WHERE [{0}].DocId = [Document].ArtifactID",
 
 				// By default do not modify the token, e.g. to later process saved searches
 				var replaceString = replaceToken;
-				switch (populatedInput.InputType)
-				{
-					// Field, Sql, Object, Search provider input types are all simply direct substitution
-					// In the case of SQL inputs ScriptRunner has already saved the generated value.
-					case RelativityScriptInputDetailsScriptInputType.Field:
-					case RelativityScriptInputDetailsScriptInputType.Sql:
-					case RelativityScriptInputDetailsScriptInputType.SearchProvider:
-						replaceString = populatedInput.InputValue;
-						break;
-					case RelativityScriptInputDetailsScriptInputType.Constant:
-						// Constant inputs are typed as strings or directly substituted depending on the underying type
-						var containsDataType = populatedInput.Attributes.ContainsKey("DataType");
-						if (containsDataType && textDataTypes.Contains(populatedInput.Attributes["DataType"]))
-						{
-							replaceString = $"'{populatedInput.InputValue}'";
-						}
-						else if (containsDataType && populatedInput.Attributes["DataType"] == "timezone")
-						{
-							var timeZoneName = populatedInput.InputValue;
-							var hoursToUse = TimeZoneInfo.GetSystemTimeZones().FirstOrDefault(tzi => tzi.Id == timeZoneName).GetUtcOffset(DateTime.UtcNow).TotalHours;
-							replaceString = string.Format("{0:0.##}", hoursToUse);
-						}
-						else
-						{
-							replaceString = populatedInput.InputValue;
-						}
 
-						break;
+				// InputValues should only be null on optional inputs which were not supplied
+				// In this case a literal SQL NULL is inserted.
+				if (populatedInput.InputValue == null)
+				{
+					replaceString = "NULL";
+				}
+				else
+				{
+					switch (populatedInput.InputType)
+					{
+						// Field, Sql, Object, Search provider input types are all simply direct substitution
+						// In the case of SQL inputs ScriptRunner has already saved the generated value.
+						case RelativityScriptInputDetailsScriptInputType.Field:
+						case RelativityScriptInputDetailsScriptInputType.Sql:
+						case RelativityScriptInputDetailsScriptInputType.SearchProvider:
+							replaceString = populatedInput.InputValue;
+							break;
+						case RelativityScriptInputDetailsScriptInputType.Constant:
+							// Constant inputs are typed as strings or directly substituted depending on the underying type
+							var containsDataType = populatedInput.Attributes.ContainsKey("DataType");
+							if (containsDataType && textDataTypes.Contains(populatedInput.Attributes["DataType"]))
+							{
+								replaceString = $"'{populatedInput.InputValue}'";
+							}
+							else if (containsDataType && populatedInput.Attributes["DataType"] == "timezone")
+							{
+								var timeZoneName = populatedInput.InputValue;
+								var hoursToUse = TimeZoneInfo.GetSystemTimeZones().FirstOrDefault(tzi => tzi.Id == timeZoneName).GetUtcOffset(DateTime.UtcNow).TotalHours;
+								replaceString = string.Format("{0:0.##}", hoursToUse);
+							}
+							else
+							{
+								replaceString = populatedInput.InputValue;
+							}
+
+							break;
+					}
 				}
 
 				inputSql = Regex.Replace(
