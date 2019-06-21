@@ -99,7 +99,7 @@
     <div id="job-schedule-history">
         <h3>Job history</h3>
         <a href="javascript:void window.open('/Relativity/Audit.aspx?AppID=@Model.RelativityWorkspace.WorkspaceId&ArtifactID=@Model.RelativityScript.RelativityScriptId&ArtifactTypeID=@RelativityScript.ScriptArtifactTypeId','audithistory','height=500,width=800,location=no,scrollbars=yes,menubar=no,toolbar=no,status=no,resizable=yes');">Audit (opens in new window)</a>
-        <table>
+        <table class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th colspan="3" class="pagination">
@@ -126,11 +126,14 @@
                     <th>Result</th>
                 </tr>
             </thead>
-            <tbody data-bind="if: JobHistory().length == 0">
+            <!-- ko if: (JobHistory().length == 0)-->
+            <tbody>
                 <tr>
                     <td>No Previous Jobs</td>
                 </tr>
             </tbody>
+            <!-- /ko -->
+            <!-- ko if: (JobHistory().length > 0)-->
             <tbody data-bind="foreach: JobHistory">
                 <tr>
                     <td data-bind="text : StartTimeString"></td>
@@ -145,6 +148,7 @@
                     </td>
                 </tr>
             </tbody>
+            <!-- /ko -->
         </table>
     </div>
     }
