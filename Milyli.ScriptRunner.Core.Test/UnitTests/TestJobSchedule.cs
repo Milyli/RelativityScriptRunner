@@ -149,8 +149,10 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
 					ExecutionTime = executionTime
 				};
 
-				utcSchedule = ScheduleConversionHelper.ConvertLocalToUtc(utcSchedule);
+				// Warning! Any next execution calculation must come before conversion
+				// There is probably a way to make it work in any order but that's a TODO
 				utcSchedule.NextExecutionTime = utcSchedule.GetNextExecution(now);
+				utcSchedule = ScheduleConversionHelper.ConvertLocalToUtc(utcSchedule);
 				utcSchedule = ScheduleConversionHelper.ConvertUtcToLocal(utcSchedule);
 
 				schedule.NextExecutionTime = schedule.GetNextExecution(now);
