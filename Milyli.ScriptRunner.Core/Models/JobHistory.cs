@@ -31,7 +31,7 @@ namespace Milyli.ScriptRunner.Core.Models
 
         internal void UpdateRuntime()
         {
-            this.Runtime = DateTime.UtcNow.Subtract(this.StartTime).Seconds;
+            this.Runtime = (int)DateTime.UtcNow.Subtract(this.StartTime).TotalSeconds;
         }
     }
 }
