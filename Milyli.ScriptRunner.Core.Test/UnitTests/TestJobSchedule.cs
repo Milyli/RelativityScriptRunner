@@ -52,7 +52,7 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
                 ExecutionTime = timeOfDaySeconds,
 
                 // 0111 1111 in hex
-                ExecutionSchedule = 0x7F
+				ExecutionDay = ExecutionDay.All
             };
 
             var nextExecutionTime = jobSchedule.GetNextExecution(execNow);
@@ -70,7 +70,7 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
             var jobsSchedule = new JobSchedule()
             {
                 ExecutionTime = timeOfDaySeconds,
-                ExecutionSchedule = 1
+                ExecutionDay = ExecutionDay.Sunday
             };
             var nextExecutionTime = jobsSchedule.GetNextExecution(execNow);
             var expectedResult = execNow.AddDays(1);

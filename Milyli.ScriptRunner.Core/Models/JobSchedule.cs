@@ -129,15 +129,29 @@
         /// <returns>A DateTime for the next execution date, or null if the schedule is invalid</returns>
         public DateTime? GetNextExecution(DateTime runtime)
         {
-            var runtimeMask = BitmaskHelper.RotateRight((int)this.ExecutionDay, (int)runtime.DayOfWeek + 1, 7);
-            var numberOfDays = 1;
-            while (((runtimeMask & 1) == 0) && numberOfDays < 7)
-            {
-                numberOfDays++;
-                runtimeMask = runtimeMask >> 1;
-            }
+			// .NET's DayOfWeek is a 0 based enum that isn't a flag (each value is 1 higher than the last)
+			var runtimeDay = (ExecutionDay)Math.Pow(2, (int)runtime.DayOfWeek);
+			var daysInFuture = 0;
+			do
+			{
+				if(this.ExecutionDay.HasFlag(runtimeDay))
+				{
+					var futureSeconds = this.ExecutionTime - runtime.TimeOfDay.TotalSeconds;
+					if (daysInFuture != 0 ||
+						(daysInFuture == 0 && futureSeconds > 0))
+					{
+						// If we're scheduled for a day later than today
+						// Or we're scheduled for today and the time hasn't already passed
+						return runtime.AddDays(daysInFuture).AddSeconds(futureSeconds);
+					}
+				}
 
-            return ((runtimeMask & 1) == 0) ? default(DateTime?) : runtime.Date.AddDays(numberOfDays).Add(TimeOfDay(this.ExecutionTime));
+				daysInFuture++;
+				runtimeDay = ScheduleConversionHelper.ShiftDaysRight(runtimeDay);
+			}
+			while (daysInFuture <= 7);
+
+			return default(DateTime?);
         }
 
         internal void UpdateExecutionTimes()
