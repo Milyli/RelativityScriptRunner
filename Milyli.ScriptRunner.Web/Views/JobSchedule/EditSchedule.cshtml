@@ -139,7 +139,7 @@
                         <span data-bind="if : HasError">
                             <span data-bind="text: ResultText"></span>
                         </span>
-                        <span data-bind="ifnot : HasError">
+                        <span data-bind="if : (!HasError() && (Runtime() != null))">
                             Success
                         </span>
                     </td>
