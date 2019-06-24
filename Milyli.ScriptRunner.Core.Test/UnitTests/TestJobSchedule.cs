@@ -32,7 +32,7 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
             var jobSchedule = new JobSchedule()
             {
                 ExecutionTime = timeOfDaySeconds,
-                ExecutionSchedule = 1 << (int)now.DayOfWeek
+                ExecutionDay = (ExecutionDay)(1 << (int)now.DayOfWeek)
             };
 
             var nextExecutionTime = jobSchedule.GetNextExecution(execNow);
@@ -133,19 +133,19 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
 
 			[TestCaseSource(nameof(RoundTripScheduling_TestCaseSource))]
 			public void CanRoundTrip(
-				int executionSchedule,
+				ExecutionDay executionSchedule,
 				int executionTime,
 				DateTime now,
 				DateTime expectedNextExecutionTime)
 			{
 				var utcSchedule = new JobSchedule
 				{
-					ExecutionSchedule = executionSchedule,
+					ExecutionDay = executionSchedule,
 					ExecutionTime = executionTime
 				};
 				var schedule = new JobSchedule
 				{
-					ExecutionSchedule = executionSchedule,
+					ExecutionDay = executionSchedule,
 					ExecutionTime = executionTime
 				};
 

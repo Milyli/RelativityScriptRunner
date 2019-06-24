@@ -78,15 +78,6 @@
         [Column(Name = "MaximumRuntime")]
         public int MaximumRuntime { get; set; } = DefaultTimeout;
 
-        /// <summary>
-        /// Sets the bitmask that represents the schedule.  Only the first 7 bits (0x01 through 0x7F) are used, the LSB represents Sunday, the 7th bit represents Saturday
-        /// </summary>
-		[Obsolete("Use execution day instead.")]
-        public int ExecutionSchedule
-		{
-			set { this.ExecutionDay = (ExecutionDay)value; }
-		}
-
 		/// <summary>
 		/// Gets or sets the single (or multiple) <see cref="ExecutionDay"/>(s) to run the script.
 		/// </summary>
