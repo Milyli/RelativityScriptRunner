@@ -38,7 +38,7 @@
         {
             JobSchedule localSchedule = new JobSchedule();
             localSchedule.ExecutionTime = 70000;
-            localSchedule.ExecutionDay = 
+            localSchedule.ExecutionSchedule = 
 				ExecutionDay.Sunday |
 				ExecutionDay.Monday |
 				ExecutionDay.Tuesday |
@@ -55,7 +55,7 @@
             JobSchedule utcSchedule = ScheduleConversionHelper.ShiftSchedule(localSchedule, localSchedule.ExecutionTime - utcOffset);
 
 			Assert.AreEqual(expectedExecutionTime, utcSchedule.ExecutionTime);
-			Assert.AreEqual(expectedSchedule, utcSchedule.ExecutionDay);
+			Assert.AreEqual(expectedSchedule, utcSchedule.ExecutionSchedule);
         }
 
         [Test]
@@ -64,7 +64,7 @@
         {
             JobSchedule localSchedule = new JobSchedule();
             localSchedule.ExecutionTime = 1400;
-			localSchedule.ExecutionDay =
+			localSchedule.ExecutionSchedule =
 				ExecutionDay.Sunday |
 				ExecutionDay.Tuesday |
 				ExecutionDay.Thursday;
@@ -79,7 +79,7 @@
 			JobSchedule utcSchedule = ScheduleConversionHelper.ShiftSchedule(localSchedule, localSchedule.ExecutionTime - utcOffset);
 
 			Assert.AreEqual(expectedExecutionTime, utcSchedule.ExecutionTime);
-			Assert.AreEqual(expectedSchedule, utcSchedule.ExecutionDay);
+			Assert.AreEqual(expectedSchedule, utcSchedule.ExecutionSchedule);
         }
 
         [Test]
@@ -88,14 +88,14 @@
         {
             JobSchedule firstLocalSchedule = new JobSchedule();
             firstLocalSchedule.ExecutionTime = 70000;
-			firstLocalSchedule.ExecutionDay =
+			firstLocalSchedule.ExecutionSchedule =
 				ExecutionDay.Sunday |
 				ExecutionDay.Monday |
 				ExecutionDay.Tuesday |
 				ExecutionDay.Thursday;
             JobSchedule secondLocalSchedule = new JobSchedule();
             secondLocalSchedule.ExecutionTime = 10000;
-			secondLocalSchedule.ExecutionDay =
+			secondLocalSchedule.ExecutionSchedule =
 				ExecutionDay.Sunday |
 				ExecutionDay.Monday |
 				ExecutionDay.Tuesday |
@@ -108,8 +108,8 @@
 
             Assert.AreEqual(firstLocalSchedule.ExecutionTime, firstLocalFromUtc.ExecutionTime);
             Assert.AreEqual(secondLocalSchedule.ExecutionTime, secondUtcSchedule.ExecutionTime);
-            Assert.AreEqual(firstLocalSchedule.ExecutionDay, firstLocalFromUtc.ExecutionDay);
-            Assert.AreEqual(secondLocalSchedule.ExecutionDay, secondLocalFromUtc.ExecutionDay);
+            Assert.AreEqual(firstLocalSchedule.ExecutionSchedule, firstLocalFromUtc.ExecutionSchedule);
+            Assert.AreEqual(secondLocalSchedule.ExecutionSchedule, secondLocalFromUtc.ExecutionSchedule);
         }
 
     }

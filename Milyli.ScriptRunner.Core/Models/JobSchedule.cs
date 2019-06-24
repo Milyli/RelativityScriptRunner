@@ -82,7 +82,7 @@
 		/// Gets or sets the single (or multiple) <see cref="ExecutionDay"/>(s) to run the script.
 		/// </summary>
         [Column(Name = "ExecutionSchedule")]
-		public ExecutionDay ExecutionDay { get; set; }
+		public ExecutionDay ExecutionSchedule { get; set; }
 
         /// <summary>
         /// Gets or sets the execution Time-of-day (in seconds).
@@ -125,7 +125,7 @@
 			var daysInFuture = 0;
 			do
 			{
-				if(this.ExecutionDay.HasFlag(runtimeDay))
+				if(this.ExecutionSchedule.HasFlag(runtimeDay))
 				{
 					var futureSeconds = this.ExecutionTime - runtime.TimeOfDay.TotalSeconds;
 					if (daysInFuture != 0 ||

@@ -32,7 +32,7 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
             var jobSchedule = new JobSchedule()
             {
                 ExecutionTime = timeOfDaySeconds,
-                ExecutionDay = (ExecutionDay)(1 << (int)now.DayOfWeek)
+                ExecutionSchedule = (ExecutionDay)(1 << (int)now.DayOfWeek)
             };
 
             var nextExecutionTime = jobSchedule.GetNextExecution(execNow);
@@ -52,7 +52,7 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
                 ExecutionTime = timeOfDaySeconds,
 
                 // 0111 1111 in hex
-				ExecutionDay = ExecutionDay.All
+				ExecutionSchedule = ExecutionDay.All
             };
 
             var nextExecutionTime = jobSchedule.GetNextExecution(execNow);
@@ -70,7 +70,7 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
             var jobsSchedule = new JobSchedule()
             {
                 ExecutionTime = timeOfDaySeconds,
-                ExecutionDay = ExecutionDay.Sunday
+                ExecutionSchedule = ExecutionDay.Sunday
             };
             var nextExecutionTime = jobsSchedule.GetNextExecution(execNow);
             var expectedResult = execNow.AddDays(1);
@@ -140,12 +140,12 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
 			{
 				var utcSchedule = new JobSchedule
 				{
-					ExecutionDay = executionSchedule,
+					ExecutionSchedule = executionSchedule,
 					ExecutionTime = executionTime
 				};
 				var schedule = new JobSchedule
 				{
-					ExecutionDay = executionSchedule,
+					ExecutionSchedule = executionSchedule,
 					ExecutionTime = executionTime
 				};
 

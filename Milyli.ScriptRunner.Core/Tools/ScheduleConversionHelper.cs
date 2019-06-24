@@ -58,13 +58,13 @@
 			if (utcExecutionTime < 0)
 			{
 				jobSchedule.ExecutionTime = utcExecutionTime + ScheduleConversionHelper.SecondsInDay;
-				jobSchedule.ExecutionDay = ShiftDaysLeft(jobSchedule.ExecutionDay);
+				jobSchedule.ExecutionSchedule = ShiftDaysLeft(jobSchedule.ExecutionSchedule);
 			}
 			else if (utcExecutionTime >= SecondsInDay)
 			{
 				// need to shift all days "forward"
 				jobSchedule.ExecutionTime = utcExecutionTime - ScheduleConversionHelper.SecondsInDay;
-				jobSchedule.ExecutionDay = ShiftDaysRight(jobSchedule.ExecutionDay);
+				jobSchedule.ExecutionSchedule = ShiftDaysRight(jobSchedule.ExecutionSchedule);
 			}
 			else if (utcExecutionTime == 0)
 			{
@@ -73,7 +73,7 @@
 				{
 					// behind: add a day
 					jobSchedule.ExecutionTime = utcExecutionTime;
-					jobSchedule.ExecutionDay = ShiftDaysRight(jobSchedule.ExecutionDay);
+					jobSchedule.ExecutionSchedule = ShiftDaysRight(jobSchedule.ExecutionSchedule);
 				}
 				else
 				{
