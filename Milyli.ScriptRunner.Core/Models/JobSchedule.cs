@@ -12,6 +12,25 @@
         Running = 2
     }
 
+	/// <summary>
+	/// The days of the week to run a <see cref="JobSchedule"/>.
+	/// </summary>
+	[Flags]
+	public enum ExecutionDay
+	{
+		None = 0,
+
+		Sunday = 1 << 0,
+		Monday = 1 << 1,
+		Tuesday = 1 << 2,
+		Wednesday = 1 << 3,
+		Thursday = 1 << 4,
+		Friday = 1 << 5,
+		Saturday = 1 << 6,
+
+		All = Sunday | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday
+	}
+
     [Table(Name = "JobSchedule")]
     public class JobSchedule : IModel<int>
     {
@@ -59,11 +78,11 @@
         [Column(Name = "MaximumRuntime")]
         public int MaximumRuntime { get; set; } = DefaultTimeout;
 
-        /// <summary>
-        /// Gets or sets the bitmask that represents the schedule.  Only the first 7 bits (0x01 through 0x7F) are used, the LSB represents Sunday, the 7th bit represents Saturday
-        /// </summary>
+		/// <summary>
+		/// Gets or sets the single (or multiple) <see cref="ExecutionDay"/>(s) to run the script.
+		/// </summary>
         [Column(Name = "ExecutionSchedule")]
-        public int ExecutionSchedule { get; set; }
+		public ExecutionDay ExecutionSchedule { get; set; }
 
         /// <summary>
         /// Gets or sets the execution Time-of-day (in seconds).
@@ -101,15 +120,29 @@
         /// <returns>A DateTime for the next execution date, or null if the schedule is invalid</returns>
         public DateTime? GetNextExecution(DateTime runtime)
         {
-            var runtimeMask = BitmaskHelper.RotateRight(this.ExecutionSchedule, (int)runtime.DayOfWeek + 1, 7);
-            var numberOfDays = 1;
-            while (((runtimeMask & 1) == 0) && numberOfDays < 7)
-            {
-                numberOfDays++;
-                runtimeMask = runtimeMask >> 1;
-            }
+			// .NET's DayOfWeek is a 0 based enum that isn't a flag (each value is 1 higher than the last)
+			var runtimeDay = (ExecutionDay)Math.Pow(2, (int)runtime.DayOfWeek);
+			var daysInFuture = 0;
+			do
+			{
+				if(this.ExecutionSchedule.HasFlag(runtimeDay))
+				{
+					var futureSeconds = this.ExecutionTime - runtime.TimeOfDay.TotalSeconds;
+					if (daysInFuture != 0 ||
+						(daysInFuture == 0 && futureSeconds > 0))
+					{
+						// If we're scheduled for a day later than today
+						// Or we're scheduled for today and the time hasn't already passed
+						return runtime.AddDays(daysInFuture).AddSeconds(futureSeconds);
+					}
+				}
 
-            return ((runtimeMask & 1) == 0) ? default(DateTime?) : runtime.Date.AddDays(numberOfDays).Add(TimeOfDay(this.ExecutionTime));
+				daysInFuture++;
+				runtimeDay = ScheduleConversionHelper.ShiftDaysRight(runtimeDay);
+			}
+			while (daysInFuture <= 7);
+
+			return default(DateTime?);
         }
 
         internal void UpdateExecutionTimes()

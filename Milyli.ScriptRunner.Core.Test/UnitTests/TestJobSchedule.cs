@@ -5,8 +5,11 @@
 namespace Milyli.ScriptRunner.Core.Test.UnitTests
 {
     using System;
-    using Milyli.ScriptRunner.Core.Models;
-    using NUnit.Framework;
+	using System.Collections.Generic;
+	using System.Linq;
+	using Milyli.ScriptRunner.Core.Models;
+	using Milyli.ScriptRunner.Core.Tools;
+	using NUnit.Framework;
 
     [TestFixture(Category="Unit")]
     public class TestJobSchedule
@@ -29,7 +32,7 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
             var jobSchedule = new JobSchedule()
             {
                 ExecutionTime = timeOfDaySeconds,
-                ExecutionSchedule = 1 << (int)now.DayOfWeek
+                ExecutionSchedule = (ExecutionDay)(1 << (int)now.DayOfWeek)
             };
 
             var nextExecutionTime = jobSchedule.GetNextExecution(execNow);
@@ -49,7 +52,7 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
                 ExecutionTime = timeOfDaySeconds,
 
                 // 0111 1111 in hex
-                ExecutionSchedule = 0x7F
+				ExecutionSchedule = ExecutionDay.All
             };
 
             var nextExecutionTime = jobSchedule.GetNextExecution(execNow);
@@ -67,11 +70,103 @@ namespace Milyli.ScriptRunner.Core.Test.UnitTests
             var jobsSchedule = new JobSchedule()
             {
                 ExecutionTime = timeOfDaySeconds,
-                ExecutionSchedule = 1
+                ExecutionSchedule = ExecutionDay.Sunday
             };
             var nextExecutionTime = jobsSchedule.GetNextExecution(execNow);
             var expectedResult = execNow.AddDays(1);
             Assert.That(nextExecutionTime.Equals(expectedResult), string.Format("Expected next execution time of {0}, got {1}", expectedResult, nextExecutionTime));
         }
+
+		public class RoundTripScheduling
+		{
+			public static IEnumerable<TestCaseData> RoundTripScheduling_TestCaseSource
+			{
+				get
+				{
+					var days = new[]
+					{
+						new
+						{
+							Name = "sunday",
+							Date = 17,
+							Bit = 1
+						},
+						new
+						{
+							Name = "thursday",
+							Date = 21,
+							Bit = 16
+						},
+						new
+						{
+							Name = "saturday",
+							Date = 23,
+							Bit = 64
+						}
+					};
+
+					foreach (var thisDay in days)
+					{
+						foreach (var thisHour in Enumerable.Range(0, 24))
+						{
+							yield return new TestCaseData(
+								thisDay.Bit,
+								((60 * thisHour) + 20) * 60, // HH:20am
+								DateTime.Parse($"03/{thisDay.Date}/2019 00:05:00"),
+								DateTime.Parse($"03/{thisDay.Date}/2019 {thisHour}:20:00"))
+							{
+								TestName = $"Later on the same day ({thisDay.Name}) @ {thisHour:00}",
+							};
+
+							yield return new TestCaseData(
+								thisDay.Bit,
+								((60 * thisHour) + 20) * 60, // HH:20am
+								DateTime.Parse($"03/{thisDay.Date}/2019 23:55:00"),
+								DateTime.Parse($"03/{thisDay.Date + 7}/2019 {thisHour}:20:00"))
+							{
+								TestName = $"Earlier on the same day ({thisDay.Name}) @ {thisHour:00}",
+							};
+						}
+					}
+				}
+			}
+
+			[TestCaseSource(nameof(RoundTripScheduling_TestCaseSource))]
+			public void CanRoundTrip(
+				ExecutionDay executionSchedule,
+				int executionTime,
+				DateTime now,
+				DateTime expectedNextExecutionTime)
+			{
+				var utcSchedule = new JobSchedule
+				{
+					ExecutionSchedule = executionSchedule,
+					ExecutionTime = executionTime
+				};
+				var schedule = new JobSchedule
+				{
+					ExecutionSchedule = executionSchedule,
+					ExecutionTime = executionTime
+				};
+
+				// Warning! Any next execution calculation must come before conversion
+				// There is probably a way to make it work in any order but that's a TODO
+				utcSchedule.NextExecutionTime = utcSchedule.GetNextExecution(now);
+				utcSchedule = ScheduleConversionHelper.ConvertLocalToUtc(utcSchedule);
+				utcSchedule = ScheduleConversionHelper.ConvertUtcToLocal(utcSchedule);
+
+				schedule.NextExecutionTime = schedule.GetNextExecution(now);
+
+				Assert.That(utcSchedule.NextExecutionTime,
+					Is.EqualTo(expectedNextExecutionTime)
+						.Within(1).Minutes,
+					"round tripping to be ok with utc conversion");
+
+				Assert.That(schedule.NextExecutionTime,
+					Is.EqualTo(expectedNextExecutionTime)
+						.Within(1).Minutes,
+					"round tripping to be ok without utc conversion");
+			}
+		}
     }
 }

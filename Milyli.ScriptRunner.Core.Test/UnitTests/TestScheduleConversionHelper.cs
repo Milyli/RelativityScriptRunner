@@ -15,9 +15,9 @@
         [TestCase(64, 1)] // Sat -> Sun
         [TestCase(127, 127)] // all -> all
         [Description("Test shifting of the week bitmasks to the right ('add' day)")]
-        public void TestShiftRight(int local, int utc)
+        public void TestShiftRight(ExecutionDay local, ExecutionDay utc)
         {
-            int shifted = ScheduleConversionHelper.ShiftDaysRight(local);
+            var shifted = ScheduleConversionHelper.ShiftDaysRight(local);
             Assert.AreEqual(utc, shifted, string.Format("Got {0} for schedule bitmask, expected {1}", shifted, utc));
         }
 
@@ -26,9 +26,9 @@
         [TestCase(1, 64)] // Sun -> Sat
         [TestCase(127, 127)] // All->all
         [Description("Test shifting of the week bitmasks to the left ('Subtract' day)")]
-        public void TestShiftLeft(int local, int utc)
+        public void TestShiftLeft(ExecutionDay local, ExecutionDay utc)
         {
-            int shifted = ScheduleConversionHelper.ShiftDaysLeft(local);
+			var shifted = ScheduleConversionHelper.ShiftDaysLeft(local);
             Assert.AreEqual(utc, shifted, string.Format("Got {0} for schedule bitmask, expected {1}", shifted, utc));
         }
 
@@ -38,16 +38,24 @@
         {
             JobSchedule localSchedule = new JobSchedule();
             localSchedule.ExecutionTime = 70000;
-            localSchedule.ExecutionSchedule = 23; // Su/M/Tu/Th
+            localSchedule.ExecutionSchedule = 
+				ExecutionDay.Sunday |
+				ExecutionDay.Monday |
+				ExecutionDay.Tuesday |
+				ExecutionDay.Thursday;
 
             int utcOffset = -18000; // CDT offset
             int expectedExecutionTime = localSchedule.ExecutionTime - utcOffset - dayInSeconds;
-            int expectedSchedule = 46; // M/Tu/W/Fr
+            var expectedSchedule =
+				ExecutionDay.Monday |
+				ExecutionDay.Tuesday |
+				ExecutionDay.Wednesday |
+				ExecutionDay.Friday;
 
             JobSchedule utcSchedule = ScheduleConversionHelper.ShiftSchedule(localSchedule, localSchedule.ExecutionTime - utcOffset);
 
-            Assert.AreEqual(expectedExecutionTime, utcSchedule.ExecutionTime, string.Format("Got {0} for UTC Execution time, expected {1}", utcSchedule.ExecutionTime, expectedExecutionTime));
-            Assert.AreEqual(expectedSchedule, utcSchedule.ExecutionSchedule, string.Format("Got {0} for UTC Execution schedule, expected {1}", utcSchedule.ExecutionSchedule, expectedSchedule));
+			Assert.AreEqual(expectedExecutionTime, utcSchedule.ExecutionTime);
+			Assert.AreEqual(expectedSchedule, utcSchedule.ExecutionSchedule);
         }
 
         [Test]
@@ -56,16 +64,22 @@
         {
             JobSchedule localSchedule = new JobSchedule();
             localSchedule.ExecutionTime = 1400;
-            localSchedule.ExecutionSchedule = 21; // Su/Tu/Th
+			localSchedule.ExecutionSchedule =
+				ExecutionDay.Sunday |
+				ExecutionDay.Tuesday |
+				ExecutionDay.Thursday;
 
-            int utcOffset = 18000;  // CDT offset
+			int utcOffset = 18000;  // CDT offset
             int expectedExecutionTime = localSchedule.ExecutionTime - utcOffset + dayInSeconds;
-            int expectedSchedule = 74; // M/W/Sat
+			var expectedSchedule =
+				ExecutionDay.Monday |
+				ExecutionDay.Wednesday |
+				ExecutionDay.Saturday;
 
-            JobSchedule utcSchedule = ScheduleConversionHelper.ShiftSchedule(localSchedule, localSchedule.ExecutionTime - utcOffset);
+			JobSchedule utcSchedule = ScheduleConversionHelper.ShiftSchedule(localSchedule, localSchedule.ExecutionTime - utcOffset);
 
-            Assert.AreEqual(expectedExecutionTime, utcSchedule.ExecutionTime, string.Format("Got {0} for UTC Execution time, expected {1}", utcSchedule.ExecutionTime, expectedExecutionTime));
-            Assert.AreEqual(expectedSchedule, utcSchedule.ExecutionSchedule, string.Format("Got {0} for UTC Execution schedule, expected {1}", utcSchedule.ExecutionSchedule, expectedSchedule));
+			Assert.AreEqual(expectedExecutionTime, utcSchedule.ExecutionTime);
+			Assert.AreEqual(expectedSchedule, utcSchedule.ExecutionSchedule);
         }
 
         [Test]
@@ -74,12 +88,20 @@
         {
             JobSchedule firstLocalSchedule = new JobSchedule();
             firstLocalSchedule.ExecutionTime = 70000;
-            firstLocalSchedule.ExecutionSchedule = 23;
+			firstLocalSchedule.ExecutionSchedule =
+				ExecutionDay.Sunday |
+				ExecutionDay.Monday |
+				ExecutionDay.Tuesday |
+				ExecutionDay.Thursday;
             JobSchedule secondLocalSchedule = new JobSchedule();
             secondLocalSchedule.ExecutionTime = 10000;
-            secondLocalSchedule.ExecutionSchedule = 23;
+			secondLocalSchedule.ExecutionSchedule =
+				ExecutionDay.Sunday |
+				ExecutionDay.Monday |
+				ExecutionDay.Tuesday |
+				ExecutionDay.Thursday;
 
-            JobSchedule firstUtcSchedule = ScheduleConversionHelper.ConvertLocalToUtc(firstLocalSchedule);
+			JobSchedule firstUtcSchedule = ScheduleConversionHelper.ConvertLocalToUtc(firstLocalSchedule);
             JobSchedule secondUtcSchedule = ScheduleConversionHelper.ConvertLocalToUtc(secondLocalSchedule);
             JobSchedule firstLocalFromUtc = ScheduleConversionHelper.ConvertUtcToLocal(firstUtcSchedule);
             JobSchedule secondLocalFromUtc = ScheduleConversionHelper.ConvertUtcToLocal(secondUtcSchedule);

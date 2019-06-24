@@ -43,7 +43,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
             {
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
-                ExecutionSchedule = 0x7F,
+                ExecutionSchedule = ExecutionDay.All,
                 ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow)
             };
             jobSchedule.Id = this.JobScheduleRepository.Create(jobSchedule);
@@ -61,7 +61,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
             {
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
-                ExecutionSchedule = 0x7F,
+                ExecutionSchedule = ExecutionDay.All,
                 ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow.AddMinutes(-3)),
                 NextExecutionTime = DateTime.UtcNow
 						};
@@ -78,7 +78,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
             {
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
-                ExecutionSchedule = 0x7F,
+                ExecutionSchedule = ExecutionDay.All,
                 ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow.AddMinutes(-3)),
                 NextExecutionTime = DateTime.UtcNow
 						};
@@ -87,7 +87,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
             {
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
-                ExecutionSchedule = 0x7F,
+                ExecutionSchedule = ExecutionDay.All,
                 ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow.AddMinutes(-3)),
                 NextExecutionTime = DateTime.UtcNow.AddHours(-4)
             };
@@ -96,7 +96,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
             {
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
-                ExecutionSchedule = 0x7F,
+                ExecutionSchedule = ExecutionDay.All,
                 ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow.AddMinutes(-3)),
                 NextExecutionTime = DateTime.UtcNow.AddDays(-3)
             };
@@ -105,7 +105,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
             {
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
-                ExecutionSchedule = 0x7F,
+                ExecutionSchedule = ExecutionDay.All,
                 ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow.AddMinutes(3)),
                 NextExecutionTime = DateTime.UtcNow.AddDays(3)
             };
@@ -128,7 +128,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
             {
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
-                ExecutionSchedule = 0x7F,
+                ExecutionSchedule = ExecutionDay.All,
                 ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow),
                 NextExecutionTime = DateTime.UtcNow
 						};
@@ -148,7 +148,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
             {
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
-                ExecutionSchedule = 0x7F,
+                ExecutionSchedule = ExecutionDay.All,
                 ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow),
                 JobEnabled = true
             };
@@ -181,7 +181,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
             {
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
-                ExecutionSchedule = 0x7F,
+                ExecutionSchedule = ExecutionDay.All,
                 ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow),
                 JobEnabled = true
             };
@@ -213,7 +213,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
             {
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
-                ExecutionSchedule = 0x7F,
+                ExecutionSchedule = ExecutionDay.All,
                 ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow),
                 JobEnabled = true
             };
@@ -247,7 +247,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
             {
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
-                ExecutionSchedule = 0x7F,
+                ExecutionSchedule = ExecutionDay.All,
                 ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow),
                 JobEnabled = true
             };
@@ -282,7 +282,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
             {
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
-                ExecutionSchedule = 0x7F,
+                ExecutionSchedule = ExecutionDay.All,
                 ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow),
                 JobEnabled = true
             };
@@ -323,7 +323,7 @@ namespace Milyli.ScriptRunner.Core.Test.IntegrationTests
             {
                 RelativityScriptId = TEST_SCRIPT_ID,
                 WorkspaceId = TEST_WORKSPACE_ID,
-                ExecutionSchedule = 0x7F,
+                ExecutionSchedule = ExecutionDay.All,
                 ExecutionTime = JobSchedule.TimeSeconds(DateTime.UtcNow),
                 JobEnabled = true
             };

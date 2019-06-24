@@ -165,7 +165,6 @@
     <Compile Include="Services\IRelativityScriptRunner.cs" />
     <Compile Include="Services\PermissionsService.cs" />
     <Compile Include="Services\RelativityScriptRunner.cs" />
-    <Compile Include="Tools\BitmaskHelper.cs" />
     <Compile Include="Tools\IRelativityScriptProcessor.cs" />
     <Compile Include="Tools\ISearchTableManager.cs" />
     <Compile Include="Tools\KcuraAssemblyResolver.cs" />
