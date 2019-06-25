@@ -51,8 +51,8 @@
 		{
 			var jobSchedule = jobScheduleModel.JobSchedule;
 
-			// Convert local schedule to UTC before saving
-			jobSchedule.NextExecutionTime = jobSchedule.GetNextExecution(DateTime.UtcNow);
+			// Converting local schedule to UTC is done later
+			jobSchedule.NextExecutionTime = jobSchedule.GetNextExecution(DateTime.Now);
 			// Warning! This has to be done after calculating the next execution.
 			// Doing the calculation breaks for executions expected later today if we convert first
 			jobSchedule = jobSchedule.ConvertLocalToUtc();
